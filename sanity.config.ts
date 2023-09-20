@@ -13,8 +13,8 @@ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET!;
 
 export default defineConfig({
   basePath: "/studio",
-  name: "GLadBlog_Studio",
-  title: "GLadBlog_Studio",
+  name: "Dr-Studio",
+  title: "Dr-Studio",
   projectId,
   dataset,
 

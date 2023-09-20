@@ -5,10 +5,10 @@ function Logo(props: any) {
   return (
     <div className="flex items-center">
       <Image
-        className="rounded-full object-cover"
+        className="object-cover rounded-full"
         width={50}
         height={50}
-        src="https://links.papareact.com/1m8"
+        src="https://i.imgur.com/wdRhsSS.jpg"
         alt="Logo"
       />
       {renderDefault && <>{renderDefault(props)}</>}

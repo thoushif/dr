@@ -16,7 +16,6 @@ export const revalidate = 60;
 
 export default async function HomePage() {
   if (previewData()) {
-    return;
     <PreviewSuspense
       fallback={
         <div role="status">
