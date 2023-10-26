@@ -1,20 +1,52 @@
+import Image from "next/image";
+import Link from "next/link";
+
 function Banner() {
   return (
-    <div className="flex flex-col justify-between p-5 px-10 mb-10 font-bold lg:flex-row lg:space-x-5">
+    <div className="flex flex-col items-center justify-between py-4 font-bold lg:flex-row lg:space-x-5">
       <div>
-        <h1 className="text-7xl">Dr-one</h1>
         <h2 className="mt-5 md:mt-2">
           Welcome to{" "}
           <span className="underline decoration-4 decoration-[#7386aa]">
-            Every Dr owners'
+            Every Drone owners'
           </span>{" "}
-          favorite place in the sky.
+          favorite place to fly.
         </h2>
       </div>
-      <p className="max-w-sm mt-5 text-gray-400 md:mt-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, itaque,
-        maiores autem repellat aliquam incidunt dicta dignissimos eum.
-      </p>
+      <div className="flex space-x-4">
+        <div>
+          <Link
+            href={"/"}
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Home
+          </Link>
+        </div>
+        <div>
+          <Link
+            href="/drones"
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Drones
+          </Link>
+        </div>
+        <div>
+          <Link
+            href={"/"}
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Gallery
+          </Link>
+        </div>
+        <div>
+          <Link
+            href={"/"}
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Competitions
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }

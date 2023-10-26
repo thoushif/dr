@@ -6,9 +6,9 @@ function Logo(props: any) {
     <div className="flex items-center">
       <Image
         className="object-cover rounded-full"
-        width={50}
-        height={50}
-        src="https://i.imgur.com/wdRhsSS.jpg"
+        width={80}
+        height={80}
+        src="/logo.gif"
         alt="Logo"
       />
       {renderDefault && <>{renderDefault(props)}</>}
