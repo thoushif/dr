@@ -49,6 +49,11 @@ export default defineType({
               title: "Details",
               type: "text",
             },
+            {
+              name: "type",
+              title: "Type",
+              type: "text",
+            },
           ],
         },
       ],

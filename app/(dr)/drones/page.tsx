@@ -1,6 +1,6 @@
 import { groq } from "next-sanity";
-import { client } from "../../../lib/sanity.client";
-import Dr1CategoryList from "../../../components/DrList";
+import { client } from "@lib/sanity.client";
+import DisplayDroneThumbNails from "@components/DisplayDroneThumbNails";
 
 const query = groq`
 *[_type=="drone"] {
@@ -18,6 +18,6 @@ const query = groq`
 export default async function HomePage() {
   const drones = await client.fetch(query);
   console.log("drones", drones);
-  return <Dr1CategoryList drones={drones} />;
+  return <DisplayDroneThumbNails drones={drones} />;
   // return <div>heree goes the drones</div>;
 }

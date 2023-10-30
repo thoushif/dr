@@ -22,8 +22,19 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+  "paths": {
+    "@app/*": ["app/*"],
+    "@lib/*": ["lib/*"],
+    "@components/*": ["components/*"],
+    "@config/*": ["app/_config/*"],
+    "@environment/*": ["environments/*"],
+    "@shared/*": ["app/_shared/*"],
+    "@helpers/*": ["helpers/*"]
   },
+  },
+  
   "include": [
     "next-env.d.ts",
     "**/*.ts",

@@ -146,14 +146,26 @@ export default {
       description: "Select the associated Drone Type",
     },
 
-    // // Array of references to "Image" documents
-    // {
-    //   name: "images",
-    //   title: "Images",
-    //   type: "array",
-    //   of: [{ type: "image" }],
-    //   description: "Select the associated Images",
-    // },
+    // Array of references to "Image" documents
+    {
+      name: "images",
+      title: "Images",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          title: "Image",
+          fields: [
+            {
+              name: "caption",
+              type: "string",
+              title: "Caption",
+            },
+          ],
+        },
+      ],
+      description: "Select the associated Images",
+    },
   ],
   preview: {
     select: {
