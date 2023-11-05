@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const query = groq`
 *[_type == "drone" && _id == $droneId] {
-    "image": images[(caption == $caption)][0] {
+    "image": images[("caption" == $caption)][0] {
       ...
     }
   }[0]

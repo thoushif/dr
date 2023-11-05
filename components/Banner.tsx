@@ -1,7 +1,12 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
+import React, { useState } from "react";
+
+import EventsMenu from "./BannerEvents";
 
 function Banner() {
+  const [showEventsMenu, setShowEventsMenu] = useState(false);
   return (
     <div className="flex flex-col items-center justify-between py-4 font-bold lg:flex-row lg:space-x-5">
       <div>
@@ -32,18 +37,19 @@ function Banner() {
         </div>
         <div>
           <Link
-            href={"/"}
+            href={"/gallery"}
             className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
           >
             Gallery
           </Link>
         </div>
+
         <div>
           <Link
-            href={"/"}
+            href={"/events"}
             className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
           >
-            Competitions
+            Events
           </Link>
         </div>
       </div>
