@@ -3,8 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState } from "react";
 
-import EventsMenu from "./BannerEvents";
-
 function Banner() {
   const [showEventsMenu, setShowEventsMenu] = useState(false);
   return (
