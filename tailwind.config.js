@@ -17,6 +17,9 @@ module.exports = {
     },
 
     extend: {
+      gridTemplateColumns: {
+        gallery: "repeat(auto-fit, minmax(250px, 1fr))",
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },

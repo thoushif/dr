@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const query = groq`
 *[_type == "drone" && _id == $droneId] {
-    "image": images[("caption" == $caption)][0] {
+    "image": images[(caption == $caption)][0] {
       ...
     }
   }[0]
@@ -31,7 +31,7 @@ export default function Tooltip({
       // get the data from the api
       const caption = { caption: type, droneId: droneId };
       const response = await client.fetch(query, caption);
-      console.log("loading", caption, ", for drone", droneId);
+      // console.log("loading", caption, ", for drone", droneId);
       setImage(response);
     };
     fetchData();

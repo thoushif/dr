@@ -11,6 +11,7 @@ module.exports = {
       "i.imgur.com",
       "links.papareact.com",
       "cdn.sanity.io",
+      "images.pexels.com",
     ],
   },
 };

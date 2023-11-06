@@ -3,7 +3,7 @@ import urlFor from "@lib/urlFor";
 import Image from "next/image";
 import React, { useState, useRef } from "react";
 import Tooltip from "./Tooltip";
-import { ImageProps } from "next/image";
+
 type Props = {
   droneImage: DroneImage;
   droneId: string;
@@ -14,14 +14,12 @@ function DroneImage({ droneImage, droneId }: Props) {
   const [height, setHeight] = useState<number | `${number}` | undefined>(0);
 
   const getImageWidth = (img: any) => {
-    console.log(typeof img);
     if (img.width && img.height) {
-      console.log(img.height);
       setWidth(img.width);
       setHeight(img.height);
     }
-    console.log("Image Width:", width, "pixels");
-    console.log("Image height:", height, "pixels");
+    // console.log("Image Width:", width, "pixels");
+    // console.log("Image height:", height, "pixels");
   };
 
   return (

@@ -131,6 +131,10 @@ interface DroneThumbnail extends Base {
   name: string;
   drone_image: DroneImage;
 }
+interface Photo extends Base {
+  taken_by: Drone;
+  image: Image;
+}
 
 interface Coordinates {
   x: number;
@@ -145,6 +149,8 @@ interface DroneImage {
     asset: {
       _ref: string;
     };
+    height: number;
+    width: number;
   };
   drone_type: {
     _ref: string;

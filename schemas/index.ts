@@ -4,6 +4,7 @@ import author from "./author";
 import drType from "./drType";
 import droneImage from "./droneImage";
 import drone from "./drone";
+import gallery from "./gallery";
 
 export const schemaTypes = [
   drType,
@@ -12,4 +13,5 @@ export const schemaTypes = [
   blockContent,
   droneImage,
   drone,
+  gallery,
 ];
