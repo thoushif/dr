@@ -41,11 +41,11 @@ export default function ImgContainer({ photo }: Props) {
       className="w-[250px] justify-self-center"
       style={{ gridRow: `span ${photoSpans}` }}
     >
-      <div className="rounded-xl overflow-hidden group">
+      <div className="overflow-hidden rounded-xl group">
         <Image
           onLoadingComplete={getImageWidth}
           src={urlFor(photo.image).url()}
-          alt={`photo taken by ${photo.taken_by.aircraft.name}`}
+          alt={`photo taken by ${photo.taken_by?.aircraft.name}`}
           sizes="250px"
           width={width}
           height={height}

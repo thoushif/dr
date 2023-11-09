@@ -10,7 +10,22 @@ interface DrType extends Base {
   image: Image;
   name: string;
 }
-
+interface ImageUploadResponse {
+  _type: string; // The type of the document (e.g., 'gallery')
+  image: {
+    // The ID of the created document
+    _type: string; // The type of the image field (e.g., 'image')
+    asset: {
+      _type: string; // The type of the asset reference (e.g., 'reference')
+      _ref: string; // The reference to the asset ID
+    };
+  };
+  taken_by: {
+    _type: string; // The type of the taken_by field (e.g., 'reference')
+    _ref: string; // The reference to the drone ID
+  };
+  // Additional properties if any
+}
 interface Image {
   _type: "image";
   asset: Reference;
@@ -114,6 +129,7 @@ interface RemoteController {
 }
 
 interface Drone extends Base {
+  name: string;
   aircraft: Aircraft;
   flight_specs: FlightSpecifications;
   camera: Camera;

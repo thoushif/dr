@@ -44,6 +44,15 @@ function Banner() {
 
         <div>
           <Link
+            href={"/gallery/add"}
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Add your photos
+          </Link>
+        </div>
+
+        <div>
+          <Link
             href={"/events"}
             className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
           >
