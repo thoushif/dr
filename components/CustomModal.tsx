@@ -33,8 +33,8 @@ const CustomModal: React.FC<CustomModalProps> = ({ children, onClose }) => {
   return (
     <div className="custom-modal">
       <div ref={modalRef} className="modal-content">
-        <button className="close-button" onClick={onClose}>
-          X
+        <button className="close-button hover:scale-105" onClick={onClose}>
+          ❌
         </button>
         {children}
       </div>

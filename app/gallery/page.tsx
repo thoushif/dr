@@ -2,7 +2,7 @@ import GalleryHome from "@components/gallery/GalleryHome";
 import { client } from "@lib/sanity.client";
 import { groq } from "next-sanity";
 
-export const revalidate = 60; // revalidate at most every hour
+export const revalidate = 1800; // revalidate at most every half an hour
 
 const query = groq`
 *[_type=="gallery"] {
@@ -14,7 +14,7 @@ const query = groq`
       name
     }
   }
-} | order(_createdAt desc)
+} | order(_createdAt desc)[0..29]
 `;
 
 const GalleryPage = async () => {

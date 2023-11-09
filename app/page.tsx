@@ -1,3 +1,4 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 
 export default async function HomePage() {
@@ -58,7 +59,7 @@ export default async function HomePage() {
             <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
               Exciting Drone Innovation
             </h2>
-
+            <Skeleton className="h-4 w-[250px]" />
             <p className="text-sm text-gray-500">Posted on October 15, 2023</p>
 
             <p className="mt-2 text-gray-700">
@@ -86,7 +87,6 @@ export default async function HomePage() {
           Hot from Gallery
         </div>
       </section>
-
       <section id="laws-of-flying-drones" className="py-8">
         <div className="container p-4 mx-auto bg-white rounded-lg shadow">
           <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
@@ -101,11 +101,11 @@ export default async function HomePage() {
           <p className="py-4 text-base">
             In several regions, such as the United States, drones weighing less
             than 250g are exempt from registration with civil aviation
-            authorities. While registration might not be mandatory, it’s still
+            authorities. While registration might not be mandatory, it's still
             necessary to follow local drone laws. This includes the requirement
             to keep your drone within sight at all times when airborne.
           </p>
-          e
+
           <p className="py-4 text-base">
             Different countries have different rules. Previously, in the UK,
             drones weighing less than 250g were exempt from registration. This
@@ -122,7 +122,7 @@ export default async function HomePage() {
           </p>
           <p className="py-4 text-base">
             For drones weighing less than 250g without a camera, neither ID is
-            necessary. That said, you still need to comply with the UK’s drone
+            necessary. That said, you still need to comply with the UK's drone
             laws. According to the Drone Code, this means maintaining visual
             contact with your drone, flying no higher than 120m above the
             ground, staying at least 150m away from populated areas, and
@@ -130,33 +130,33 @@ export default async function HomePage() {
           </p>
         </div>
       </section>
-      <section className="bg-gray-100 py-10">
+      <section className="py-10 bg-gray-100">
         <div className="container mx-auto text-center">
           <h2 className="text-3xl font-semibold">Join Newsletter</h2>
-          <p className="text-gray-600 mt-2">
-            Exclusive content, latest news & upcoming events sent straight to
-            your inbox.
+          <p className="mt-2 text-gray-600">
+            Exclusive content, latest news about drones & upcoming events sent
+            straight to your inbox.
           </p>
-          <div className="mt-6 max-w-md mx-auto">
+          <div className="max-w-md mx-auto mt-6">
             <form>
-              <div className="flex items-center border-b border-b-2 border-gray-600 py-2">
+              <div className="flex items-center py-2 border-b-2 border-gray-600">
                 <input
                   type="text"
-                  className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                  className="w-full px-2 py-1 mr-3 leading-tight text-gray-700 bg-transparent border-none appearance-none focus:outline-none"
                   placeholder="Name"
                 />
                 <input
                   type="email"
-                  className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                  className="w-full px-2 py-1 mr-3 leading-tight text-gray-700 bg-transparent border-none appearance-none focus:outline-none"
                   placeholder="Email"
                 />
                 <button
                   type="submit"
-                  className="flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 border-indigo-600 hover:border-indigo-700 text-sm border-4 text-white py-1 px-2 rounded-full cursor-pointer"
+                  className="flex-shrink-0 px-2 py-1 text-sm text-white bg-indigo-600 border-4 border-indigo-600 rounded-full cursor-pointer hover:bg-indigo-700 hover:border-indigo-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="w-6 h-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -174,11 +174,10 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      <footer className="bg-gray-900 text-white py-6">
-        <div className="container mx-auto flex flex-wrap justify-between">
+      <footer className="py-6 text-white bg-gray-900">
+        <div className="container flex flex-wrap justify-between mx-auto">
           <div className="w-full md:w-1/2 lg:w-1/4">
-            <h3 className="text-lg font-semibold mb-4">About</h3>
+            <h3 className="mb-4 text-lg font-semibold">About</h3>
             <ul>
               <li>
                 <a href="/about">About Us</a>
@@ -192,7 +191,7 @@ export default async function HomePage() {
             </ul>
           </div>
           <div className="w-full md:w-1/2 lg:w-1/4">
-            <h3 className="text-lg font-semibold mb-4">Shop & Events</h3>
+            <h3 className="mb-4 text-lg font-semibold">Shop & Events</h3>
             <ul>
               <li>
                 <a href="/shop">Shop</a>

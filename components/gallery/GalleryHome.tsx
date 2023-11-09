@@ -11,18 +11,6 @@ export default function GalleryHome({ photos }: Props) {
       {photos.map((photo) => (
         <ImgContainer key={photo._id} photo={photo} />
       ))}
-      {photos.map((photo) => (
-        <ImgContainer key={photo._id} photo={photo} />
-      ))}
-      {photos.map((photo) => (
-        <ImgContainer key={photo._id} photo={photo} />
-      ))}
-      {photos.map((photo) => (
-        <ImgContainer key={photo._id} photo={photo} />
-      ))}
-      {photos.map((photo) => (
-        <ImgContainer key={photo._id} photo={photo} />
-      ))}
     </section>
   );
 }

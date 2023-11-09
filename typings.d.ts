@@ -19,6 +19,8 @@ interface ImageUploadResponse {
       _type: string; // The type of the asset reference (e.g., 'reference')
       _ref: string; // The reference to the asset ID
     };
+    caption: string;
+    height: number;
   };
   taken_by: {
     _type: string; // The type of the taken_by field (e.g., 'reference')
@@ -29,6 +31,8 @@ interface ImageUploadResponse {
 interface Image {
   _type: "image";
   asset: Reference;
+  caption: string;
+  height: number;
 }
 
 interface Reference {

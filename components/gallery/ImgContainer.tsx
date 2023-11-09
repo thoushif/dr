@@ -41,7 +41,7 @@ export default function ImgContainer({ photo }: Props) {
       className="w-[250px] justify-self-center"
       style={{ gridRow: `span ${photoSpans}` }}
     >
-      <div className="overflow-hidden rounded-xl group">
+      <div className="overflow-hidden rounded-xl group hover:scale-105">
         <Image
           onLoadingComplete={getImageWidth}
           src={urlFor(photo.image).url()}
@@ -56,13 +56,23 @@ export default function ImgContainer({ photo }: Props) {
 
       {isModalOpen && photo && (
         <CustomModal onClose={closeModal}>
-          <div className="transition-transform duration-200 ease-out w-80 h-80 dronesop-shadow-xl">
+          <div className="relative transition-transform duration-200 ease-out">
             <Image
-              className="object-cover object-left rounded-md lg:object-center"
               src={urlFor(photo.image).url()}
               alt="drone image"
-              fill
+              width={Number(width) + 300}
+              height={Number(height) + 300}
             />
+            <div className="absolute inset-0 flex items-start justify-start">
+              <span className="p-2 text-sm font-semibold text-white bg-black bg-opacity-50 ">
+                {photo.image.height} ft
+              </span>
+            </div>
+            <div className="absolute inset-0 bottom-0 flex items-end justify-items-start ">
+              <span className="p-2 text-sm font-semibold text-white truncate bg-black bg-opacity-50">
+                {photo.image.caption}
+              </span>
+            </div>
           </div>
         </CustomModal>
       )}
