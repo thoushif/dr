@@ -35,11 +35,29 @@ export default {
       to: [{ type: "drone" }], // Reference to the "drone" type
       description: "Select the drone that took this image",
     },
+    {
+      name: "approved",
+      title: "Approved?",
+      type: "boolean",
+      default: false,
+      require: false,
+      description:
+        "Approval for the image, only approved images will be show on the site",
+    },
   ],
   preview: {
     select: {
       title: "taken_by.aircraft.name",
       media: "image",
+      isActive: "approved",
+    },
+    prepare(selection: any) {
+      const { title, media, isActive } = selection;
+      return {
+        title: title,
+        media: media,
+        subtitle: `Active: ${isActive ? "Yes" : "No"}`,
+      };
     },
   },
 };

@@ -1,7 +1,7 @@
 import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import { Link } from "lucide-react";
 import Image from "next/image";
-import urlFor from "../lib/urlFor";
+import urlFor from "../@/lib/sanity/urlFor";
 import ClientSideRoute from "./ClientSideRoute";
 
 type Props = {

@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { uploadImageToSanity } from "@lib/sanity.upload";
-import urlFor from "@lib/urlFor";
+import { uploadImageToSanity } from "@/lib/sanity/sanity.upload";
+import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
 
 // pages/index.tsx
@@ -23,7 +23,7 @@ const AddImage = ({ drone }: Props) => {
     null
   );
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [caption, setCaption] = useState<string>("");
+  const [caption, setCaption] = useState<string>("captured with care..");
   const [height, setHeight] = useState<number | null>(500);
 
   const handleHCaptchaVerify = (token: string | null) => {
@@ -46,7 +46,7 @@ const AddImage = ({ drone }: Props) => {
   const handleReset = () => {
     setSelectedImage(null);
     setImagePreview(null);
-    setCaption("");
+    setCaption("captured with care..");
     setHeight(500);
   };
 
@@ -74,6 +74,7 @@ const AddImage = ({ drone }: Props) => {
       handleReset();
     } else {
       alert("Image upload failed");
+      handleReset();
     }
   };
 
@@ -103,10 +104,14 @@ const AddImage = ({ drone }: Props) => {
         </div>
         {/* Third cell: Input for caption and slider for height */}
         <div className="flex flex-col items-center">
-          <label className="block mb-2 text-sm font-semibold">Caption:</label>
+          <label className="block mb-2 text-sm font-semibold">
+            Caption: (500 char max)
+          </label>
           <textarea
             value={caption}
-            maxLength={100}
+            maxLength={250}
+            rows={4}
+            cols={50}
             onChange={(e) => setCaption(e.target.value)}
             className="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:border-blue-400"
           />
@@ -129,7 +134,8 @@ const AddImage = ({ drone }: Props) => {
           <button
             type="submit"
             onClick={handleUploadImage}
-            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
+            disabled={!hCaptchaToken}
+            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue disabled:grayscale"
           >
             Save
           </button>

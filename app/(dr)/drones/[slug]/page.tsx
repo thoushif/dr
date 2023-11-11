@@ -1,5 +1,5 @@
 import { groq } from "next-sanity";
-import { client } from "@lib/sanity.client";
+import { client } from "@/lib/sanity/sanity.client";
 import DisplayDroneDetails from "@components/DisplayDroneDetails";
 type Props = {
   params: {

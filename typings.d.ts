@@ -177,3 +177,56 @@ interface DroneImage {
   };
   coordinates: Coordinates[];
 }
+
+// types.ts
+
+interface EventLocation {
+  name: string;
+  address: string;
+  coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+}
+
+interface EventDateTime {
+  start: string; // Assuming date strings in ISO format
+  end: string;
+}
+
+interface EventOrganizer {
+  name: string;
+  contactEmail: string;
+}
+
+interface AdditionalDetails {
+  eventCapacity?: number;
+  registrationDeadline?: string; // Assuming date string in ISO format
+  entryFee?: number;
+  prizes?: string[];
+}
+
+interface EventData {
+  _id: string;
+  title: string;
+  description: string;
+  location: EventLocation;
+  dateTime: EventDateTime;
+  organizer: EventOrganizer;
+  category: string[];
+  eventType: string;
+  eventSiteLink: string;
+  eventImage: string;
+  additionalDetails: AdditionalDetails;
+}
+
+interface EventRegistration {
+  eventId: string;
+  userId: string;
+  registrationDate: string; // Assuming date string in ISO format
+}
+
+interface EventAttendee {
+  eventId: string;
+  userId: string;
+}

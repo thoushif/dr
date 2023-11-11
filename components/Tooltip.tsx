@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 import CustomModal from "./CustomModal";
 import { groq } from "next-sanity";
-import { client } from "@lib/sanity.client";
-import urlFor from "@lib/urlFor";
+import { client } from "@/lib/sanity/sanity.client";
+import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
 
 const query = groq`
@@ -62,8 +62,7 @@ export default function Tooltip({
         onClick={openModal}
         style={{ left: x, top: y, border: 1 }}
       />
-      <p>x: {x}</p>
-      <p>y: {y}</p>
+
       <div
         className={`tooltip ${isHovered ? "show" : ""}`}
         style={{ left: 100, top: 100, border: 1 }}

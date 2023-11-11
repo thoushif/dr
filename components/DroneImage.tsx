@@ -1,5 +1,5 @@
 "use client";
-import urlFor from "@lib/urlFor";
+import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
 import React, { useState, useRef, useEffect } from "react";
 import Tooltip from "./Tooltip";

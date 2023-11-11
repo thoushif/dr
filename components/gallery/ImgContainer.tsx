@@ -1,10 +1,10 @@
 "use client";
 import CustomModal from "@components/CustomModal";
-import urlFor from "@lib/urlFor";
+import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
 import Link from "next/link";
 
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 type Props = {
   photo: Photo;
 };

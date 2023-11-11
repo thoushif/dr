@@ -27,6 +27,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-modal": "^3.16.1",
+    "react-select": "^5.8.0",
     "sanity": "^3.0.0",
     "sanity-plugin-iframe-pane": "^2.2.0",
     "styled-components": "^5.2.0",

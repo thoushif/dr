@@ -1,24 +1,20 @@
-import Link from "next/link";
+import { client } from "@/lib/sanity/sanity.client";
+import { AllEvents } from "@components/events/EventDetails";
+import { groq } from "next-sanity";
 
-const WorkInProgress = () => {
+const query = groq`
+*[_type=="event" && !(_id match "drafts.**")] {
+  ...  
+} | order(_updatedAt desc)[0..5]
+`;
+
+const Events = async () => {
+  const events_from_cms: EventData[] = await client.fetch(query);
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="text-center">
-        <h1 className="text-6xl mb-4">Work in Progress</h1>
-        <div className="text-3xl mb-6">
-          <span role="img" aria-label="Hammer and Wrench">
-            🎟️🛠️🔧
-          </span>
-        </div>
-        <p className="text-xl mb-4">
-          We're working on it! Please check back later.
-        </p>
-        <p className="text-lg">
-          In the meantime, you can <Link href="/">go to the home page</Link>.
-        </p>
-      </div>
-    </div>
+    <>
+      <AllEvents allevents={events_from_cms} />
+    </>
   );
 };
 
-export default WorkInProgress;
+export default Events;

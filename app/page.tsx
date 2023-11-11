@@ -54,12 +54,13 @@ export default async function HomePage() {
       </section>
 
       <section id="latest-news">
+        <Skeleton className="h-4 w-[250px]" />
         <div className="container px-0 py-0 mx-auto bg-white rounded-lg shadow">
           <div className="p-1">
             <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
               Exciting Drone Innovation
             </h2>
-            <Skeleton className="h-4 w-[250px]" />
+
             <p className="text-sm text-gray-500">Posted on October 15, 2023</p>
 
             <p className="mt-2 text-gray-700">
