@@ -11,7 +11,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const getQueryByFiltersFromURL = (filter: string | undefined) => {
+export const getQueryByFiltersFromURL = (
+  filter: string | string[] | undefined
+) => {
   if (filter && filter.includes("Free") && filter.includes("Private")) {
     return privateFreeEventsQuery;
   } else if (filter && filter.includes("Free")) {

@@ -1,17 +1,13 @@
 import { getEvents } from "@/lib/sanity/sanity.util";
 import { getQueryByFiltersFromURL } from "@/lib/utils";
 import { AllEvents } from "@components/events/EventDetails";
-import { ReadonlyURLSearchParams } from "next/navigation";
 
-const Events = async ({
-  searchParams,
-}: {
+type Props = {
   searchParams: {
-    filter: string | undefined;
-    sort: string | undefined;
-    categories: string | undefined;
+    [key: string]: string;
   };
-}) => {
+};
+const Events = async ({ searchParams }: Props) => {
   console.log("searchParams", searchParams);
   const filterValue = searchParams.filter;
   const query = getQueryByFiltersFromURL(filterValue);
