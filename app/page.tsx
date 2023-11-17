@@ -1,4 +1,3 @@
-import { Skeleton } from "@/components/ui/skeleton";
 import Image from "next/image";
 
 export default async function HomePage() {
@@ -54,7 +53,6 @@ export default async function HomePage() {
       </section>
 
       <section id="latest-news">
-        <Skeleton className="h-4 w-[250px]" />
         <div className="container px-0 py-0 mx-auto bg-white rounded-lg shadow">
           <div className="p-1">
             <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">

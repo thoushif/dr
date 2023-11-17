@@ -1,8 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Skeleton } from "@/components/ui/skeleton";
 import { uploadImageToSanity } from "@/lib/sanity/sanity.upload";
 import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
@@ -12,6 +8,7 @@ import Image from "next/image";
 import React, { useState, ChangeEvent } from "react";
 import HcaptchaForm from "../HCatchaForm";
 import HeightMarker from "./HeighMarker";
+import { useToast } from "@/components/ui/use-toast";
 
 type Props = {
   drone: Drone;
@@ -26,7 +23,7 @@ const AddImage = ({ drone }: Props) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [caption, setCaption] = useState<string>("");
   const [height, setHeight] = useState<number>(50);
-
+  const { toast } = useToast();
   const handleHCaptchaVerify = (token: string | null) => {
     setHCaptchaToken(token);
   };
@@ -53,12 +50,17 @@ const AddImage = ({ drone }: Props) => {
 
   const handleUploadImage = async () => {
     if (!hCaptchaToken) {
-      alert("Please complete the hCaptcha challenge");
+      toast({
+        description: "Please complete the hCaptcha challenge",
+      });
       return;
     }
 
     if (!selectedImage) {
-      alert("Please select an image to upload");
+      toast({
+        description: "Please select an image to upload",
+        variant: "success",
+      });
       return;
     }
 

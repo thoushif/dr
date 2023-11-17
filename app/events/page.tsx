@@ -9,12 +9,9 @@ type Props = {
 };
 export const dynamic = "force-dynamic";
 const Events = async ({ searchParams }: Props) => {
-  console.log("searchParams", searchParams);
   const filterValue = searchParams.filter;
   const query = getQueryByFiltersFromURL(filterValue);
-  console.log("qr now ", query);
   const events = await getEvents(query);
-  console.log(filterValue);
 
   return (
     <>

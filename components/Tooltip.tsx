@@ -5,14 +5,9 @@ import { groq } from "next-sanity";
 import { client } from "@/lib/sanity/sanity.client";
 import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
+import { queryForDroneOtherImages } from "@/lib/sanity/sanity.queries";
+import { getDronesOtherImages } from "@/lib/sanity/sanity.util";
 
-const query = groq`
-*[_type == "drone" && _id == $droneId] {
-    "image": images[(caption == $caption)][0] {
-      ...
-    }
-  }[0]
-`;
 type withDroneId = Coordinates & { droneId: string };
 
 export default function Tooltip({
@@ -29,9 +24,12 @@ export default function Tooltip({
     // declare the async data fetching function
     const fetchData = async () => {
       // get the data from the api
-      const params = { caption: type, droneId: droneId };
-      const response = await client.fetch(query, params);
-      // console.log("loading", caption, ", for drone", droneId);
+      const params = { caption: type ?? "", droneId: droneId };
+      const response = await getDronesOtherImages(
+        queryForDroneOtherImages,
+        params
+      );
+      console.log("loading", type, ", for drone", droneId);
       setImage(response);
     };
     fetchData();
@@ -76,7 +74,7 @@ export default function Tooltip({
           <div className="tooltip-details">{details}</div>
         </div>
       )}
-      {isModalOpen && image && (
+      {isModalOpen && image && image.image && (
         <CustomModal onClose={closeModal}>
           <div className="transition-transform duration-200 ease-out w-80 h-80 dronesop-shadow-xl">
             <Image

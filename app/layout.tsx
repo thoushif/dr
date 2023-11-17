@@ -1,6 +1,7 @@
 import Banner from "../components/Banner";
 import Header from "../components/Header";
 import "../styles/globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata = {
   title: "Dr Studio - Drones",
@@ -18,6 +19,7 @@ export default function RootLayout({
         <Header />
         <Banner />
         {children}
+        <Toaster />
       </body>
     </html>
   );
