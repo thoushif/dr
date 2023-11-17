@@ -7,6 +7,7 @@ type Props = {
     [key: string]: string;
   };
 };
+export const dynamic = "force-dynamic";
 const Events = async ({ searchParams }: Props) => {
   console.log("searchParams", searchParams);
   const filterValue = searchParams.filter;
