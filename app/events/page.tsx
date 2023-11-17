@@ -12,11 +12,12 @@ const Events = async ({
     categories: string | undefined;
   };
 }) => {
-  // console.log("searchParams", searchParams);
+  console.log("searchParams", searchParams);
   const filterValue = searchParams.filter;
   const query = getQueryByFiltersFromURL(filterValue);
-
+  console.log("qr now ", query);
   const events = await getEvents(query);
+  console.log(filterValue);
 
   return (
     <>
