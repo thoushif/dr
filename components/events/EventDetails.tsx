@@ -5,27 +5,51 @@ import urlFor from "@/lib/sanity/urlFor";
 import CustomModal from "@components/CustomModal";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import EventFinder from "./EventFinder";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+
+import DisplayEvents from "./DisplayEvents";
 
 type AllEventsProps = {
-  allevents: EventData[];
+  events: EventData[] | null;
 };
 
-type EventDetailsProps = {
-  event: EventData;
-};
+export const AllEvents: React.FC<AllEventsProps> = (events) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const [selectedBadges, setSelectedBadges] = useState<string[]>([]);
+  const router = useRouter();
+  const handleSelectBadge = (badge: string) => {
+    if (selectedBadges.includes(badge)) {
+      setSelectedBadges(
+        selectedBadges.filter((selectedBadge) => selectedBadge !== badge)
+      );
+    } else {
+      setSelectedBadges([...selectedBadges, badge]);
+    }
+  };
 
-export const AllEvents: React.FC<AllEventsProps> = ({ allevents }) => {
+  useEffect(() => {
+    const newParams = new URLSearchParams(searchParams?.toString());
+    newParams.set("filter", selectedBadges.join(","));
+    router.push(`${pathname}?${newParams.toString()}`);
+  }, [selectedBadges]);
+
   return (
     <>
-      {allevents.map((event: EventData) => (
-        <EventDetails key={event._id} event={event} />
-      ))}
+      <div className="flex justify-center space-x-2">
+        <EventFinder
+          selectedBadges={selectedBadges}
+          onSelectBadge={handleSelectBadge}
+        />
+      </div>
+      <DisplayEvents allevents={events.events} />
     </>
   );
 };
 
-export const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
+export const EventDetails = ({ event }: { event: EventData }) => {
   const isEventNew = isWithinLastWeek(new Date(event.dateTime.start));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -45,6 +69,11 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
       )}
 
       <div className="flex items-center mb-4 ml-4">
+        {/* <div className="relative overflow-hidden rounded-md">
+          <div className="absolute inset-0 bg-gradient-to-br from-10% from-slate-300 via-transparent via-90% to-transparent to-90%"></div>
+          <div className="absolute inset-0 bg-gradient-to-bl from-10% from-slate-300 via-transparent via-90% to-transparent to-90%"></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-10% from-slate-300 via-transparent via-90% to-transparent to-90%"></div>
+          <div className="absolute inset-0 bg-gradient-to-tl from-10% from-slate-300 via-transparent via-90% to-transparent to-90%"></div> */}
         <Image
           src={urlFor(event.eventImage).url()}
           alt={event.title}
@@ -52,6 +81,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
           width={800}
           height={800}
         />
+        {/* </div> */}
         <div>
           <h2 className="text-lg font-bold">{event.title}</h2>
           <p className="text-sm text-gray-600">
@@ -77,7 +107,7 @@ export const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
 
       <div className="relative flex items-center justify-between">
         <div className="flex items-center mb-4 space-x-2">
-          {event.category.map((category, index) => (
+          {event.category?.map((category, index) => (
             <span
               key={index}
               className="px-2 py-1 text-xs text-white rounded-md bg-slate-500"

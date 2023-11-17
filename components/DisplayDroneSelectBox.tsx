@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 
-import AddImage from "./AddImage";
+import AddImage from "./gallery/AddImage";
 import DroneDropdown from "./gallery/dropdown";
 
 type Props = {

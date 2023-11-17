@@ -172,3 +172,34 @@
   border: none;
   cursor: pointer;
 }
+ 
+
+.reel {
+  background: none;
+  border: 8px dashed grey;
+  border-left: 10px solid grey;
+  border-right: 10px solid grey;
+  text-align: center;
+  margin: 2%;
+}
+.reel::before {
+  display: block;
+  margin-top: -16px;
+  content: '';
+  padding: 4px;
+  border-top: 8px solid grey;
+  border-bottom: 8px solid grey;
+}
+.reel::after {
+  display: block;
+  margin-bottom: -16px;
+  content: '';
+  padding: 4px;
+  border-bottom: 8px solid grey;
+  border-top: 8px solid grey;
+}
+.child-drone {
+ 
+  background-image: url("../public/drone-icon.svg");
+ background-repeat: no-repeat;
+}

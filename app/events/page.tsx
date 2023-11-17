@@ -1,18 +1,26 @@
-import { client } from "@/lib/sanity/sanity.client";
+import { getEvents } from "@/lib/sanity/sanity.util";
+import { getQueryByFiltersFromURL } from "@/lib/utils";
 import { AllEvents } from "@components/events/EventDetails";
-import { groq } from "next-sanity";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
-const query = groq`
-*[_type=="event" && !(_id match "drafts.**")] {
-  ...  
-} | order(_updatedAt desc)[0..5]
-`;
+const Events = async ({
+  searchParams,
+}: {
+  searchParams: {
+    filter: string | undefined;
+    sort: string | undefined;
+    categories: string | undefined;
+  };
+}) => {
+  // console.log("searchParams", searchParams);
+  const filterValue = searchParams.filter;
+  const query = getQueryByFiltersFromURL(filterValue);
 
-const Events = async () => {
-  const events_from_cms: EventData[] = await client.fetch(query);
+  const events = await getEvents(query);
+
   return (
     <>
-      <AllEvents allevents={events_from_cms} />
+      <AllEvents events={events} />
     </>
   );
 };

@@ -10,7 +10,8 @@ import Image from "next/image";
 // pages/index.tsx
 
 import React, { useState, ChangeEvent } from "react";
-import HcaptchaForm from "./HCatchaForm";
+import HcaptchaForm from "../HCatchaForm";
+import HeightMarker from "./HeighMarker";
 
 type Props = {
   drone: Drone;
@@ -23,8 +24,8 @@ const AddImage = ({ drone }: Props) => {
     null
   );
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [caption, setCaption] = useState<string>("captured with care..");
-  const [height, setHeight] = useState<number | null>(500);
+  const [caption, setCaption] = useState<string>("");
+  const [height, setHeight] = useState<number>(50);
 
   const handleHCaptchaVerify = (token: string | null) => {
     setHCaptchaToken(token);
@@ -46,7 +47,7 @@ const AddImage = ({ drone }: Props) => {
   const handleReset = () => {
     setSelectedImage(null);
     setImagePreview(null);
-    setCaption("captured with care..");
+    setCaption("");
     setHeight(500);
   };
 
@@ -60,7 +61,7 @@ const AddImage = ({ drone }: Props) => {
       alert("Please select an image to upload");
       return;
     }
-    console.log(selectedImage);
+
     // Upload the image to Sanity and get the created image document
     const createdImage = await uploadImageToSanity(
       selectedImage,
@@ -85,10 +86,13 @@ const AddImage = ({ drone }: Props) => {
         <div className="flex flex-col items-center">
           <input type="file" onChange={handleImageChange} className="mt-4" />
         </div>
+        <label className="block mb-2 text-sm font-semibold">
+          Taken from {height}ft height
+        </label>
         {/* Second cell: Image preview */}
-        <div className="flex flex-col items-center">
+        <div className="relative flex items-center">
           {imagePreview && (
-            <div className="relative">
+            <div className="relative reel">
               <img
                 src={imagePreview}
                 alt="Preview"
@@ -101,6 +105,7 @@ const AddImage = ({ drone }: Props) => {
               </div>
             </div>
           )}
+          <HeightMarker heightParam={height} setHeightParam={setHeight} />
         </div>
         {/* Third cell: Input for caption and slider for height */}
         <div className="flex flex-col items-center">
@@ -110,26 +115,12 @@ const AddImage = ({ drone }: Props) => {
           <textarea
             value={caption}
             maxLength={250}
+            placeholder={"captured with care.."}
             rows={4}
             cols={50}
             onChange={(e) => setCaption(e.target.value)}
             className="w-full px-4 py-2 mb-4 border rounded focus:outline-none focus:border-blue-400"
-          />
-
-          <label className="block mb-2 text-sm font-semibold">
-            Height: {height}ft
-          </label>
-          <input
-            type="range"
-            value={height!}
-            onChange={(e) => setHeight(parseInt(e.target.value, 10))}
-            min={0}
-            max={5000}
-            className="w-full mb-4"
-          />
-        </div>
-        {/* Fourth cell: Save button */}
-        <div className="flex flex-col-reverse items-center">
+          />{" "}
           <HcaptchaForm onVerify={handleHCaptchaVerify} />
           <button
             type="submit"
@@ -139,7 +130,17 @@ const AddImage = ({ drone }: Props) => {
           >
             Save
           </button>
+          {/* <input
+            type="range"
+            value={height!}
+            onChange={(e) => setHeight(parseInt(e.target.value, 10))}
+            min={0}
+            max={5000}
+            className="w-full mb-4"
+          /> */}
+          {/* <Slider defaultValue={[33]} max={100} step={1} /> */}
         </div>
+        {/* Fourth cell: Save button */}
       </div>
       {createdImage && (
         <>
