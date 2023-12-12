@@ -11,6 +11,15 @@ export default {
       type: "object",
       fields: [
         { name: "name", title: "Name", type: "string" },
+        {
+          name: "buy_link",
+          title: "Buy Link",
+          type: "url",
+          options: {
+            // Default value for the buy_link field
+            defaultValue: "https://dronezone.com/buy/url",
+          },
+        },
         { name: "manufacturer", title: "Manufacturer", type: "string" },
         { name: "takeoff_weight", title: "Takeoff Weight", type: "number" },
         { name: "length_folded", title: "Length Folded", type: "number" },
@@ -165,6 +174,13 @@ export default {
         },
       ],
       description: "Select the associated Images",
+    },
+    {
+      name: "featured",
+      title: "Featured?",
+      type: "boolean",
+      default: false,
+      require: false,
     },
   ],
   preview: {

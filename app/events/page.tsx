@@ -1,6 +1,6 @@
 import { getEvents } from "@/lib/sanity/sanity.util";
-import { getQueryByFiltersFromURL } from "@/lib/utils";
-import { AllEvents } from "@components/events/EventDetails";
+import { getQueryByFiltersFromURL } from "@/lib/sanity/queryMaker";
+import { AllEvents } from "@/components/events/EventDetails";
 
 type Props = {
   searchParams: {

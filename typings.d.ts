@@ -78,6 +78,7 @@ interface Title {
 
 interface Aircraft {
   name: string;
+  buy_link: string;
   manufacturer: string;
   takeoff_weight: number;
   length_folded: number;
@@ -130,6 +131,14 @@ interface RemoteController {
   max_operating_time: string;
   max_supported_mobile_device_size: string;
   // Add more fields for remote controller specifications
+}
+
+interface DroneCompare {
+  attribute: string;
+  drone0: string;
+  drone1: string;
+
+  isHeader: boolean;
 }
 
 interface Drone extends Base {
@@ -190,8 +199,8 @@ interface EventLocation {
 }
 
 interface EventDateTime {
-  start: string; // Assuming date strings in ISO format
-  end: string;
+  start: Date; // Assuming date strings in ISO format
+  end: Date;
 }
 
 interface EventOrganizer {
@@ -229,4 +238,15 @@ interface EventRegistration {
 interface EventAttendee {
   eventId: string;
   userId: string;
+}
+
+interface DroneSearchState {
+  selectedManufacturers: string[];
+  selectedCategories: string[];
+  selectedPriceRanges: string[];
+  selectedReviews: string[];
+  selectedRatings: string[];
+  selectedUsage: string[];
+  selectedWeightClasses: string[];
+  selectedCompatibility: string[];
 }

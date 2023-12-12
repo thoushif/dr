@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 @layer base {
   :root {
     --background: 75.3% 76.1%% 78.8%;
@@ -201,5 +201,22 @@
 .child-drone {
  
   background-image: url("../public/drone-icon.svg");
+  background-repeat: no-repeat;
+}
+
+.footer {
+  margin-top: auto; /* Push the footer to the bottom */
+ 
+}
+
+.drone-bg {
+ 
+  background-image: url("../public/drone-bg.jpg");
+ background-size: cover;
  background-repeat: no-repeat;
+}
+
+ 
+.event-image{
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 85%, rgba(0,0,0,0.4));
 }

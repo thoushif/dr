@@ -1,7 +1,7 @@
-import Banner from "../components/Banner";
-import Header from "../components/Header";
-import "../styles/globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { Providers } from "@/contexts/Providers";
+import Banner from "../@/components/ui/Banner";
+import "../styles/globals.css";
 
 export const metadata = {
   title: "Dr Studio - Drones",
@@ -15,11 +15,45 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="mx-auto max-w-7xl">
-        <Header />
-        <Banner />
-        {children}
-        <Toaster />
+      <body>
+        <Providers>
+          <div className="flex flex-col min-h-screen mx-auto max-w-7xl">
+            <Banner />
+            <hr className="border-[#f7ab0a] mb-10" />
+
+            {children}
+            <Toaster />
+            <footer className="p-4 py-6 mt-auto text-white bg-slate-700 footer">
+              <div className="container flex flex-wrap justify-between mx-auto">
+                <div className="w-full md:w-1/2 lg:w-1/4">
+                  <h3 className="mb-4 text-lg font-semibold">About</h3>
+                  <ul>
+                    <li>
+                      <a href="/about">About Us</a>
+                    </li>
+                    <li>
+                      <a href="/contact">Contact Us</a>
+                    </li>
+                    <li>
+                      <a href="/terms">Terms and Conditions</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="w-full md:w-1/2 lg:w-1/4">
+                  <h3 className="mb-4 text-lg font-semibold">Shop & Events</h3>
+                  <ul>
+                    <li>
+                      <a href="/shop">Shop</a>
+                    </li>
+                    <li>
+                      <a href="/events">Events</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </footer>
+          </div>
+        </Providers>
       </body>
     </html>
   );

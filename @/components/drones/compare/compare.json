@@ -1,0 +1,54 @@
+[
+  {
+    "aircraft": {
+      "length_folded": 231.1,
+      "manufacturer": "Skydio",
+      "width_folded": 98,
+      "height_folded": 75.4,
+      "buy_link": "https://dronezone.com/buy/url",
+      "name": "DJI Mavic 3",
+      "takeoff_weight": 6000
+    },
+    "remote_controller": {
+      "max_operating_time": "5h",
+      "max_supported_mobile_device_size": "56"
+    },
+    "sensing": {
+      "sensing_type": "Omnidirectional binocular vision system, supplemented with an infrared sensor at the bottom of the aircraft"
+    },
+    "video_transmission": {
+      "video_transmission_system": "O3+"
+    }
+  },
+  {
+    "_updatedAt": "2023-12-05T23:20:43Z",
+    "drone_image": {
+      "image": {
+        "_type": "image",
+        "asset": {
+          "_ref": "image-0eb378735f1a70cd4ef573a4406d93fd397ea343-1500x885-jpg",
+          "_type": "reference"
+        }
+      },
+      "coordinates": [
+        {
+          "x": 52,
+          "y": 52,
+          "details": "52",
+          "_key": "8988e5d99cf0",
+          "title": "52"
+        }
+      ]
+    },
+    "featured": true,
+    "_createdAt": "2023-12-05T23:20:27Z",
+    "aircraft": {
+      "buy_link": "https://dronezone.com/buy/url",
+      "name": "DJI Mavic 4",
+      "manufacturer": "DJI"
+    },
+    "_rev": "yLkPQ1Yunv4gUqVh5QX5co",
+    "_type": "drone",
+    "_id": "094aaa1f-61c4-4861-b41c-ffe5bc5556a1"
+  }
+]

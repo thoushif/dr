@@ -1,9 +1,8 @@
 import { client } from "@/lib/sanity/sanity.client";
 
 import {
-  getDronesBaseQuery,
   queryForApprovedGalleryImages,
-  queryForDrone,
+  queryForFeaturedDrones,
 } from "./sanity.queries";
 
 const DEBOUNCE_DELAY = 300;
@@ -41,10 +40,21 @@ export const getGallery = debounceAsync(async (): Promise<Photo[] | null> => {
   return photos;
 }, DEBOUNCE_DELAY);
 
-export const getDrones = debounceAsync(async (): Promise<Drone[] | null> => {
-  const drones: Drone[] = await client.fetch(getDronesBaseQuery);
-  return drones;
-}, DEBOUNCE_DELAY);
+export const getFeaturedDrones = debounceAsync(
+  async (): Promise<Drone[] | null> => {
+    const drones: Drone[] = await client.fetch(queryForFeaturedDrones);
+    return drones;
+  },
+  DEBOUNCE_DELAY
+);
+
+export const getSearchedDrones = debounceAsync(
+  async (searchQuery): Promise<Drone[] | null> => {
+    const drones: Drone[] = await client.fetch(searchQuery);
+    return drones;
+  },
+  DEBOUNCE_DELAY
+);
 
 export const getDronesDetails = debounceAsync(
   async (query: string, params): Promise<Drone | null> => {

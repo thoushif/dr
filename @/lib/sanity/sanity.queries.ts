@@ -36,8 +36,12 @@ export const privateFreeEventsQuery = getEventsBaseQuery(
 );
 
 /********DRONES */
-export const getDronesBaseQuery = groq`
-*[_type=="drone"] {
+export const getDronesBaseQuery = (
+  filter: string,
+  pageSize = DEFAULT_PAGE_SIZE
+) => {
+  return groq`
+*[_type=="drone" ${filter}] {
   _id,
   _createdAt,
   "name":aircraft.name,
@@ -45,8 +49,14 @@ export const getDronesBaseQuery = groq`
   drone_image-> {
     image
   }
-} | order(_createdAt desc)
+} | order(_createdAt desc)[0..${pageSize}]
 `;
+};
+export const queryForDrones = getDronesBaseQuery("");
+export const queryForFeaturedDrones = getDronesBaseQuery(
+  `&& featured == true`,
+  2
+);
 
 export const queryForDrone = groq`
 *[_type=="drone"  && _id == $documentId] {

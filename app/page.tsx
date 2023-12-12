@@ -1,61 +1,38 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default async function HomePage() {
   return (
     <>
-      <section id="featured-drones" className="py-8">
-        <div className="container p-4 mx-auto bg-white rounded-lg shadow">
-          <div className="flex p-4 space-x-4 overflow-x-scroll whitespace-no-wrap">
-            <Image
-              src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9"
-              alt="Drone 1"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
-            <Image
-              src="https://images.unsplash.com/photo-1548430842-2de69aaf6bc8"
-              alt="Drone 2"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
-            <Image
-              src="https://images.unsplash.com/photo-1533229394718-02d54f4a108e"
-              alt="Drone 3"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
-            <Image
-              src="https://images.unsplash.com/photo-1507582020474-9a35b7d455d9"
-              alt="Drone 1"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
-            <Image
-              src="https://images.unsplash.com/photo-1548430842-2de69aaf6bc8"
-              alt="Drone 2"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
-            <Image
-              src="https://images.unsplash.com/photo-1533229394718-02d54f4a108e"
-              alt="Drone 3"
-              width={"80"}
-              height={"80"}
-              className="w-64 h-auto"
-            />
+      <section id="hero-section">
+        <div className="relative h-screen ">
+          <video autoPlay loop muted className="object-cover w-full h-full">
+            <source src="/videos/drone-video.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 overlay"></div>
+          <div className="absolute z-10 text-center text-white transform -translate-x-1/2 -translate-y-1/2 hero-content top-1/2 left-1/2">
+            <h1 className="mb-6 text-4xl font-bold md:text-6xl">Drone Zone</h1>
+            <p className="mb-12 text-lg md:text-xl">
+              Welcome to{" "}
+              <span className="underline decoration-4 decoration-[#7386aa]">
+                Every Drone owners'
+              </span>{" "}
+              favorite place to fly.
+            </p>
+            <Link
+              href="/drones"
+              className="px-8 py-4 text-lg font-semibold text-white rounded-md cursor-pointer bg-slate-500 hover:bg-slate-700 "
+            >
+              Explore Drones
+            </Link>
           </div>
         </div>
       </section>
-
+      <section id="featured-drones" className="py-8"></section>
       <section id="latest-news">
         <div className="container px-0 py-0 mx-auto bg-white rounded-lg shadow">
           <div className="p-1">
-            <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
+            <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
               Exciting Drone Innovation
             </h2>
 
@@ -89,7 +66,7 @@ export default async function HomePage() {
       <section id="laws-of-flying-drones" className="py-8">
         <div className="container p-4 mx-auto bg-white rounded-lg shadow">
           <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
-            Laws of flying Drones
+            Fly your drone responsibly
           </h2>
           <p className="py-4 text-base">
             Drone laws exist to ensure a high level of safety in the skies,
@@ -127,6 +104,15 @@ export default async function HomePage() {
             ground, staying at least 150m away from populated areas, and
             avoiding restricted airspace, typically found near airports.
           </p>
+          <p className="py-4 text-lg">
+            The Federal Aviation Administration requires registration of many
+            drones flown in the US, for hobby or commercial purposes. To learn
+            more about drone registration requirements, visit the Federal
+            Aviation Administration's drone page{" "}
+            <Link href="https://www.faa.gov/uas/">
+              https://www.faa.gov/uas/
+            </Link>
+          </p>
         </div>
       </section>
       <section className="py-10 bg-gray-100">
@@ -151,7 +137,7 @@ export default async function HomePage() {
                 />
                 <button
                   type="submit"
-                  className="flex-shrink-0 px-2 py-1 text-sm text-white bg-indigo-600 border-4 border-indigo-600 rounded-full cursor-pointer hover:bg-indigo-700 hover:border-indigo-700"
+                  className="flex-shrink-0 px-2 py-1 text-sm text-white border-4 rounded-full cursor-pointer bg-slate-600 border-slate-600 hover:bg-slate-700 hover:border-slate-700"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -173,35 +159,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <footer className="py-6 text-white bg-gray-900">
-        <div className="container flex flex-wrap justify-between mx-auto">
-          <div className="w-full md:w-1/2 lg:w-1/4">
-            <h3 className="mb-4 text-lg font-semibold">About</h3>
-            <ul>
-              <li>
-                <a href="/about">About Us</a>
-              </li>
-              <li>
-                <a href="/contact">Contact Us</a>
-              </li>
-              <li>
-                <a href="/terms">Terms and Conditions</a>
-              </li>
-            </ul>
-          </div>
-          <div className="w-full md:w-1/2 lg:w-1/4">
-            <h3 className="mb-4 text-lg font-semibold">Shop & Events</h3>
-            <ul>
-              <li>
-                <a href="/shop">Shop</a>
-              </li>
-              <li>
-                <a href="/events">Events</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </footer>
     </>
   );
 }
