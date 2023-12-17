@@ -77,7 +77,9 @@ interface Title {
 }
 
 interface Aircraft {
+  id: number;
   name: string;
+  description: string;
   buy_link: string;
   manufacturer: string;
   takeoff_weight: number;
@@ -87,6 +89,19 @@ interface Aircraft {
   // Add more fields for folded dimensions and other aircraft-related information
 }
 
+interface Aircraftv2 {
+  id: number;
+  name: string;
+  description: string;
+  buy_link: string;
+  manufacturer: string;
+  takeoff_weight: number;
+  length_folded: number;
+  width_folded: number;
+  height_folded: number;
+
+  // Add more fields for folded dimensions and other aircraft-related information
+}
 interface FlightSpecifications {
   max_ascent_speed: number;
   max_descent_speed: number;
@@ -142,7 +157,7 @@ interface DroneCompare {
 }
 
 interface Drone extends Base {
-  name: string;
+  _id: string;
   aircraft: Aircraft;
   flight_specs: FlightSpecifications;
   camera: Camera;
@@ -223,7 +238,7 @@ interface EventData {
   dateTime: EventDateTime;
   organizer: EventOrganizer;
   category: string[];
-  eventType: string;
+  isPrivateEvent: string;
   eventSiteLink: string;
   eventImage: string;
   additionalDetails: AdditionalDetails;

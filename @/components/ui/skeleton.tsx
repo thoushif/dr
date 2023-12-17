@@ -1,4 +1,4 @@
-import { cn } from "@/lib/sanity/queryMaker";
+import { cn } from "@/lib/utils";
 
 function Skeleton({
   className,

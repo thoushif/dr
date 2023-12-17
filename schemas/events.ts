@@ -85,13 +85,10 @@ export default {
       description: "Categories for the event",
     },
     {
-      name: "eventType",
+      name: "isPrivateEvent",
       title: "Event Type",
-      type: "string",
-      options: {
-        list: ["public", "private"],
-        layout: "radio",
-      },
+      type: "boolean",
+      default: false,
       description: "Type of the event (public or private)",
     },
     {

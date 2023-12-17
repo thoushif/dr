@@ -15,7 +15,7 @@ const AddToCompareButton = ({ drone }: { drone: Drone }) => {
     <Button
       className="rounded-full"
       onClick={handleCompareClick}
-      disabled={isDroneInCompareList(drone) || selectedDrones.length === 2}
+      disabled={isDroneInCompareList(drone) || selectedDrones.length > 5}
     >
       {isDroneInCompareList(drone) ? "Already in Compare" : "Add to compare"}
     </Button>

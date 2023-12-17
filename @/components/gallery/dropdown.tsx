@@ -1,5 +1,6 @@
 // DroneDropdown.tsx
 import urlFor from "@/lib/sanity/urlFor";
+import Image from "next/image";
 import React from "react";
 import Select from "react-select";
 
@@ -13,12 +14,20 @@ const DroneDropdown: React.FC<DroneDropdownProps> = ({ drones, onSelect }) => {
     value: drone,
     label: (
       <div className="flex items-center">
-        <img
+        <Image
           src={urlFor(drone.drone_image.image).url()}
-          alt={drone.name}
+          alt={
+            drone && drone.aircraft && drone.aircraft.name
+              ? drone.aircraft.name
+              : " Drone Image "
+          }
           className="w-8 h-8 mr-2 rounded-full"
+          width={18}
+          height={18}
         />
-        {drone.name}
+        {drone && drone.aircraft && drone.aircraft.name
+          ? drone.aircraft.name
+          : " Drone name "}
       </div>
     ),
   }));

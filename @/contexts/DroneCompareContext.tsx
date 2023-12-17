@@ -1,9 +1,12 @@
+import { toast } from "@/components/ui/use-toast";
 import React, { createContext, useContext, useState } from "react";
 
 interface DroneCompareContextProps {
   selectedDrones: Drone[];
   addDroneToCompare: (droneId: Drone) => void;
   removeDroneFromCompare: (droneId: Drone) => void;
+  isCompareDrawerMinimized: boolean;
+  setCompareDrawerMinimized: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const DroneCompareContext = createContext<DroneCompareContextProps | undefined>(
@@ -16,11 +19,20 @@ export const DroneCompareProvider = ({
   children: React.ReactElement;
 }) => {
   const [selectedDrones, setSelectedDrones] = useState<Drone[]>([]);
-
+  const [isCompareDrawerMinimized, setCompareDrawerMinimized] =
+    useState<boolean>(true);
   const addDroneToCompare = (drone: Drone) => {
-    console.log("adding", drone._id);
-
-    setSelectedDrones((prevSelectedDrones) => [...prevSelectedDrones, drone]);
+    if (selectedDrones.length < 5) {
+      setCompareDrawerMinimized(false);
+      setSelectedDrones((prevSelectedDrones) => [...prevSelectedDrones, drone]);
+      toast({
+        description: "Added to compare!!",
+      });
+    } else {
+      toast({
+        description: " You can compare only 5 drones at most!, sorry!!",
+      });
+    }
   };
 
   const removeDroneFromCompare = (droneToRemove: Drone) => {
@@ -31,7 +43,13 @@ export const DroneCompareProvider = ({
 
   return (
     <DroneCompareContext.Provider
-      value={{ selectedDrones, addDroneToCompare, removeDroneFromCompare }}
+      value={{
+        selectedDrones,
+        addDroneToCompare,
+        removeDroneFromCompare,
+        isCompareDrawerMinimized,
+        setCompareDrawerMinimized,
+      }}
     >
       {children}
     </DroneCompareContext.Provider>

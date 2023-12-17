@@ -1,6 +1,3 @@
-import { type ClassValue, clsx } from "clsx";
-import { Search } from "lucide-react";
-import { twMerge } from "tailwind-merge";
 import {
   allEventsQueryDefaultSort,
   freeEventsQuery,
@@ -8,10 +5,6 @@ import {
   privateEventsQuery,
   privateFreeEventsQuery,
 } from "./sanity.queries";
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 export const getQueryByFiltersFromURL = (
   filter: string | string[] | undefined
@@ -62,7 +55,7 @@ export const getDefaultEventForForm = () => {
       contactEmail: "info@dronezone.com",
     },
     category: [],
-    eventType: "private",
+    isPrivateEvent: true,
     eventSiteLink: "https://www.droneclub.com/events/racing-championship",
     eventImage: "",
     additionalDetails: {

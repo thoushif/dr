@@ -1,12 +1,15 @@
+import { useDroneCompare } from "@/contexts/DroneCompareContext";
 import urlFor from "@/lib/sanity/urlFor";
 import ClientSideRoute from "@/lib/utils/ClientSideRoute";
 import Image from "next/image";
+import CompareDrawer from "./compare/ComapareDrawer";
 
 type Props = {
   drones: DroneThumbnail[];
 };
 
 function DisplayDroneThumbNails({ drones }: Props) {
+  const { selectedDrones, removeDroneFromCompare } = useDroneCompare();
   return (
     <div>
       <div className="grid grid-cols-1 gap-6 px-8 pb-24 md:grid-cols-3 gap-y-6">
@@ -21,7 +24,14 @@ function DisplayDroneThumbNails({ drones }: Props) {
                     alt={dr.name}
                     fill
                   />
-
+                  {selectedDrones.some(
+                    (selectedDrone) => selectedDrone._id === dr._id
+                  ) && (
+                    // Display the tick mark if the drone is in the compare drawer
+                    <div className="absolute text-green-500 top-2 right-2">
+                      yes
+                    </div>
+                  )}
                   <div className="absolute bottom-0 flex items-center justify-between w-full p-3 text-white bg-black rounded bg-opacity-20 backdronesop-blur-lg dronesop-shadow-lg ">
                     <div>
                       <p className="font-bold">{dr.name}</p>
@@ -43,6 +53,7 @@ function DisplayDroneThumbNails({ drones }: Props) {
             </div>
           ))}
       </div>
+      {selectedDrones.length > 0 && <CompareDrawer />}
     </div>
   );
 }

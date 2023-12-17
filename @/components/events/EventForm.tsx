@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import merge from "lodash/merge";
 import { useForm, useWatch } from "react-hook-form";
-
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import {
@@ -28,19 +28,27 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
-import { cn, getDefaultEventForForm } from "@/lib/sanity/queryMaker";
+import { getDefaultEventForForm } from "@/lib/sanity/queryMaker";
 import { addDays, format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 import { EventDetails } from "./EventDetails";
+import { eventDataSchema } from "./SchemaZOD";
+import { Checkbox } from "../ui/checkbox";
+import { cn } from "@/lib/utils";
+import { Textarea } from "../ui/textarea";
 export function EventForm() {
   const form = useForm<EventData>({
-    defaultValues: {
-      title: "",
-    },
+    resolver: zodResolver(eventDataSchema),
   });
-  const { control, getValues, setValue } = form;
+  const {
+    control,
+    getValues,
+    setValue,
+    formState: { errors },
+  } = form;
   const [eventDuration, setEventDuration] = useState<number>(7);
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const eventCategories = [
     "Drone Racing Tournament",
     "Aerial Photography Contest",
@@ -53,7 +61,9 @@ export function EventForm() {
     "Scavenger Hunt with Drone",
     "Environmental Monitoring Challenge",
   ];
+
   function onSubmit(data: EventData) {
+    console.log("submitted");
     toast({
       title: "You submitted the following values:",
       description: (
@@ -75,11 +85,13 @@ export function EventForm() {
   const mergedData: EventData = merge(baseEventInfo, formData);
   const handleDurationChange = (value: number) => {
     setEventDuration(value);
+    setValue("dateTime.end", addDays(getValues("dateTime.start"), value));
   };
 
   const handleIncreaseDuration = () => {
     const newDuration = eventDuration + 1;
     setEventDuration(newDuration);
+    setValue("dateTime.end", addDays(getValues("dateTime.start"), newDuration));
   };
   // const mergedData: EventData = {
   //   ...baseData,
@@ -92,38 +104,69 @@ export function EventForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/3 space-y-6 text-sm"
+          className="w-2/3 space-y-6 text-xs"
         >
+          <div className="flex flex-row items-center gap-3 justify-items-center">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input placeholder="..." {...field} />
+                  </FormControl>
+                  <FormDescription>Name of your event</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="isPrivateEvent"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="mr-4">Is it private event?</FormLabel>
+                  <FormControl>
+                    <Checkbox
+                      checked={Boolean(field.value)}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    {Boolean(field.value) ? " Yeap!" : " Nope!"}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
-            name="title"
+            name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
                 <FormControl>
-                  <Input placeholder="A .." {...field} />
+                  <Textarea placeholder="..." {...field} maxLength={500} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormDescription>Describe a little if possible</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-          <div className="flex flex-row">
+          <div className="flex flex-row gap-3">
             <Select
               value={`${eventDuration}`}
-              onValueChange={(e) => handleDurationChange(Number(e))}
+              onValueChange={(e: string) => handleDurationChange(Number(e))}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select a verified email to display" />
+              <SelectTrigger className="w-32 ">
+                <SelectValue placeholder="how long?" />
               </SelectTrigger>
 
               <SelectContent>
                 <>
                   {[...Array(100)].map((_, index) => (
-                    <SelectItem value={`${index + 1}`}>
+                    <SelectItem value={`${index + 1}`} key={`duration${index}`}>
                       {" "}
                       {index + 1} days
                     </SelectItem>
@@ -131,14 +174,18 @@ export function EventForm() {
                 </>
               </SelectContent>
             </Select>
-            <Button type="button" onClick={handleIncreaseDuration}>
+            <Button
+              type="button"
+              className=" bg-slate-500"
+              onClick={handleIncreaseDuration}
+            >
               +
             </Button>
             <FormField
               control={form.control}
               name="dateTime.start"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="flex flex-col gap-3">
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -161,38 +208,123 @@ export function EventForm() {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
+                        selected={startDate}
+                        onSelect={(startDate) => {
+                          field.onChange;
+                          if (startDate) {
+                            console.log(startDate, eventDuration);
+                            setValue(
+                              "dateTime.end",
+                              addDays(startDate, eventDuration)
+                            );
+                            setValue("dateTime.start", startDate);
+                          }
+                        }}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
-                  <FormDescription>
-                    Start and end dates of the event
-                  </FormDescription>
+                  <FormDescription>Start Date</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <p>
-              {" "}
-              {format(
-                addDays(getValues("dateTime.start")!!, eventDuration),
-                "PPP"
+            <FormField
+              control={form.control}
+              name="dateTime.end"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <Button
+                    type="button"
+                    variant={"outline"}
+                    className={cn(
+                      "w-[240px] pl-3 text-left font-normal",
+                      !field.value && "text-muted-foreground"
+                    )}
+                  >
+                    {field.value ? (
+                      format(Number(field.value), "PPP")
+                    ) : (
+                      <span>End date</span>
+                    )}
+                  </Button>
+                  <FormDescription>End Date</FormDescription>
+                  <FormMessage />
+                </FormItem>
               )}
-            </p>
+            />
           </div>
           <FormField
             control={form.control}
             name="location.name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Location name</FormLabel>
                 <FormControl>
-                  <Input placeholder="A .." {...field} />
+                  <Input placeholder="Sky Racetrack" {...field} />
                 </FormControl>
-                <FormDescription>Name of the location</FormDescription>
+                <FormDescription>Where is it gonna happen?</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="location.address"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="123 Drone Avenue, Drone City, DC 12345"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>Where is it gonna happen?</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="eventSiteLink"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    placeholder="https://dronezone.com"
+                    {...field}
+                    title="Please enter a valid email address"
+                  />
+                </FormControl>
+                <FormDescription>Website</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="organizer.name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Organizer name</FormLabel>
+                <FormControl>
+                  <Input placeholder="DJ-DZ" {...field} />
+                </FormControl>
+                <FormDescription>Name of the Organizer</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="organizer.contactEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>contact email</FormLabel>
+                <FormControl>
+                  <Input placeholder="contact@dronezone.com" {...field} />
+                </FormControl>
+                <FormDescription>email to contact</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -241,6 +373,7 @@ export function EventForm() {
           </DropdownMenu> */}
           <Button type="submit">Submit</Button>
         </form>
+        {JSON.stringify(errors)}
       </Form>
     </>
   );

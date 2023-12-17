@@ -210,12 +210,16 @@
 }
 
 .drone-bg {
- 
   background-image: url("../public/drone-bg.jpg");
  background-size: cover;
  background-repeat: no-repeat;
 }
 
+.drone-compare {
+  background-image: url("../public/compare-drone.svg");
+ background-size: cover;
+ background-repeat: no-repeat;
+}
  
 .event-image{
   background: radial-gradient(ellipse at center, rgba(0,0,0,0) 85%, rgba(0,0,0,0.4));

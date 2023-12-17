@@ -117,9 +117,7 @@ export const EventDetails = ({
         </div>
 
         <div className="absolute p-1 text-sm text-black rounded-md top-1 right-1">
-          {event!.eventType === "public"
-            ? "🧑‍🤝‍🧑 Public Event"
-            : "🔒 Private Event"}
+          {event!.isPrivateEvent ? "🔒 Private Event" : "🧑‍🤝‍🧑 Public Event"}
         </div>
 
         <div className="relative flex items-center justify-between">

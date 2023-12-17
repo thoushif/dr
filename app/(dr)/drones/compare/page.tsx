@@ -1,4 +1,5 @@
 import ComparePage from "@/components/drones/compare/Compare";
+import DroneCompareTable from "@/components/drones/compare/DroneCompareTable";
 import { queryForDrone } from "@/lib/sanity/sanity.queries";
 import { getDronesDetails } from "@/lib/sanity/sanity.util";
 import React from "react";
@@ -17,12 +18,12 @@ const page = async ({ searchParams }: Props) => {
   //   const drone2 = await getDronesDetails(queryForDrone, params2);
   //   const drones = new Array(drone1[0], drone2[0]);
   const drones = await getDronesArray(queryForDrone, filterValue);
-  return <>{drones && <ComparePage drones={drones} />}</>;
+  return <>{drones && <DroneCompareTable drones={drones} />}</>;
 };
 
 export default page;
 async function getDronesArray(queryForDrone: string, filterValue: string) {
-  const droneIds = filterValue.split(",", 2);
+  const droneIds = filterValue.split(",", 5);
 
   const dronesArray = [];
   for (const droneId of droneIds) {

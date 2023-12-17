@@ -1,0 +1,229 @@
+[
+  {
+    "_id": 1,
+    "aircraft": {
+      "name": "DJI Mini 3",
+      "image": "https://cdn.dji.com/products/mini-3/images/mini-3-design-01_44.jpg",
+      "description": "Ultra-portable, excellent image quality, beginner-friendly",
+      "buy_link": "https://www.dji.com/us/shop/mini-3",
+      "manufacturer": "DJI",
+      "takeoff_weight": 249,
+      "length_folded": 140,
+      "width_folded": 86,
+      "height_folded": 50
+    },
+    "flight_specs": {
+      "max_ascent_speed": 5,
+      "max_descent_speed": 3,
+      "max_horizontal_speed": 20
+    },
+    "camera": {
+      "color_mode": "RGB",
+      "digital_zoom": "3x",
+      "iso_range": "100-3200"
+    }
+  },
+  {
+    "_id": 2,
+    "aircraft": {
+      "name": "Autel Robotics EVO Nano",
+      "description": "Compact, high-resolution camera, long flight time",
+      "buy_link": "https://www.autelrobotics.com/us/products/evo-nano",
+      "manufacturer": "Autel Robotics",
+      "takeoff_weight": 250,
+      "length_folded": 140,
+      "width_folded": 104,
+      "height_folded": 61,
+      "image": "https://www.autelrobotics.com/uploadfile/image/202208/10/20220810121932008747.jpg"
+    },
+    "flight_specs": {
+      "max_ascent_speed": 6,
+      "max_descent_speed": 4,
+      "max_horizontal_speed": 25
+    },
+    "camera": {
+      "color_mode": "HDR",
+      "digital_zoom": "3x",
+      "iso_range": "100-6400"
+    }
+  },
+  {
+    "id": 3,
+    "name": "Potensic Atom SE",
+    "description": "Affordable, good wind resistance, long battery life",
+    "buy_link": "https://www.amazon.com/potensic-atom-se-drone-with-camera-4k-60fps-gps-brushless-motor-30-mins-flight-time-beginner-friendly-easy-to-fly-foldable-mini-quadcopter/dp/b09b83k17j",
+    "manufacturer": "Potensic",
+    "takeoff_weight": 294,
+    "length_folded": 138,
+    "width_folded": 98,
+    "height_folded": 67,
+    "image": "https://m.media-amazon.com/images/I/713q38wO9IL._AC_SL1600_.jpg",
+    "flight_specifications": {
+      "max_ascent_speed": 6,
+      "max_descent_speed": 4,
+      "max_horizontal_speed": 25
+    },
+    "camera": {
+      "color_mode": "HDR",
+      "digital_zoom": "3x",
+      "iso_range": "100-6400"
+    }
+  },
+  {
+    "id": 4,
+    "name": "DJI Mavic Mini 2",
+    "description": "Lightweight, long flight time, beginner-friendly",
+    "buy_link": "https://www.dji.com/us/shop/mavic-mini-2",
+    "manufacturer": "DJI",
+    "takeoff_weight": 249,
+    "length_folded": 158,
+    "width_folded": 81,
+    "height_folded": 58,
+    "image": "https://cdn.dji.com/images/mavic-mini-2/products/images/design/mavic-mini-2-design-01_44.jpg"
+  },
+
+  {
+    "id": 5,
+    "name": "Fimi X8 Mini",
+    "description": "Affordable 4K camera, compact, good flight time",
+    "buy_link": "https://www.fimitech.com/x8-mini",
+    "manufacturer": "Fimi",
+    "takeoff_weight": 258,
+    "length_folded": 148,
+    "width_folded": 89,
+    "height_folded": 65,
+    "image": "https://cdn.fimitech.com/images/x8-mini/img/banner-01.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Hubsan Zino 2",
+    "description": "Large sensor, long flight time, obstacle avoidance",
+    "buy_link": "https://www.hubsanzino.com/products/zino-2",
+    "manufacturer": "Hubsan",
+    "takeoff_weight": 509,
+    "length_folded": 158,
+    "width_folded": 105,
+    "height_folded": 73,
+    "image": "https://www.hubsanzino.com/uploadfile/images/20210702/zino-2-foldable-drone-with-camera-1_44.jpg"
+  },
+  {
+    "id": 7,
+    "name": "DJI Air 2S Fly More Combo",
+    "description": "Excellent camera, long flight time, advanced features",
+    "buy_link": "https://www.dji.com/us/shop/air-2s-fly-more-combo",
+    "manufacturer": "DJI",
+    "takeoff_weight": 595,
+    "length_folded": 180,
+    "width_folded": 132,
+    "height_folded": 77,
+    "image": "https://cdn.dji.com/images/air-2s/products/images/design/air-2s-design-01_44.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Autel Robotics EVO Lite",
+    "description": "Compact, long range, advanced flight modes",
+    "buy_link": "https://www.autelrobotics.com/us/products/evo-lite",
+    "manufacturer": "Autel Robotics",
+    "takeoff_weight": 430,
+    "length_folded": 172,
+    "width_folded": 104,
+    "height_folded": 68,
+    "image": "https://www.autelrobotics.com/uploadfile/image/202209/08/20220908103940905338.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Holy Stone HS720E",
+    "description": "Budget-friendly, 4K camera, gesture control",
+    "buy_link": "https://www.holystone.com/products/hs720e",
+    "manufacturer": "Holy Stone",
+    "takeoff_weight": 258,
+    "length_folded": 135,
+    "width_folded": 95,
+    "height_folded": 60,
+    "image": "https://cdn.holystone.com/uploads/product/20210721/1626736148_hs720e.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Ryze Tello",
+    "description": "Educational drone, programmable, fun for kids",
+    "buy_link": "https://www.ryzerobotics.com/tello",
+    "manufacturer": "Ryze",
+    "takeoff_weight": 80,
+    "length_folded": 98,
+    "width_folded": 98,
+    "height_folded": 44,
+    "image": "https://www.ryzerobotics.com/wp-content/uploads/2018/08/tello-main-image-v2-1.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Snaptain S5C",
+    "description": "Affordable, headless mode, easy to control",
+    "buy_link": "https://www.snaptain.com/products/s5c",
+    "manufacturer": "Snaptain",
+    "takeoff_weight": 227,
+    "length_folded": 144,
+    "width_folded": 102,
+    "height_folded": 76,
+    "image": "https://cdn.shopify.com/s/files/1/0178/2976/products/s5c-drone-with-camera-4k-gps-brushless-motor-30-mins-flight-time-beginner-friendly_1024x1024.jpg?v=1656735726"
+  },
+  {
+    "id": 12,
+    "name": "Parrot Mambo Mini Flight",
+    "description": "Indoor flying, augmented reality games, affordable",
+    "buy_link": "https://www.parrot.com/us/products/mambo-miniflight",
+    "manufacturer": "Parrot",
+    "takeoff_weight": 57,
+    "length_folded": 105,
+    "width_folded": 105,
+    "height_folded": 64,
+    "image": "https://www.parrot.com/content/dam/parrot/products/parrot-mambo-miniflight/pp_parrot-mambo-miniflight-hero.jpg"
+  },
+  {
+    "id": 13,
+    "name": "DJI Mini SE",
+    "description": "Lightweight, long flight time, budget-friendly (no obstacle avoidance)",
+    "buy_link": "https://www.dji.com/us/shop/mini-se",
+    "manufacturer": "DJI",
+    "takeoff_weight": 249,
+    "length_folded": 143,
+    "width_folded": 90,
+    "height_folded": 56,
+    "image": "https://cdn.dji.com/images/mini-se/products/images/mini-se-design-01_44.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Autel Robotics EVO Nano Pro",
+    "description": "Compact, high-resolution camera, long flight time (advanced features)",
+    "buy_link": "https://www.autelrobotics.com/us/products/evo-nano-pro",
+    "manufacturer": "Autel Robotics",
+    "takeoff_weight": 282,
+    "length_folded": 167,
+    "width_folded": 104,
+    "height_folded": 61,
+    "image": "https://www.autelrobotics.com/uploadfile/image/202206/01/20220601160646005274.jpg"
+  },
+  {
+    "id": 15,
+    "name": "BetaFPV Beta75 Pro 3",
+    "description": "Mini racing drone, durable, advanced flight modes (indoor/outdoor)",
+    "buy_link": "https://betafpv.com/products/beta75-pro-3-brushless-whoop-quadcopter",
+    "manufacturer": "BetaFPV",
+    "takeoff_weight": 88,
+    "length_folded": 115,
+    "width_folded": 115,
+    "height_folded": 41,
+    "image": "https://betafpv.com/products/beta75-pro-3-brushless-whoop-quadcopter"
+  },
+  {
+    "id": 16,
+    "name": "DJI Air 2",
+    "description": "Excellent camera, long flight time, obstacle avoidance (not as portable as Mini 3)",
+    "buy_link": "https://www.dji.com/us/shop/air-2",
+    "manufacturer": "DJI",
+    "takeoff_weight": 570,
+    "length_folded": 184,
+    "width_folded": 132,
+    "height_folded": 77,
+    "image": "https://cdn.dji.com/images/air-2/products/images/design/air-2-design-01_44.jpg"
+  }
+]

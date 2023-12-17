@@ -21,7 +21,7 @@
         "contactEmail": "info@droneclub.com"
       },
       "category": ["Drone Racing", "Sports & Outdoors"],
-      "eventType": "private",
+      "isPrivateEvent": true,
       "eventSiteLink": "https://www.droneclub.com/events/racing-championship",
       "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
       "additionalDetails": {
@@ -56,7 +56,7 @@
         "contactEmail": "photo@society.com"
       },
       "category": ["Aerial Photography", "Arts & Culture"],
-      "eventType": "public",
+      "isPrivateEvent": false,
       "eventSiteLink": "https://www.photoenthusiasts.com/events/aerial-contest",
       "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
       "additionalDetails": {
@@ -89,7 +89,7 @@
         "contactEmail": "info@techinstitute.com"
       },
       "category": ["Technology", "Education"],
-      "eventType": "public",
+      "isPrivateEvent": true,
       "eventSiteLink": "https://www.techinstitute.com/events/drone-tech-seminar",
       "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
       "additionalDetails": {

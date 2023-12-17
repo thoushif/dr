@@ -25,12 +25,12 @@ export const freeEventsQuery = getEventsBaseQuery(
   DEFAULT_PAGE_SIZE
 );
 export const privateEventsQuery = getEventsBaseQuery(
-  ` && eventType=="private"`,
+  ` && isPrivateEvent==true`,
   DEFAULT_SORT,
   DEFAULT_PAGE_SIZE
 );
 export const privateFreeEventsQuery = getEventsBaseQuery(
-  ` && additionalDetails.entryFee =="0"  && eventType=="private"`,
+  ` && additionalDetails.entryFee =="0"  && isPrivateEvent==true`,
   DEFAULT_SORT,
   DEFAULT_PAGE_SIZE
 );
