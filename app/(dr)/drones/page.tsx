@@ -6,7 +6,7 @@ export default async function HomePage() {
   // const manufacturers = await getManufacturers();
   return (
     <>
-      <DroneSearch drones={drones} />
+      <DroneSearch drones={drones} brand={""} />
       {/* <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
         Featured Drones
       </h2>

@@ -10,6 +10,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { chainCaseToWords } from "@/lib/sanity/queryMaker";
+import { MdRemove } from "react-icons/md";
+import Link from "next/link";
 interface DroneCompareTableProps {
   drones: Drone[];
 }
@@ -49,8 +51,10 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
     )[]
   ) => (
     <React.Fragment key={label}>
-      <TableRow>
-        <TableHeader className="text-lg text-slate-800">{label}</TableHeader>
+      <TableRow className="m-8 border-b-4">
+        <TableHeader className="pt-8 text-lg font-bold text-slate-800">
+          {label}
+        </TableHeader>
       </TableRow>
       {headings.map((heading) => {
         const hasDifferentSubRow = hasDifferentSubRowValues(
@@ -59,13 +63,8 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
         );
         return (
           (!showDifferencesOnly || hasDifferentSubRow) && (
-            <TableRow
-              key={`${String(headingType)}-${String(heading)}`}
-              className={
-                !showDifferencesOnly && hasDifferentSubRow ? "bg-slate-100" : ""
-              }
-            >
-              <TableHeader className="w-16 h-10 text-base">
+            <TableRow key={`${String(headingType)}-${String(heading)}`}>
+              <TableHeader className="w-16 h-10 text-lg ">
                 {chainCaseToWords(String(heading))}
               </TableHeader>
               {drones.map((drone) => {
@@ -73,7 +72,11 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
                 if (subElement) {
                   return (
                     <TableCell
-                      className="w-16 h-10"
+                      className={
+                        !showDifferencesOnly && hasDifferentSubRow
+                          ? "bg-slate-100"
+                          : ""
+                      }
                       key={`${String(headingType)}-${String(heading)}-${String(
                         drone._id
                       )}`}
@@ -108,11 +111,20 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
     return !values.every((value, index, array) => value === array[0]);
   };
 
+  const prepareURL = (drones: Drone[], _id: string): string => {
+    const filteredDrones = drones
+      .filter((drone) => drone._id !== _id)
+      .map((drone) => drone._id)
+      .join(",");
+    return `/drones/compare?d=${filteredDrones}`;
+  };
+
   return (
     <>
-      <label className="ml-2">
+      <label>
         <input
           type="checkbox"
+          className="m-2"
           checked={showDifferencesOnly}
           onChange={() => setShowDifferences(!showDifferencesOnly)}
         />
@@ -124,7 +136,14 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
             <TableCell className="w-16 h-10"> </TableCell>
             {drones.map((drone) => (
               <TableCell className="w-16 h-10 font-bold" key={drone._id}>
-                {drone.aircraft.name}
+                <div className="flex flex-row items-center ">
+                  {drone.aircraft.name}
+                  {drones && drones.length > 2 && (
+                    <Link href={prepareURL(drones, drone._id)}>
+                      <MdRemove className="mx-2 rounded-full hover:bg-slate-600 text-slate-600 hover:text-slate-200" />
+                    </Link>
+                  )}
+                </div>
               </TableCell>
             ))}
           </TableRow>

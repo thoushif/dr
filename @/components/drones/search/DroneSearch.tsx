@@ -6,75 +6,32 @@ import { getSearchedDrones } from "@/lib/sanity/sanity.util";
 import { getQueryByDroneSearch } from "@/lib/sanity/queryMaker";
 import { useForm } from "react-hook-form";
 import DroneSearchContent from "./DroneSearchContent";
-import Manufacturers from "./Manufacturers";
 import DisplayDroneThumbNails from "../DisplayDroneThumbNails";
+import { roboto_mono } from "@/lib/utils/fonts";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { MdFilterList } from "react-icons/md";
+import _ from "lodash";
+import { useDroneSearch } from "@/contexts/DroneSearchProvider";
 
-const DroneSearch = ({ drones }: { drones: DroneThumbnail[] }) => {
-  const [results, setResults] = useState<DroneThumbnail[]>(drones);
-  const manufacturers: string[] = [
-    "DJI",
-    "Parrot",
-    "Autel Robotics",
-    "Yuneec",
-    "3DR",
-    "Hubsan",
-    "JJRC",
-    "Holy Stone",
-    "Potensic",
-    "Contixo",
-    "Ryze Tech",
-    "PowerVision",
-    "Snaptain",
-    "Force1",
-    "UDI RC",
-    "Syma",
-    "EACHINE",
-    "Altair Aerial",
-    "GoPro",
-    "ZeroTech",
-    "Walkera",
-    "Xiaomi",
-    "Skydio",
-    "UVify",
-    "Draganfly",
-    "AEE Technology",
-    "HGLRC",
-    "Flyability",
-  ];
-  const { register, handleSubmit, setValue, watch } =
-    useForm<DroneSearchState>();
+const DroneSearch = ({
+  drones,
+  brand,
+}: {
+  drones: DroneThumbnail[] | undefined;
+  brand: string;
+}) => {
+  const { appliedGlobalSearch, appliedBrand } = useDroneSearch();
+  const [results, setResults] = useState<DroneThumbnail[] | undefined>(drones);
+  const [appliedSearch, setAppliedSearch] =
+    useState<DroneSearchState>(appliedGlobalSearch);
 
-  // Handle form submission
-  const onSubmit = async (searchState: DroneSearchState) => {
-    console.log(searchState);
-    // Perform search based on the selected criteria
-    const query = getQueryByDroneSearch(searchState);
-    const drones = await getSearchedDrones(query);
-    setResults(drones);
-  };
-  const selectedManufacturers = watch("selectedManufacturers") || [];
+  const { register, setValue, watch } = useForm<DroneSearchState>({
+    defaultValues: appliedSearch,
+  });
 
-  const onSelectManufacturer = (manufacturer: string) => {
-    const newSelectedManufacturers = selectedManufacturers.includes(
-      manufacturer
-    )
-      ? selectedManufacturers
-      : [...selectedManufacturers, manufacturer];
-
-    setValue("selectedManufacturers", newSelectedManufacturers);
-    handleSubmit(onSubmit)();
-  };
-
-  const onRemoveManufacturer = (manufacturer: string) => {
-    setValue(
-      "selectedManufacturers",
-      (selectedManufacturers || []).filter((item) => item !== manufacturer)
-    );
-    handleSubmit(onSubmit)();
-  };
   const handleCheckboxChange = (name: string, value: string) => {
     const selectedValues = watch(name as keyof DroneSearchState) || []; // Retrieve the current selected values
-    console.log(selectedValues);
     setValue(
       name as keyof DroneSearchState,
       selectedValues &&
@@ -83,22 +40,59 @@ const DroneSearch = ({ drones }: { drones: DroneThumbnail[] }) => {
         ? selectedValues.filter((item) => item !== value)
         : [...selectedValues, value]
     );
-    handleSubmit(onSubmit)();
   };
+
+  const applySearch = async () => {
+    const selectedValues = watch() || []; // Retrieve the current selected values
+    console.log("searching state is", selectedValues);
+    // Perform search based on the selected criteria
+    const query = getQueryByDroneSearch(selectedValues);
+    const drones = await getSearchedDrones(query);
+    setAppliedSearch(selectedValues);
+    setResults(drones);
+  };
+
+  // useEffect(() => {
+  //   first;
+
+  //   return () => {
+  //     second;
+  //   };
+  // }, [third]);
 
   return (
     <Sheet>
-      <Manufacturers
-        manufacturers={manufacturers}
-        selectedManufacturers={selectedManufacturers}
-        onSelect={onSelectManufacturer}
-        onRemove={onRemoveManufacturer}
-      />
+      <div className="flex items-center justify-between">
+        <SheetTrigger asChild className="flex items-center">
+          <span className="justify-start mt-4 text-lg">
+            <MdFilterList className="ml-4" />
+          </span>
+        </SheetTrigger>
+        <Link
+          href={`${brand ? "/drones/search" : "/brands"}`}
+          className={cn(
+            "items-center justify-center bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase",
+            roboto_mono.className
+          )}
+        >
+          Search {brand ? "all drones" : "by brands"}
+        </Link>
+      </div>
 
-      <SheetTrigger asChild className="flex">
-        <span className="justify-end mt-4 text-lg">🔍</span>
-      </SheetTrigger>
-
+      <div className="flex items-center justify-center w-full h-10 my-10 cursor-default">
+        <p
+          className={cn(
+            "text-transparent text-7xl bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase",
+            roboto_mono.className
+          )}
+        >
+          {brand
+            ? brand
+            : _.isEqual(appliedSearch, appliedGlobalSearch)
+            ? "featured"
+            : "searching"}
+        </p>
+      </div>
       <SheetContent
         side={"left"}
         className="max-h-screen overflow-y-auto bg-white"
@@ -107,30 +101,24 @@ const DroneSearch = ({ drones }: { drones: DroneThumbnail[] }) => {
           register={register}
           watch={watch}
           handleCheckboxChange={handleCheckboxChange}
+          applySearch={applySearch}
         />
       </SheetContent>
-
       <div className="flex mb-4">
-        {Object.entries(watch()).map(([key, values]) => {
-          if (Array.isArray(values) && values.length > 0) {
-            return values.map((value: string) => (
-              <span
-                key={`${key}-${value}`}
-                className="p-1 px-3 m-1 bg-gray-300 rounded-md"
-              >
-                {` ${value}`}
-                <button
-                  type="button"
-                  className="ml-1 text-red-600"
-                  onClick={() => handleCheckboxChange(key, value)}
+        {appliedSearch &&
+          Object.entries(appliedSearch).map(([key, values]) => {
+            if (Array.isArray(values) && values.length > 0) {
+              return values.map((value: string) => (
+                <span
+                  key={`${key}-${value}`}
+                  className="p-1 px-3 m-1 bg-gray-300 rounded-md"
                 >
-                  x
-                </button>
-              </span>
-            ));
-          }
-          return null;
-        })}
+                  {` ${value}`}
+                </span>
+              ));
+            }
+            return null;
+          })}
       </div>
       <div>
         <DisplayDroneThumbNails drones={results} />

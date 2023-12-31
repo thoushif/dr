@@ -1,5 +1,8 @@
 "use client";
+import { SheetClose } from "@/components/ui/sheet";
+
 import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import { MdClose } from "react-icons/md";
 
 // JSON-like structure for search items
 const searchItems = {
@@ -26,18 +29,46 @@ const DroneSearchContent = ({
   register,
   watch,
   handleCheckboxChange,
+  applySearch,
 }: {
   register: UseFormRegister<DroneSearchState>;
   watch: UseFormWatch<DroneSearchState>;
   handleCheckboxChange: (name: string, value: string) => void;
+  applySearch: () => void;
 }) => {
   return (
     <>
+      <div className="flex flex-row flex-wrap mb-4">
+        {Object.entries(watch()).map(([key, values]) => {
+          if (Array.isArray(values) && values.length > 0) {
+            return values.map((value: string) => (
+              <span
+                key={`${key}-${value}`}
+                className="flex items-center px-2 py-1 m-1 text-sm bg-gray-300 rounded-md"
+              >
+                {` ${value}`}
+                <MdClose
+                  className="mx-2 text-red-600"
+                  onClick={() => handleCheckboxChange(key, value)}
+                />
+              </span>
+            ));
+          }
+          return null;
+        })}
+        <SheetClose
+          className="p-2 text-white rounded-sm bg-slate-600 "
+          onClick={() => applySearch()}
+        >
+          Apply
+        </SheetClose>
+      </div>
+
       <form>
         <div className="grid grid-cols-1">
           {/* Categories */}
           <div>
-            <label className="block mb-2 text-sm font-semibold">
+            <label className="block mt-2 text-sm font-semibold">
               Categories
             </label>
             {searchItems.categories.map((category) => (
@@ -59,7 +90,7 @@ const DroneSearchContent = ({
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-semibold">
+            <label className="block mt-2 text-sm font-semibold">
               Price Ranges
             </label>
             {searchItems.priceRanges.map((priceRange) => (
@@ -81,7 +112,7 @@ const DroneSearchContent = ({
           </div>
           {/* Reviews */}
           <div>
-            <label className="block mb-2 text-sm font-semibold">Reviews</label>
+            <label className="block mt-2 text-sm font-semibold">Reviews</label>
             {searchItems.reviews.map((review) => (
               <div key={review} className="flex items-center">
                 <input
@@ -102,7 +133,7 @@ const DroneSearchContent = ({
 
           {/* Ratings */}
           <div>
-            <label className="block mb-2 text-sm font-semibold">Ratings</label>
+            <label className="block mt-2 text-sm font-semibold">Ratings</label>
             {searchItems.ratings.map((rating) => (
               <div key={rating} className="flex items-center">
                 <input
@@ -123,7 +154,7 @@ const DroneSearchContent = ({
 
           {/* Weight Classes */}
           <div>
-            <label className="block mb-2 text-sm font-semibold">
+            <label className="block mt-2 text-sm font-semibold">
               Weight Classes
             </label>
             {searchItems.weightClasses.map((weightClass) => (
@@ -146,7 +177,7 @@ const DroneSearchContent = ({
 
           {/* Compatibility */}
           <div>
-            <label className="block mb-2 text-sm font-semibold">
+            <label className="block mt-2 text-sm font-semibold">
               Compatibility
             </label>
             {searchItems.compatibility.map((compatibility) => (

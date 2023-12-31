@@ -1,11 +1,14 @@
+"use client";
 import { useDroneCompare } from "@/contexts/DroneCompareContext";
 import urlFor from "@/lib/sanity/urlFor";
 import ClientSideRoute from "@/lib/utils/ClientSideRoute";
 import Image from "next/image";
 import CompareDrawer from "./compare/ComapareDrawer";
+import { IoMdGitCompare } from "react-icons/io";
+import { FaCheckDouble } from "react-icons/fa";
 
 type Props = {
-  drones: DroneThumbnail[];
+  drones: DroneThumbnail[] | undefined;
 };
 
 function DisplayDroneThumbNails({ drones }: Props) {
@@ -28,8 +31,12 @@ function DisplayDroneThumbNails({ drones }: Props) {
                     (selectedDrone) => selectedDrone._id === dr._id
                   ) && (
                     // Display the tick mark if the drone is in the compare drawer
-                    <div className="absolute text-green-500 top-2 right-2">
-                      yes
+                    <div
+                      className="absolute text-green-500 top-2 right-2"
+                      title="already in compare"
+                    >
+                      <IoMdGitCompare className="text-slate-500" />{" "}
+                      <FaCheckDouble />
                     </div>
                   )}
                   <div className="absolute bottom-0 flex items-center justify-between w-full p-3 text-white bg-black rounded bg-opacity-20 backdronesop-blur-lg dronesop-shadow-lg ">

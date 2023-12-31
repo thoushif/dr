@@ -48,6 +48,14 @@ export const getFeaturedDrones = debounceAsync(
   DEBOUNCE_DELAY
 );
 
+export const getManufacturers = debounceAsync(
+  async (): Promise<Drone[] | null> => {
+    const drones: Drone[] = await client.fetch(queryForFeaturedDrones);
+    return drones;
+  },
+  DEBOUNCE_DELAY
+);
+
 export const getSearchedDrones = debounceAsync(
   async (searchQuery): Promise<Drone[] | null> => {
     const drones: Drone[] = await client.fetch(searchQuery);

@@ -87,7 +87,7 @@ export const getQueryByDroneSearch = (data: DroneSearchState) => {
   //   return privateEventsQuery;
   // }
   console.log("search items", data);
-  return getDronesBaseQuery("");
+  return getDronesBaseQuery("", 10);
 };
 
 export const camelCaseToWords = (str: string) => {

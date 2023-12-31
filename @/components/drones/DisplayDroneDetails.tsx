@@ -11,6 +11,7 @@ import { useDroneCompare } from "@/contexts/DroneCompareContext";
 import Link from "next/link";
 import AddToCompareButton from "./compare/AddToCompareButton";
 import CompareDrawer from "./compare/ComapareDrawer";
+import DisplayDroneDescription from "./DisplayDroneDescription";
 import DroneImage from "./image/DroneImage";
 
 type Props = {
@@ -19,21 +20,24 @@ type Props = {
 
 function DisplayDroneDetails({ drone }: Props) {
   const { selectedDrones } = useDroneCompare();
+  const droneDesc =
+    drone.aircraft.description ||
+    "The DJI Mavic is a compact and powerful drone that combines cutting-edge technology with exceptional portability. Boasting a foldable design, the Mavic series redefines convenience without compromising on performance. Equipped with advanced features such as obstacle avoidance, intelligent flight modes, and a high-quality camera with 4K video capabilities, the DJI Mavic ensures a seamless and immersive aerial experience. Its compact form factor allows for effortless transportation, making it an ideal choice for both novice and professional drone enthusiasts. With impressive flight stability, long-range transmission, and smart automation features, the DJI Mavic stands as a versatile and reliable tool for capturing stunning aerial imagery and videos. Whether you're an aerial photographer, videographer, or adventure enthusiast, the DJI Mavic sets a new standard for drone technology, providing a perfect blend of innovation, performance, and portability.";
   return (
     <div>
-      <div className="grid grid-cols-1 gap-6 px-8 pb-24 md:grid-cols-2 gap-y-6">
-        <div key={drone._id} className="flex flex-col cursor-pointer group">
+      <div className="grid grid-cols-1 gap-6 px-8 pb-24 mt-4 md:grid-cols-2 gap-y-6">
+        <div key={drone._id} className="flex flex-col group">
           <DroneImage droneImage={drone.drone_image} droneId={drone._id} />
 
-          {/* <p className="flex items-center mt-5 font-bold group-hover:underline">
-              Show more details <ArrowUpRightIcon className="w-4 h-4 ml-2" />
-            </p> */}
+          <span className="flex items-center mt-5 ">
+            <DisplayDroneDescription description={droneDesc} />
+          </span>
         </div>
 
         <div>
           <div className="flex justify-between">
-            <h3 className="text-xl font-bold">{drone.aircraft.name}</h3>
-            <div className="flex justify-end">
+            <h2 className="text-3xl font-bold ">{drone.aircraft.name}</h2>
+            <div className="flex justify-end gap-2">
               <Button className="rounded-full">
                 <Link target="_blank" href={drone.aircraft.buy_link}>
                   🛒 Buy from {drone.aircraft.manufacturer}{" "}

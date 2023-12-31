@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const Manufacturers = () => {
+const brands = () => {
   const brandsMap: Record<string, string> = {
     dji: "DJI",
     parrot: "Parrot",
@@ -70,4 +70,4 @@ const Manufacturers = () => {
   );
 };
 
-export default Manufacturers;
+export default brands;

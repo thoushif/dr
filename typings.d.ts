@@ -89,19 +89,6 @@ interface Aircraft {
   // Add more fields for folded dimensions and other aircraft-related information
 }
 
-interface Aircraftv2 {
-  id: number;
-  name: string;
-  description: string;
-  buy_link: string;
-  manufacturer: string;
-  takeoff_weight: number;
-  length_folded: number;
-  width_folded: number;
-  height_folded: number;
-
-  // Add more fields for folded dimensions and other aircraft-related information
-}
 interface FlightSpecifications {
   max_ascent_speed: number;
   max_descent_speed: number;
@@ -148,14 +135,6 @@ interface RemoteController {
   // Add more fields for remote controller specifications
 }
 
-interface DroneCompare {
-  attribute: string;
-  drone0: string;
-  drone1: string;
-
-  isHeader: boolean;
-}
-
 interface Drone extends Base {
   _id: string;
   aircraft: Aircraft;
@@ -169,6 +148,14 @@ interface Drone extends Base {
   drone_image: DroneImage;
   drone_type: DrType;
   // You can uncomment and add other fields as needed
+}
+
+interface DroneCompare {
+  attribute: string;
+  drone0: string;
+  drone1: string;
+
+  isHeader: boolean;
 }
 
 interface DroneThumbnail extends Base {
@@ -256,7 +243,6 @@ interface EventAttendee {
 }
 
 interface DroneSearchState {
-  selectedManufacturers: string[];
   selectedCategories: string[];
   selectedPriceRanges: string[];
   selectedReviews: string[];

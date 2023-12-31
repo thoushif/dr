@@ -40,7 +40,7 @@ function Banner() {
             Showcase
           </Link>
         </div>
-
+        {/* 
         <div>
           <Link
             href={"/events"}
@@ -56,7 +56,7 @@ function Banner() {
           >
             Events Calendar
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

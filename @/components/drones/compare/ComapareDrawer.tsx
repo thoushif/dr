@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
+import { MdAdd, MdClearAll, MdClose, MdPlusOne } from "react-icons/md";
+import { MdMinimize } from "react-icons/md";
+
 const CompareDrawer = () => {
   const {
     selectedDrones,
@@ -25,10 +28,15 @@ const CompareDrawer = () => {
   const toggleMinimize = () => {
     setCompareDrawerMinimized((prev) => !prev);
   };
+  const clearDrones = () => {
+    selectedDrones.forEach((drone) => {
+      removeDroneFromCompare(drone); // Assuming _id is the unique identifier, adjust as needed
+    });
+  };
   return (
     <div
-      className={`fixed bottom-[180px] p-2 transform -translate-x-1/2 left-1/2  rounded-t-md bg-opacity-70 ${
-        !isCompareDrawerMinimized ? "bg-slate-400" : ""
+      className={`fixed bottom-[180px] p-2  shadow-xl transform -translate-x-1/2 left-1/2  rounded-t-md bg-opacity-70 ${
+        !isCompareDrawerMinimized ? "bg-slate-200" : ""
       }`}
     >
       {!isCompareDrawerMinimized && (
@@ -43,17 +51,18 @@ const CompareDrawer = () => {
             <div key={`compare${drone._id}`} className="relative">
               <button
                 onClick={() => removeDroneFromCompare(drone)}
-                className="absolute top-[-8px] right-0 p-2 text-sm font-extrabold text-red-800 rounded-full cursor-pointer"
+                title={"remove"}
+                className="absolute top-0 right-0 text-sm font-extrabold text-red-800 rounded-full cursor-pointer hover:scale-125"
               >
-                X
+                <MdClose />
               </button>
               <Image
-                className="m-4 rounded-md lg:object-center"
+                className="border-2 rounded-md lg:object-center"
                 src={urlFor(drone?.drone_image?.image).url()}
                 alt={drone?.aircraft?.name}
                 title={drone?.aircraft?.name}
-                height={120}
-                width={120}
+                height={140}
+                width={130}
               />
             </div>
           ))}
@@ -62,26 +71,28 @@ const CompareDrawer = () => {
               {Array.from({ length: 5 - selectedDrones.length }, (_, index) => (
                 <Link key={index} href={`/drones/`}>
                   <div
-                    className="mt-12 opacity-25 cursor-pointer w-28 h-28 child-drone hover:scale-110 animate-pulse"
+                    className="relative flex items-center justify-center mt-12 opacity-[0.35] cursor-pointer w-28 h-28 child-drone hover:scale-110"
                     title="Add a drone to start comparing..."
-                  ></div>
+                  >
+                    <MdAdd />
+                  </div>
                 </Link>
               ))}
             </>
           )}
 
           <Link
-            className={`items-center px-4 py-2 mt-4 text-white align-middle rounded-sm justify-items-center ${
+            className={`items-center px-4 py-2 mt-4 text-slate-500 align-middle rounded-sm  ${
               !(selectedDrones.length >= 2)
                 ? "bg-slate-200 cursor-not-allowed"
-                : "bg-slate-800"
+                : "bg-slate-900"
             }`}
             href={`/drones/compare?d=${droneIds}`}
             style={{
               pointerEvents: !(selectedDrones.length >= 2) ? "none" : "auto",
               backgroundColor: !(selectedDrones.length >= 2)
                 ? "bg-slate-200"
-                : "bg-slate-800",
+                : "bg-slate-900",
             }}
             aria-disabled={selectedDrones.length !== 2}
             tabIndex={!(selectedDrones.length >= 2) ? -1 : undefined}
@@ -90,17 +101,38 @@ const CompareDrawer = () => {
           </Link>
         </motion.div>
       )}
+
+      {!isCompareDrawerMinimized && (
+        <button
+          onClick={clearDrones}
+          className="absolute flex flex-row p-2 cursor-pointer top-1 right-16"
+        >
+          <span
+            className="p-2 rounded-full font-base bg-slate-400 hover:bg-slate-500"
+            title="clear all and close"
+          >
+            <MdClearAll />
+          </span>
+        </button>
+      )}
+
       <button
         onClick={toggleMinimize}
-        className="absolute p-2 cursor-pointer top-2 right-2 "
+        className="absolute flex flex-row p-2 cursor-pointer top-1 right-5"
       >
         {isCompareDrawerMinimized ? (
           // Icon for maximize
 
-          <div className="w-24 h-24 text-3xl rounded-full bg-slate-200 drone-compare opacity-80"></div>
+          <div className="w-20 h-20 text-3xl rounded-full bg-slate-200 drone-compare opacity-40 hover:opacity-80"></div>
         ) : (
-          // Icon for minimize
-          <span className="font-extrabold">_</span>
+          <>
+            <span
+              className="p-2 rounded-full font-base bg-slate-400 hover:bg-slate-500"
+              title="minimize"
+            >
+              <MdMinimize />
+            </span>
+          </>
         )}
       </button>
     </div>

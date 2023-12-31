@@ -4,12 +4,12 @@ export default async function HomePage() {
   return (
     <>
       <section id="hero-section">
-        <div className="relative h-screen ">
-          <video autoPlay loop muted className="object-cover w-full h-full">
+        <div className="relative h-3/5 ">
+          <video autoPlay loop muted className="object-cover w-full h-3/">
             <source src="/videos/drone-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 overlay"></div>
+          <div className="absolute top-0 left-0 w-full bg-black opacity-50 h-3/ overlay"></div>
           <div className="absolute z-10 text-center text-white transform -translate-x-1/2 -translate-y-1/2 hero-content top-1/2 left-1/2">
             <h1 className="mb-6 text-4xl font-bold md:text-6xl">Drone Zone</h1>
             <p className="mb-12 text-lg md:text-xl">
@@ -28,7 +28,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <section id="featured-drones" className="py-8"></section>
       <section id="latest-news">
         <div className="container px-0 py-0 mx-auto bg-white rounded-lg shadow">
           <div className="p-1">

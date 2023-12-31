@@ -1,0 +1,81 @@
+{
+  "useCases": [
+    {
+      "category": "Budget",
+      "choices": [
+        { "label": "Price < $99", "value": "price_less_than_99" },
+        { "label": "Price > $99", "value": "price_more_than_99" }
+      ]
+    },
+    {
+      "category": "Ease of Use",
+      "choices": [
+        { "label": "Beginner-Friendly", "value": "beginner_friendly" },
+        { "label": "Intermediate", "value": "intermediate" },
+        { "label": "Advanced", "value": "advanced" }
+      ]
+    },
+    {
+      "category": "Portability",
+      "choices": [
+        { "label": "Compact and Portable", "value": "compact_portable" },
+        { "label": "Size is not a concern", "value": "size_not_concern" }
+      ]
+    },
+    {
+      "category": "Camera Quality",
+      "choices": [
+        { "label": "Basic Camera", "value": "basic_camera" },
+        {
+          "label": "Higher Resolution Camera",
+          "value": "higher_resolution_camera"
+        }
+      ]
+    },
+    {
+      "category": "Flight Time",
+      "choices": [
+        {
+          "label": "Short (Less than 15 minutes)",
+          "value": "short_flight_time"
+        },
+        { "label": "Medium (15-30 minutes)", "value": "medium_flight_time" },
+        { "label": "Long (More than 30 minutes)", "value": "long_flight_time" }
+      ]
+    },
+    {
+      "category": "Battery Type",
+      "choices": [
+        { "label": "LiPo (Lithium Polymer)", "value": "lipo" },
+        { "label": "Li-ion (Lithium-ion)", "value": "li_ion" }
+      ]
+    },
+    {
+      "category": "Charging Time",
+      "choices": [
+        {
+          "label": "Fast Charging (less than 1 hour)",
+          "value": "fast_charging"
+        },
+        {
+          "label": "Standard Charging (1-2 hours)",
+          "value": "standard_charging"
+        }
+      ]
+    },
+    {
+      "category": "Battery Life",
+      "choices": [
+        {
+          "label": "Standard (around 15-20 minutes)",
+          "value": "standard_battery_life"
+        },
+        {
+          "label": "Extended (20-30 minutes)",
+          "value": "extended_battery_life"
+        },
+        { "label": "Long (30 minutes or more)", "value": "long_battery_life" }
+      ]
+    }
+  ]
+}

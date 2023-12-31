@@ -55,8 +55,10 @@ export const getDronesBaseQuery = (
 export const queryForDrones = getDronesBaseQuery("");
 export const queryForFeaturedDrones = getDronesBaseQuery(
   `&& featured == true`,
-  2
+  10
 );
+
+export const queryManufacturers = getDronesBaseQuery(`&& featured == true`, 2);
 
 export const queryForDrone = groq`
 *[_type=="drone"  && _id == $documentId] {

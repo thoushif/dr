@@ -19,7 +19,7 @@ export default function RootLayout({
         <Providers>
           <div className="flex flex-col min-h-screen mx-auto max-w-7xl">
             <Banner />
-            <hr className="border-[#f7ab0a] mb-10" />
+            {/* <hr className="border-[#f7ab0a] mb-10" /> */}
 
             {children}
             <Toaster />
