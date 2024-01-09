@@ -21,12 +21,14 @@ const DisplayDroneDescription: React.FC<DisplayDroneDescriptionProps> = ({
 
   return (
     <>
-      <p className="text-slate-900">{displayText}</p>
-      {description.length > 500 && (
-        <button onClick={toggleDescription}>
-          {showFullDescription ? "Show Less" : "Show More"}
-        </button>
-      )}
+      <p className="text-slate-900">
+        {displayText}
+        {description.length > 500 && (
+          <button onClick={toggleDescription}>
+            {showFullDescription ? " Show Less" : "... Show More"}
+          </button>
+        )}
+      </p>
     </>
   );
 };

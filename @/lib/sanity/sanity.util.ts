@@ -3,6 +3,7 @@ import { client } from "@/lib/sanity/sanity.client";
 import {
   queryForApprovedGalleryImages,
   queryForFeaturedDrones,
+  queryForLatestGalleryImages,
 } from "./sanity.queries";
 
 const DEBOUNCE_DELAY = 300;
@@ -40,9 +41,17 @@ export const getGallery = debounceAsync(async (): Promise<Photo[] | null> => {
   return photos;
 }, DEBOUNCE_DELAY);
 
+export const getHotGallery = debounceAsync(
+  async (): Promise<Photo[] | null> => {
+    const photos: Photo[] = await client.fetch(queryForLatestGalleryImages);
+    return photos;
+  },
+  DEBOUNCE_DELAY
+);
+
 export const getFeaturedDrones = debounceAsync(
-  async (): Promise<Drone[] | null> => {
-    const drones: Drone[] = await client.fetch(queryForFeaturedDrones);
+  async (cat: string): Promise<Drone[] | null> => {
+    const drones: Drone[] = await client.fetch(queryForFeaturedDrones, cat);
     return drones;
   },
   DEBOUNCE_DELAY

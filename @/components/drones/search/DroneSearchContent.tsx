@@ -1,12 +1,15 @@
 "use client";
 import { SheetClose } from "@/components/ui/sheet";
-
-import { UseFormRegister, UseFormWatch } from "react-hook-form";
+import _ from "lodash";
+import { FormState, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { MdClose } from "react-icons/md";
+import searchItems from "@/components/drones/advanced-search/droneOptions.json";
+import { camelCaseToWords, chainCaseToWords } from "@/lib/sanity/queryMaker";
 
 // JSON-like structure for search items
-const searchItems = {
+const searchItems_OLD = {
   categories: ["Racing", "Fun", "Photography", "Professional"],
+  easeOfUse: ["Beginner-Friendly", "Intermediate", "Advanced"],
   priceRanges: ["0-100", "100-200", "200-500", "500+"],
   reviews: [
     "5 stars",
@@ -35,6 +38,7 @@ const DroneSearchContent = ({
   watch: UseFormWatch<DroneSearchState>;
   handleCheckboxChange: (name: string, value: string) => void;
   applySearch: () => void;
+  isDirty: boolean;
 }) => {
   return (
     <>
@@ -46,9 +50,9 @@ const DroneSearchContent = ({
                 key={`${key}-${value}`}
                 className="flex items-center px-2 py-1 m-1 text-sm bg-gray-300 rounded-md"
               >
-                {` ${value}`}
+                {chainCaseToWords(`${value}`)}
                 <MdClose
-                  className="mx-2 text-red-600"
+                  className="ml-2 text-red-600"
                   onClick={() => handleCheckboxChange(key, value)}
                 />
               </span>
@@ -63,14 +67,51 @@ const DroneSearchContent = ({
           Apply
         </SheetClose>
       </div>
-
       <form>
         <div className="grid grid-cols-1">
-          {/* Categories */}
+          {searchItems.useCases.map((useCase) => (
+            <div key={useCase.category_value}>
+              <label className="block mt-2 text-sm font-semibold">
+                {useCase.category}
+              </label>
+              {useCase.choices.map((choice) => (
+                <div
+                  key={`${useCase.category_value}-${choice.value}`}
+                  className="flex items-center"
+                >
+                  <input
+                    type="checkbox"
+                    id={`${useCase.category_value}-${choice.value}`}
+                    value={choice.value}
+                    {...register(`${useCase.category_value}` as any)}
+                    onChange={() =>
+                      handleCheckboxChange(
+                        `${useCase.category_value}`,
+                        choice.value
+                      )
+                    }
+                  />
+                  <label
+                    htmlFor={`${useCase.category_value}-${choice.value}`}
+                    className="ml-2"
+                  >
+                    {choice.label}
+                  </label>
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </form>
+      {/* <form>
+        <div className="grid grid-cols-1">
+           
           <div>
             <label className="block mt-2 text-sm font-semibold">
               Categories
             </label>
+
+            
             {searchItems.categories.map((category) => (
               <div key={category} className="flex items-center">
                 <input
@@ -110,7 +151,7 @@ const DroneSearchContent = ({
               </div>
             ))}
           </div>
-          {/* Reviews */}
+          
           <div>
             <label className="block mt-2 text-sm font-semibold">Reviews</label>
             {searchItems.reviews.map((review) => (
@@ -131,7 +172,7 @@ const DroneSearchContent = ({
             ))}
           </div>
 
-          {/* Ratings */}
+         
           <div>
             <label className="block mt-2 text-sm font-semibold">Ratings</label>
             {searchItems.ratings.map((rating) => (
@@ -152,7 +193,7 @@ const DroneSearchContent = ({
             ))}
           </div>
 
-          {/* Weight Classes */}
+         
           <div>
             <label className="block mt-2 text-sm font-semibold">
               Weight Classes
@@ -175,7 +216,7 @@ const DroneSearchContent = ({
             ))}
           </div>
 
-          {/* Compatibility */}
+          
           <div>
             <label className="block mt-2 text-sm font-semibold">
               Compatibility
@@ -201,7 +242,7 @@ const DroneSearchContent = ({
             ))}
           </div>
         </div>
-      </form>
+      </form> */}
     </>
   );
 };

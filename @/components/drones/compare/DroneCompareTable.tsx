@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { chainCaseToWords } from "@/lib/sanity/queryMaker";
-import { MdRemove } from "react-icons/md";
+import { MdOutlineArrowOutward, MdRemove } from "react-icons/md";
 import Link from "next/link";
 interface DroneCompareTableProps {
   drones: Drone[];
@@ -74,7 +74,7 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
                     <TableCell
                       className={
                         !showDifferencesOnly && hasDifferentSubRow
-                          ? "bg-slate-100"
+                          ? "bg-slate-100 "
                           : ""
                       }
                       key={`${String(headingType)}-${String(heading)}-${String(
@@ -111,12 +111,15 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
     return !values.every((value, index, array) => value === array[0]);
   };
 
-  const prepareURL = (drones: Drone[], _id: string): string => {
+  const prepareCompareRemoveURL = (drones: Drone[], _id: string): string => {
     const filteredDrones = drones
       .filter((drone) => drone._id !== _id)
       .map((drone) => drone._id)
       .join(",");
     return `/drones/compare?d=${filteredDrones}`;
+  };
+  const prepareOpenURL = (_id: string): string => {
+    return `/drones/${_id}`;
   };
 
   return (
@@ -130,7 +133,7 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
         />
         Show Differences Only
       </label>
-      <ShadcnTable>
+      <ShadcnTable className="ml-2">
         <TableBody>
           <TableRow>
             <TableCell className="w-16 h-10"> </TableCell>
@@ -138,8 +141,11 @@ const DroneCompareTable: React.FC<DroneCompareTableProps> = ({ drones }) => {
               <TableCell className="w-16 h-10 font-bold" key={drone._id}>
                 <div className="flex flex-row items-center ">
                   {drone.aircraft.name}
+                  <Link target="_blank" href={prepareOpenURL(drone._id)}>
+                    <MdOutlineArrowOutward className="mx-2 rounded-full hover:bg-slate-600 text-slate-600 hover:text-slate-200" />
+                  </Link>
                   {drones && drones.length > 2 && (
-                    <Link href={prepareURL(drones, drone._id)}>
+                    <Link href={prepareCompareRemoveURL(drones, drone._id)}>
                       <MdRemove className="mx-2 rounded-full hover:bg-slate-600 text-slate-600 hover:text-slate-200" />
                     </Link>
                   )}

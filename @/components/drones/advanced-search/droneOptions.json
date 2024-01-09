@@ -2,13 +2,17 @@
   "useCases": [
     {
       "category": "Budget",
+      "category_value": "selectedPriceRanges",
+      "in_advanced_search": true,
       "choices": [
-        { "label": "Price < $99", "value": "price_less_than_99" },
-        { "label": "Price > $99", "value": "price_more_than_99" }
+        { "label": "Price < $99", "value": "0-99" },
+        { "label": "Price > $99", "value": ">99" }
       ]
     },
     {
       "category": "Ease of Use",
+      "category_value": "selectedEaseOfUse",
+      "in_advanced_search": true,
       "choices": [
         { "label": "Beginner-Friendly", "value": "beginner_friendly" },
         { "label": "Intermediate", "value": "intermediate" },
@@ -16,14 +20,31 @@
       ]
     },
     {
+      "category": "Usage",
+      "category_value": "selectedUsage",
+      "in_advanced_search": false,
+      "choices": [
+        { "label": "Racing", "value": "racing" },
+        { "label": "Fun", "value": "fun" },
+        { "label": "Photography", "value": "photography" },
+        { "label": "Professional", "value": "professional" },
+        { "label": "Agriculture", "value": "agriculture" },
+        { "label": "Surveying", "value": "surveying" }
+      ]
+    },
+    {
       "category": "Portability",
+      "category_value": "selectedPortability",
+      "in_advanced_search": true,
       "choices": [
         { "label": "Compact and Portable", "value": "compact_portable" },
-        { "label": "Size is not a concern", "value": "size_not_concern" }
+        { "label": "Size is not a concern", "value": "size_is_not_a_concern" }
       ]
     },
     {
       "category": "Camera Quality",
+      "category_value": "selectedCameraQuality",
+      "in_advanced_search": true,
       "choices": [
         { "label": "Basic Camera", "value": "basic_camera" },
         {
@@ -34,6 +55,8 @@
     },
     {
       "category": "Flight Time",
+      "category_value": "selectedFlightTime",
+      "in_advanced_search": true,
       "choices": [
         {
           "label": "Short (Less than 15 minutes)",
@@ -45,13 +68,17 @@
     },
     {
       "category": "Battery Type",
+      "category_value": "selectedBatteryType",
+      "in_advanced_search": true,
       "choices": [
-        { "label": "LiPo (Lithium Polymer)", "value": "lipo" },
-        { "label": "Li-ion (Lithium-ion)", "value": "li_ion" }
+        { "label": "LiPo (Lithium Polymer)", "value": "lithium_polymer" },
+        { "label": "Li-ion (Lithium-ion)", "value": "lithium_ion" }
       ]
     },
     {
       "category": "Charging Time",
+      "category_value": "selectedChargingTime",
+      "in_advanced_search": true,
       "choices": [
         {
           "label": "Fast Charging (less than 1 hour)",
@@ -65,6 +92,8 @@
     },
     {
       "category": "Battery Life",
+      "category_value": "selectedBatteryLife",
+      "in_advanced_search": true,
       "choices": [
         {
           "label": "Standard (around 15-20 minutes)",
@@ -75,6 +104,47 @@
           "value": "extended_battery_life"
         },
         { "label": "Long (30 minutes or more)", "value": "long_battery_life" }
+      ]
+    },
+    {
+      "category": "Reviews",
+      "category_value": "selectedReviews",
+      "choices": [
+        { "label": "5 stars", "value": "5_stars" },
+        { "label": "4 stars & above", "value": "4_stars_above" },
+        { "label": "3 stars & above", "value": "3_stars_above" },
+        { "label": "2 stars & above", "value": "2_stars_above" },
+        { "label": "1 star & above", "value": "1_star_above" }
+      ]
+    },
+    {
+      "category": "Ratings",
+      "category_value": "selectedRatings",
+      "choices": [
+        { "label": "Excellent", "value": "excellent" },
+        { "label": "Very Good", "value": "very_good" },
+        { "label": "Good", "value": "good" },
+        { "label": "Average", "value": "average" },
+        { "label": "Poor", "value": "poor" }
+      ]
+    },
+    {
+      "category": "Weight Classes",
+      "category_value": "selectedWeightClasses",
+      "choices": [
+        { "label": "Mini Drones", "value": "mini_drones" },
+        { "label": "Lightweight", "value": "lightweight" },
+        { "label": "Medium", "value": "medium" },
+        { "label": "Heavy-duty", "value": "heavy_duty" }
+      ]
+    },
+    {
+      "category": "Compatibility",
+      "category_value": "selectedCompatibility",
+      "choices": [
+        { "label": "VR Headsets", "value": "vr_headsets" },
+        { "label": "Mobile Devices", "value": "mobile_devices" },
+        { "label": "Accessories", "value": "accessories" }
       ]
     }
   ]

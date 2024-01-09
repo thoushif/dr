@@ -18,7 +18,12 @@ const HcaptchaForm: React.FC<HcaptchaFormProps> = ({ onVerify }) => {
 
   return (
     <div>
-      <HCaptcha sitekey={siteKey} onVerify={handleVerify} />
+      <HCaptcha
+        sitekey={siteKey}
+        data-size="compact"
+        onVerify={handleVerify}
+        size="compact"
+      />
     </div>
   );
 };

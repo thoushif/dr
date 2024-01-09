@@ -5,8 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 import React, { useState } from "react";
+
 type Props = {
   photo: Photo;
+};
+const extractYouTubeShortsVideoId = (url: string): string | null => {
+  // Example YouTube Shorts URL: https://www.youtube.com/shorts/abc123xyz
+  const regex = /youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/;
+  const match = url.match(regex);
+
+  return match ? match[1] : null;
 };
 
 export default function ImgContainer({ photo }: Props) {
@@ -19,6 +27,55 @@ export default function ImgContainer({ photo }: Props) {
     }
     // console.log("Image Width:", width, "pixels");
     // console.log("Image height:", height, "pixels");
+  };
+
+  // const mediaUrl = photo?.media_url;
+  // const mediaUrl =
+  //   "https://www.instagram.com/reel/C0j88YPJgvj/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==";
+  // console.log("meida url", mediaUrl);
+  // Function to determine the type of media and return the corresponding component
+  const renderMediaComponent = ({
+    width,
+    height,
+  }: {
+    width?: SafeNumber;
+    height?: SafeNumber;
+  }) => {
+    // if (mediaUrl && mediaUrl.includes("instagram.com")) {
+    //   // If the media URL is from Instagram, render the InstagramPost component
+    //   return (
+    //     <iframe
+    //       className="absolute top-0 left-0 w-full h-full"
+    //       src={mediaUrl}
+    //       title="YouTube Shorts"
+    //       allowFullScreen
+    //     />
+    //   );
+    // } else if (mediaUrl && mediaUrl.includes("youtube.com/shorts")) {
+    //   // If the media URL is from YouTube Shorts, render the YouTubeShorts component
+    //   return (
+    //     <iframe
+    //       className="absolute top-0 left-0 w-full h-full"
+    //       src={mediaUrl}
+    //       title="YouTube Shorts"
+    //       allowFullScreen
+    //     />
+    //   );
+    // } else {
+    // Default to rendering an Image component if the media type is not recognized
+    return (
+      <Image
+        onLoadingComplete={getImageWidth}
+        src={urlFor(photo.image).url()}
+        alt={`photo taken by ${photo.taken_by?.aircraft.name}`}
+        sizes="250px"
+        width={width}
+        height={height}
+        className="group-hover:opacity-75"
+        onClick={openModal}
+      />
+    );
+    // }
   };
 
   let widthHeightRatio: number = 1;
@@ -42,16 +99,7 @@ export default function ImgContainer({ photo }: Props) {
       style={{ gridRow: `span ${photoSpans}` }}
     >
       <div className="overflow-hidden rounded-xl group hover:scale-105">
-        <Image
-          onLoadingComplete={getImageWidth}
-          src={urlFor(photo.image).url()}
-          alt={`photo taken by ${photo.taken_by?.aircraft.name}`}
-          sizes="250px"
-          width={width}
-          height={height}
-          className="group-hover:opacity-75"
-          onClick={openModal}
-        />
+        {renderMediaComponent({ width, height })}
       </div>
 
       {isModalOpen && photo && (

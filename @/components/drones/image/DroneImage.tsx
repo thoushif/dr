@@ -39,7 +39,7 @@ function DroneImage({ droneImage, droneId }: Props) {
 
   return (
     // <div className="tree-image">
-    <div className="w-auto h-96">
+    <div className="w-auto h-auto">
       <Image
         ref={(img) => {
           if (img) {

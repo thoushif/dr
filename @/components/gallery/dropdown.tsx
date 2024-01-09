@@ -1,3 +1,4 @@
+"use client";
 // DroneDropdown.tsx
 import urlFor from "@/lib/sanity/urlFor";
 import Image from "next/image";
@@ -16,18 +17,12 @@ const DroneDropdown: React.FC<DroneDropdownProps> = ({ drones, onSelect }) => {
       <div className="flex items-center">
         <Image
           src={urlFor(drone.drone_image.image).url()}
-          alt={
-            drone && drone.aircraft && drone.aircraft.name
-              ? drone.aircraft.name
-              : " Drone Image "
-          }
+          alt={drone && drone.name ? drone.name : " Drone Image "}
           className="w-8 h-8 mr-2 rounded-full"
           width={18}
           height={18}
         />
-        {drone && drone.aircraft && drone.aircraft.name
-          ? drone.aircraft.name
-          : " Drone name "}
+        {drone && drone.name ? drone.name : " Drone name "}
       </div>
     ),
   }));
@@ -37,14 +32,12 @@ const DroneDropdown: React.FC<DroneDropdownProps> = ({ drones, onSelect }) => {
   };
 
   return (
-    <div className="mb-4">
-      <Select
-        options={options}
-        onChange={handleSelectChange}
-        isSearchable={false}
-        placeholder="Which drone you got?"
-      />
-    </div>
+    <Select
+      options={options}
+      onChange={handleSelectChange}
+      isSearchable={false}
+      placeholder="Which drone you got?"
+    />
   );
 };
 

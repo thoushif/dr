@@ -6,6 +6,7 @@ import droneImage from "./droneImage";
 import drone from "./drone";
 import gallery from "./gallery";
 import events from "./events";
+import newsletter from "./newsletter";
 
 export const schemaTypes = [
   drType,
@@ -16,4 +17,5 @@ export const schemaTypes = [
   drone,
   gallery,
   events,
+  newsletter,
 ];

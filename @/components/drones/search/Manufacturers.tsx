@@ -55,7 +55,7 @@ const Manufacturers = () => {
       <div className="flex flex-wrap gap-4">
         {filteredBrands &&
           filteredBrands.map((br) => (
-            <Link href={`/brands/${br}`} key={br}>
+            <Link href={`/drones/brands/${br}`} key={br}>
               <motion.div
                 whileHover={{ scale: [null, 1.5, 1.4] }}
                 transition={{ duration: 0.4 }}

@@ -6,6 +6,8 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { MdFlightTakeoff, MdOutlineRestartAlt } from "react-icons/md";
 import { useDroneSearch } from "@/contexts/DroneSearchProvider";
+import { initialSearchState } from "@/lib/utils";
+import _ from "lodash";
 
 interface Choice {
   label: string;
@@ -14,6 +16,7 @@ interface Choice {
 
 interface Category {
   category: string;
+  category_value: string;
   choices: Choice[];
 }
 
@@ -40,11 +43,11 @@ const ChoiceButton: React.FC<ChoiceButtonProps> = ({
       animate="visible"
       variants={variants}
       whileHover={{ scale: [1, 1.05] }}
-      className="mb-8 h-96"
+      className="h-40 mb-8 md:h-96"
     >
       <button
-        onClick={() => onSelect(category.category, choice.value)}
-        className="w-full h-full p-4 my-2 text-4xl border border-gray-300 bg-gradient-to-tr from-slate-200 to-slate-300"
+        onClick={() => onSelect(category.category_value, choice.value)}
+        className="w-full h-full p-4 my-2 border border-gray-300 md:text-4xl text:lg bg-gradient-to-tr from-slate-200 to-slate-300"
       >
         {choice.label}
       </button>
@@ -56,9 +59,7 @@ interface DroneSelectionPageProps {
   currentPage: number;
   category: Category;
   onSelect: (category: string, value: string) => void;
-  selectedOptions: {
-    [key: string]: string;
-  };
+  selectedOptions: DroneSearchState;
   resetSelection: () => void;
 }
 
@@ -73,20 +74,32 @@ const DroneSelectionPage: React.FC<DroneSelectionPageProps> = ({
   const router = useRouter();
 
   const continueToFullSearch = () => {
-    const updatedSearch = { ...appliedGlobalSearch };
-    console.log(selectedOptions);
-    if (selectedOptions.Budget == "price_less_than_99") {
-      updatedSearch.selectedPriceRanges = [
-        ...updatedSearch.selectedPriceRanges,
-        "0-100",
-      ];
-    }
+    const updatedSearch = _.cloneDeep(initialSearchState);
+    // get the choices in the selected options till now
+    console.log("uptill now appliedGlobalSearch", appliedGlobalSearch);
+    console.log("uptill now selectedOptions", selectedOptions);
+    // Loop through each category in selectedOptions
+    Object.keys(selectedOptions).forEach((cat) => {
+      // Check if the selected option is not already in the array
+      const selectedOption = selectedOptions[cat];
+      if (
+        selectedOption.length > 0 &&
+        !updatedSearch[cat].includes(selectedOption)
+      ) {
+        // Update the corresponding category in updatedSearch
+        updatedSearch[cat].push(selectedOption);
+      } else {
+        // Remove the field if it's empty
+        delete updatedSearch[cat];
+      }
+    });
 
-    // Add more conditions for other selected options if needed
-
+    console.log("after merging appliedGlobalSearch", appliedGlobalSearch);
+    // set to global search again
     setAppliedGlobalSearch(updatedSearch);
-    router.push("/drones/search");
+    router.push("/drones/search/all");
   };
+
   return (
     <div>
       <div className="grid grid-flow-col gap-4">

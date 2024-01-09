@@ -1,3 +1,4 @@
+import { initialSearchState } from "@/lib/utils";
 import React, { createContext, useContext, useState } from "react";
 
 interface DroneSearchContextProps {
@@ -9,16 +10,6 @@ interface DroneSearchContextProps {
   setAppliedBrand: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-const initialState = {
-  selectedCategories: [],
-  selectedPriceRanges: [],
-  selectedReviews: [],
-  selectedRatings: [],
-  selectedWeightClasses: [],
-  selectedCompatibility: [],
-  selectedUsage: [],
-};
-
 const DroneSearchContext = createContext<DroneSearchContextProps | undefined>(
   undefined
 );
@@ -29,7 +20,7 @@ export const DroneSearchProvider = ({
   children: React.ReactElement;
 }) => {
   const [appliedGlobalSearch, setAppliedGlobalSearch] =
-    useState<DroneSearchState>(initialState);
+    useState<DroneSearchState>(initialSearchState);
   const [appliedBrand, setAppliedBrand] = useState<string>();
 
   return (

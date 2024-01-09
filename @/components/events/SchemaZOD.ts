@@ -1,5 +1,38 @@
 import { z } from "zod";
 
+const isInstanceOfDrone = (value: any): value is Drone => {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "name" in value &&
+    "drone_image" in value
+  );
+};
+
+export const showcaseSchema = z.object({
+  email: z
+    .string()
+    .email("Invalid email address")
+    .min(1, { message: "Email is required" }),
+  /* via register: */
+  selectedDrone: z.any().refine(isInstanceOfDrone, {
+    message: "Invalid selected drone type",
+  }),
+  image: z.instanceof(File),
+  height: z.number(),
+  caption: z.string().optional(),
+});
+export type ShowcaseData = z.infer<typeof showcaseSchema>;
+
+export const newsletterSchema = z.object({
+  name: z.string().min(1, { message: "Name is required" }),
+  email: z
+    .string()
+    .email("Invalid email address")
+    .min(1, { message: "Email is required" }),
+});
+export type NewsLetterFormData = z.infer<typeof newsletterSchema>;
+
 const eventLocationSchema = z.object({
   name: z.string(),
   address: z.string(),

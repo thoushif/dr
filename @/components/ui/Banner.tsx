@@ -8,9 +8,9 @@ function Banner() {
     <div className="flex flex-col items-center justify-between py-4 font-bold lg:flex-row lg:space-x-5 ">
       <Link href="/">
         <Image
-          className="-ml-5"
-          width={200}
-          height={200}
+          className="-ml-5 grayscale"
+          width={250}
+          height={250}
           src="/logo.gif"
           alt="Logo"
         />

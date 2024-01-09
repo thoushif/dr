@@ -1,6 +1,9 @@
 import Link from "next/link";
+import GalleryHome from "@/components/gallery/GalleryHome";
+import { getHotGallery } from "@/lib/sanity/sanity.util";
 
 export default async function HomePage() {
+  const photos = await getHotGallery();
   return (
     <>
       <section id="hero-section">
@@ -9,10 +12,10 @@ export default async function HomePage() {
             <source src="/videos/drone-video.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
-          <div className="absolute top-0 left-0 w-full bg-black opacity-50 h-3/ overlay"></div>
+          <div className="absolute top-0 left-0 w-full bg-black opacity-50 h-3/overlay"></div>
           <div className="absolute z-10 text-center text-white transform -translate-x-1/2 -translate-y-1/2 hero-content top-1/2 left-1/2">
-            <h1 className="mb-6 text-4xl font-bold md:text-6xl">Drone Zone</h1>
-            <p className="mb-12 text-lg md:text-xl">
+            <h1 className="m-6 text-4xl font-bold md:text-6xl">Drone Zone</h1>
+            <p className="mb-12 text-sm md:text-xl">
               Welcome to{" "}
               <span className="underline decoration-4 decoration-[#7386aa]">
                 Every Drone owners'
@@ -20,8 +23,8 @@ export default async function HomePage() {
               favorite place to fly.
             </p>
             <Link
-              href="/drones"
-              className="px-8 py-4 text-lg font-semibold text-white rounded-md cursor-pointer bg-slate-500 hover:bg-slate-700 "
+              href="/drones/search"
+              className="px-8 text-lg font-semibold text-white rounded-md cursor-pointer md:py-4 bg-slate-500 hover:bg-slate-700 "
             >
               Explore Drones
             </Link>
@@ -29,7 +32,7 @@ export default async function HomePage() {
         </div>
       </section>
       <section id="latest-news">
-        <div className="container px-0 py-0 mx-auto bg-white rounded-lg shadow">
+        <div className="container px-0 py-0 mx-auto my-4 bg-white rounded-lg shadow">
           <div className="p-1">
             <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
               Exciting Drone Innovation
@@ -59,7 +62,11 @@ export default async function HomePage() {
         className="relative p-4 overflow-hidden bg-gray-100"
       >
         <div className="container p-4 mx-auto bg-white rounded-lg shadow">
-          Hot from Gallery
+          <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
+            Hot from Gallery
+          </h2>
+
+          <GalleryHome photos={photos} isHot={true} />
         </div>
       </section>
       <section id="laws-of-flying-drones" className="py-8">
@@ -112,50 +119,6 @@ export default async function HomePage() {
               https://www.faa.gov/uas/
             </Link>
           </p>
-        </div>
-      </section>
-      <section className="py-10 bg-gray-100">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-semibold">Join Newsletter</h2>
-          <p className="mt-2 text-gray-600">
-            Exclusive content, latest news about drones & upcoming events sent
-            straight to your inbox.
-          </p>
-          <div className="max-w-md mx-auto mt-6">
-            <form>
-              <div className="flex items-center py-2 border-b-2 border-gray-600">
-                <input
-                  type="text"
-                  className="w-full px-2 py-1 mr-3 leading-tight text-gray-700 bg-transparent border-none appearance-none focus:outline-none"
-                  placeholder="Name"
-                />
-                <input
-                  type="email"
-                  className="w-full px-2 py-1 mr-3 leading-tight text-gray-700 bg-transparent border-none appearance-none focus:outline-none"
-                  placeholder="Email"
-                />
-                <button
-                  type="submit"
-                  className="flex-shrink-0 px-2 py-1 text-sm text-white border-4 rounded-full cursor-pointer bg-slate-600 border-slate-600 hover:bg-slate-700 hover:border-slate-700"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
-          </div>
         </div>
       </section>
     </>

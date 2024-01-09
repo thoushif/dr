@@ -3,6 +3,7 @@
 // MyPage.tsx
 import { motion, PanInfo, useAnimation } from "framer-motion";
 import { useRef } from "react";
+import { Button } from "../ui/button";
 
 type Props = {
   heightParam: number;
@@ -24,23 +25,28 @@ const HeightMarker = ({ heightParam, setHeightParam }: Props) => {
   };
 
   return (
-    <div className="relative px-10 w-72 h-80 drone-bg" ref={parentRef}>
-      {/* Parent Div with background image */}
+    <>
+      <span className="w-6 h-6 text-slate-900">
+        Drag your drone up/down and leave
+      </span>
+      <div className="relative px-10 w-72 h-80 drone-bg" ref={parentRef}>
+        {/* Parent Div with background image */}
 
-      {/* Child Div with drone image */}
-      <motion.div
-        className="relative top-0 w-16 h-16 transform -translate-x-1/2 cursor-grab left-1/2 child-drone"
-        style={{ y: heightParam }}
-        animate={controls}
-        drag="y"
-        dragConstraints={parentRef} // Use the parent's ref for drag constraints
-        dragElastic={0.5} // Adjust this value as needed
-        onDrag={handleDrag}
-      >
-        {/* Handle for dragging */}
-        {/* Your drone image here */}
-      </motion.div>
-    </div>
+        {/* Child Div with drone image */}
+        <motion.div
+          className="relative top-0 w-16 h-16 transform -translate-x-1/2 cursor-grab left-1/2 child-drone"
+          style={{ y: heightParam }}
+          animate={controls}
+          drag="y"
+          dragConstraints={parentRef} // Use the parent's ref for drag constraints
+          dragElastic={0.5} // Adjust this value as needed
+          onDrag={handleDrag}
+        >
+          {/* Handle for dragging */}
+          {/* Your drone image here */}
+        </motion.div>
+      </div>
+    </>
   );
 };
 

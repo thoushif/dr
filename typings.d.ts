@@ -1,3 +1,6 @@
+type SafeNumber = number | `${number}`;
+// Define the type based on the Zod schema
+
 type Base = {
   _createdAt: string;
   _id: string;
@@ -137,6 +140,7 @@ interface RemoteController {
 
 interface Drone extends Base {
   _id: string;
+  name: string;
   aircraft: Aircraft;
   flight_specs: FlightSpecifications;
   camera: Camera;
@@ -161,10 +165,12 @@ interface DroneCompare {
 interface DroneThumbnail extends Base {
   name: string;
   drone_image: DroneImage;
+  description: string;
 }
 interface Photo extends Base {
   taken_by: Drone;
   image: Image;
+  media_url: string;
 }
 
 interface Coordinates {
@@ -244,10 +250,17 @@ interface EventAttendee {
 
 interface DroneSearchState {
   selectedCategories: string[];
-  selectedPriceRanges: string[];
   selectedReviews: string[];
+  selectedPriceRanges: string[];
   selectedRatings: string[];
-  selectedUsage: string[];
   selectedWeightClasses: string[];
   selectedCompatibility: string[];
+  selectedUsage: string[];
+  selectedEaseOfUse: string[];
+  selectedBatteryType: string[];
+  selectedBatteryLife: string[];
+  selectedChargingTime: string[];
+  selectedCameraQuality: string[];
+  selectedPortability: string[];
+  [key: string]: any;
 }

@@ -7,8 +7,12 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import { MdAdd, MdClearAll, MdClose, MdPlusOne } from "react-icons/md";
 import { MdMinimize } from "react-icons/md";
+import { useMediaQuery } from "@react-hook/media-query";
 
 const CompareDrawer = () => {
+  const screenSize = useMediaQuery("(max-width: 1024px)");
+
+  const maxItems = screenSize ? 2 : 5;
   const {
     selectedDrones,
     removeDroneFromCompare,
@@ -41,7 +45,7 @@ const CompareDrawer = () => {
     >
       {!isCompareDrawerMinimized && (
         <motion.div
-          className="grid items-center grid-cols-6 gap-3 justify-items-center "
+          className="grid items-center grid-cols-3 gap-3 md:grid-cols-6 justify-items-center"
           animate="visible"
           initial="hidden"
           transition={{ delay: 0.1 }}
@@ -52,12 +56,12 @@ const CompareDrawer = () => {
               <button
                 onClick={() => removeDroneFromCompare(drone)}
                 title={"remove"}
-                className="absolute top-0 right-0 text-sm font-extrabold text-red-800 rounded-full cursor-pointer hover:scale-125"
+                className="absolute top-0 right-0 mt-20 text-sm font-extrabold text-red-800 rounded-full cursor-pointer hover:scale-125"
               >
                 <MdClose />
               </button>
               <Image
-                className="border-2 rounded-md lg:object-center"
+                className="mt-16 border-2 rounded-md md:object-center"
                 src={urlFor(drone?.drone_image?.image).url()}
                 alt={drone?.aircraft?.name}
                 title={drone?.aircraft?.name}
@@ -66,23 +70,26 @@ const CompareDrawer = () => {
               />
             </div>
           ))}
-          {selectedDrones.length >= 1 && selectedDrones.length < 5 && (
+          {selectedDrones.length >= 1 && selectedDrones.length < maxItems && (
             <>
-              {Array.from({ length: 5 - selectedDrones.length }, (_, index) => (
-                <Link key={index} href={`/drones/`}>
-                  <div
-                    className="relative flex items-center justify-center mt-12 opacity-[0.35] cursor-pointer w-28 h-28 child-drone hover:scale-110"
-                    title="Add a drone to start comparing..."
-                  >
-                    <MdAdd />
-                  </div>
-                </Link>
-              ))}
+              {Array.from(
+                { length: maxItems - selectedDrones.length },
+                (_, index) => (
+                  <Link key={index} href={`/drones/`}>
+                    <div
+                      className="relative flex items-center justify-center mt-20 opacity-[0.35] cursor-pointer  w-10 md:w-28 h-10 md:h-28 child-drone hover:scale-110"
+                      title="Add a drone to start comparing..."
+                    >
+                      <MdAdd />
+                    </div>
+                  </Link>
+                )
+              )}
             </>
           )}
 
           <Link
-            className={`items-center px-4 py-2 mt-4 text-slate-500 align-middle rounded-sm  ${
+            className={`items-center px-2 md:px-4 py-1 md:py-2 text-sm md:text-base mt-14 text-slate-500 align-middle rounded-none  md:rounded-sm  ${
               !(selectedDrones.length >= 2)
                 ? "bg-slate-200 cursor-not-allowed"
                 : "bg-slate-900"

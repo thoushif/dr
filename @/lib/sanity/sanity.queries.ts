@@ -1,4 +1,6 @@
+import { NewsLetterFormData } from "@/components/events/SchemaZOD";
 import { groq } from "next-sanity";
+import { client } from "./sanity.client";
 // && !(_id match "drafts.**")
 const DEFAULT_SORT = "| order(dateTime.start desc)";
 const POPULAR_SORT = DEFAULT_SORT;
@@ -90,3 +92,45 @@ export const queryForApprovedGalleryImages = groq`
   }
 } | order(_createdAt desc)[0..29]
 `;
+
+export const queryForLatestGalleryImages = groq`
+*[_type=="gallery" && approved == true] {
+  _id,
+  _createdAt,
+  image,
+  taken_by ->{
+    aircraft {
+      name
+    }
+  }
+} | order(_createdAt desc)[0..2]
+`;
+
+export async function saveNewsletterData(
+  data: NewsLetterFormData
+): Promise<void> {
+  try {
+    // Check if the email is already subscribed
+    const existingSubscribers = await client.fetch(
+      '*[_type == "newsletter" && email == $email && isSubscribed == true]',
+      {
+        email: data.email,
+      }
+    );
+    console.log(existingSubscribers);
+    if (existingSubscribers.length > 0) {
+      throw new Error("Email is already subscribed");
+    }
+
+    // If email is not subscribed, save the data
+    const result = await client.create({
+      _type: "newsletter",
+      name: data.name,
+      email: data.email,
+      subscribedOn: new Date().toISOString(), // Use the current date as subscribedOn value
+      isSubscribed: true, // Set isSubscribed to true
+    });
+  } catch (error) {
+    throw error;
+  }
+}

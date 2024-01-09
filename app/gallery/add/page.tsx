@@ -1,4 +1,4 @@
-import DronesList from "@/components/drones/DisplayDroneSelectBox";
+import ShowcaseForm from "@/components/drones/showcase/ShowcaseForm";
 import { getFeaturedDrones } from "@/lib/sanity/sanity.util";
 
 export default async function HomePage() {
@@ -6,7 +6,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <DronesList drones={drones} />
+      <ShowcaseForm drones={drones} />
     </>
   );
 }
