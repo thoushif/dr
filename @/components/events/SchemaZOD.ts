@@ -21,7 +21,7 @@ export const showcaseSchema = z.object({
   selectedDrone: z.any().refine(isInstanceOfDrone, {
     message: "Invalid selected drone type",
   }),
-  image: z.instanceof(File),
+  image: z.any(),
   height: z.number(),
   caption: z.string().optional(),
 });
