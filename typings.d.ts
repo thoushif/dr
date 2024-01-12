@@ -36,6 +36,24 @@ interface Image {
   asset: Reference;
   caption: string;
   height: number;
+  nickname: string;
+  email: string;
+}
+interface Post extends Base {
+  author: Author;
+  body: Block[];
+  categories: Category[];
+  mainImage: Image;
+  slug: Slug;
+  title: string;
+  description: string;
+}
+
+interface Author extends Base {
+  bio: Block[];
+  image: Image;
+  name: string;
+  slug: Slug;
 }
 
 interface Reference {
@@ -151,6 +169,7 @@ interface Drone extends Base {
   remote_controller: RemoteController;
   drone_image: DroneImage;
   drone_type: DrType;
+  images: Image[];
   // You can uncomment and add other fields as needed
 }
 
@@ -170,6 +189,7 @@ interface DroneThumbnail extends Base {
 interface Photo extends Base {
   taken_by: Drone;
   image: Image;
+  approved: boolean;
   media_url: string;
 }
 
@@ -188,9 +208,6 @@ interface DroneImage {
     };
     height: number;
     width: number;
-  };
-  drone_type: {
-    _ref: string;
   };
   coordinates: Coordinates[];
 }

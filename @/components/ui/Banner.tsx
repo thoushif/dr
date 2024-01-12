@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 
 function Banner() {
   return (
@@ -30,6 +30,14 @@ function Banner() {
             className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
           >
             Drones
+          </Link>
+        </div>
+        <div>
+          <Link
+            href="/post"
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Blog
           </Link>
         </div>
         <div>

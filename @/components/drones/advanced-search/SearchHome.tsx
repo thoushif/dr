@@ -16,7 +16,6 @@ const SearchHome: React.FC = () => {
   const advanceSearchOptions = droneOptions.useCases.filter(
     (a) => a.in_advanced_search
   );
-  console.log("advanceSearchOptions", advanceSearchOptions);
   const handleOptionSelect = (
     category: keyof DroneSearchState,
     value: string

@@ -1,9 +1,15 @@
 import Link from "next/link";
 import GalleryHome from "@/components/gallery/GalleryHome";
-import { getHotGallery } from "@/lib/sanity/sanity.util";
+import { getHomePagePosts, getHotGallery } from "@/lib/sanity/sanity.util";
+import { Suspense } from "react";
+import BlogList from "@/components/posts/BlogList";
+import { Button } from "@/components/ui/button";
+import { GrGallery } from "react-icons/gr";
+export const revalidate = 60;
 
 export default async function HomePage() {
   const photos = await getHotGallery();
+  const posts = await getHomePagePosts();
   return (
     <>
       <section id="hero-section">
@@ -31,47 +37,42 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <section id="latest-news">
-        <div className="container px-0 py-0 mx-auto my-4 bg-white rounded-lg shadow">
-          <div className="p-1">
-            <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
-              Exciting Drone Innovation
-            </h2>
 
-            <p className="text-sm text-gray-500">Posted on October 15, 2023</p>
-
-            <p className="mt-2 text-gray-700">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-              eget ipsum velit. In hac habitasse platea dictumst. Sed feugiat
-              quam at tortor facilisis, non cursus metus venenatis. Vivamus ut
-              metus at turpis auctor accumsan. Nullam eget quam in felis
-              fringilla sagittis. Suspendisse potenti.
-            </p>
-
-            <a
-              href="/drone-details"
-              className="block mt-4 text-right text-blue-500 hover:underline"
-            >
-              Read More
-            </a>
-          </div>
-        </div>
-      </section>
-      <section
-        id="hot-gallery"
-        className="relative p-4 overflow-hidden bg-gray-100"
-      >
-        <div className="container p-4 mx-auto bg-white rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
-            Hot from Gallery
+      {posts && (
+        <div className="mt-8">
+          <h2 className="mb-4 text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
+            Latest news in the market
           </h2>
 
-          <GalleryHome photos={photos} isHot={true} />
+          <BlogList posts={posts} />
+        </div>
+      )}
+
+      <section
+        id="hot-gallery"
+        className="relative p-4 overflow-hidden bg-slate-100"
+      >
+        <div className="container p-4 mx-auto bg-white rounded-lg shadow">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
+              Hot from Gallery
+            </h2>
+            <Button className="relative overflow-hidden transition-all border rounded-md shadow-2xl text-zinc-200 before:ease border-slate-500 bg-slate-500 before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-slate-500 hover:before:-translate-x-40">
+              <Link href="/gallery" className="uppercase">
+                <div className="flex items-center justify-between ">
+                  showcase
+                  <GrGallery className="ml-4 text-zinc-200" />
+                </div>
+              </Link>
+            </Button>
+          </div>
+
+          <GalleryHome gallery={photos} isHot={true} />
         </div>
       </section>
       <section id="laws-of-flying-drones" className="py-8">
         <div className="container p-4 mx-auto bg-white rounded-lg shadow">
-          <h2 className="text-2xl font-bold text-gray-800 transition duration-300 hover:text-blue-500">
+          <h2 className="text-2xl font-bold transition duration-300 text-slate-800 hover:text-slate-500">
             Fly your drone responsibly
           </h2>
           <p className="py-4 text-base">

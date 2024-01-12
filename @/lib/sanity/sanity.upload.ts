@@ -6,7 +6,9 @@ export async function uploadImageToSanity(
   file: File,
   droneId: Drone,
   caption: string,
-  height: number | null
+  height: number | null,
+  nickname: string,
+  email: string
 ): Promise<ImageUploadResponse | null> {
   const imageDocument = {
     _type: "gallery",
@@ -18,6 +20,8 @@ export async function uploadImageToSanity(
       },
       caption: caption,
       height: height!,
+      nickname: nickname,
+      email: email,
     },
     taken_by: {
       _type: "reference",

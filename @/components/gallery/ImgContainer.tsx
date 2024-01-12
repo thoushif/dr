@@ -2,9 +2,11 @@
 import urlFor from "@/lib/sanity/urlFor";
 import CustomModal from "@/lib/utils/CustomModal";
 import Image from "next/image";
-import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 
 import React, { useState } from "react";
+import { MdInfoOutline } from "react-icons/md";
+import { spawn } from "child_process";
 
 type Props = {
   photo: Photo;
@@ -18,6 +20,7 @@ const extractYouTubeShortsVideoId = (url: string): string | null => {
 };
 
 export default function ImgContainer({ photo }: Props) {
+  console.log("photo", photo);
   const [width, setWidth] = useState<number | `${number}` | undefined>(1000);
   const [height, setHeight] = useState<number | `${number}` | undefined>(1000);
   const getImageWidth = (img: any) => {
@@ -64,16 +67,18 @@ export default function ImgContainer({ photo }: Props) {
     // } else {
     // Default to rendering an Image component if the media type is not recognized
     return (
-      <Image
-        onLoadingComplete={getImageWidth}
-        src={urlFor(photo.image).url()}
-        alt={`photo taken by ${photo.taken_by?.aircraft.name}`}
-        sizes="250px"
-        width={width}
-        height={height}
-        className="group-hover:opacity-75"
-        onClick={openModal}
-      />
+      <div>
+        <Image
+          onLoadingComplete={getImageWidth}
+          src={urlFor(photo.image).url()}
+          alt={`photo taken by ${photo.taken_by?.aircraft.name}`}
+          sizes="250px"
+          width={width}
+          height={height}
+          className="group-hover:opacity-75"
+          onClick={openModal}
+        />
+      </div>
     );
     // }
   };
@@ -93,37 +98,56 @@ export default function ImgContainer({ photo }: Props) {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  return (
-    <div
-      className="w-[250px] justify-self-center"
-      style={{ gridRow: `span ${photoSpans}` }}
-    >
-      <div className="overflow-hidden rounded-xl group hover:scale-105">
-        {renderMediaComponent({ width, height })}
-      </div>
+  const [showCode, setShowCode] = useState(false);
 
-      {isModalOpen && photo && (
-        <CustomModal onClose={closeModal}>
-          <div className="relative transition-transform duration-200 ease-out">
-            <Image
-              src={urlFor(photo.image).url()}
-              alt="drone image"
-              width={Number(width) + 300}
-              height={Number(height) + 300}
-            />
-            <div className="absolute inset-0 flex items-start justify-start">
-              <span className="p-2 text-sm font-semibold text-white bg-black bg-opacity-50 ">
-                {photo.image.height} ft
-              </span>
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="w-[250px] justify-self-center"
+        style={{ gridRow: `span ${photoSpans}` }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <div className="overflow-hidden rounded-xl group hover:scale-105">
+          {renderMediaComponent({ width, height })}
+        </div>
+
+        {isModalOpen && photo && (
+          <CustomModal onClose={closeModal}>
+            <div className="relative transition-transform duration-200 ease-out">
+              <Image
+                src={urlFor(photo.image).url()}
+                alt="drone image"
+                width={Number(width) + 300}
+                height={Number(height) + 300}
+              />
+              <div className="absolute inset-0 flex items-start justify-start">
+                <span className="p-2 text-sm font-semibold text-white bg-black bg-opacity-50 ">
+                  {photo.image.height} ft
+                </span>
+              </div>
+              <div className="absolute inset-0 bottom-0 flex items-end justify-items-start ">
+                <span className="p-2 text-sm font-semibold text-white truncate bg-black bg-opacity-50">
+                  {photo.image.caption}
+                </span>
+              </div>
+
+              <div className="absolute bottom-0 right-0 flex items-end justify-items-start ">
+                <span className="p-2 text-sm font-semibold text-white truncate bg-black bg-opacity-50">
+                  by - {photo.image.nickname}
+                  {photo.image.email && <span>({photo.image.email})</span>}
+                </span>
+                {showCode && <span className="text-xs">{photo._id}</span>}
+                <MdInfoOutline
+                  onClick={() => setShowCode(!showCode)}
+                  title={photo.image.asset._ref}
+                />
+              </div>
             </div>
-            <div className="absolute inset-0 bottom-0 flex items-end justify-items-start ">
-              <span className="p-2 text-sm font-semibold text-white truncate bg-black bg-opacity-50">
-                {photo.image.caption}
-              </span>
-            </div>
-          </div>
-        </CustomModal>
-      )}
-    </div>
+          </CustomModal>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 }

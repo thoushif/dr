@@ -17,9 +17,14 @@ export default {
           title: "Caption",
         },
         {
-          name: "location",
+          name: "email",
           type: "string",
-          title: "Location",
+          title: "Email",
+        },
+        {
+          name: "nickname",
+          type: "string",
+          title: "Nickname",
         },
         {
           name: "height",

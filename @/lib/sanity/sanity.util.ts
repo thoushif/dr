@@ -1,9 +1,13 @@
 import { client } from "@/lib/sanity/sanity.client";
+import page from "@app/(dr)/drones/compare/page";
 
 import {
   queryForApprovedGalleryImages,
   queryForFeaturedDrones,
+  queryForHomePagePost,
   queryForLatestGalleryImages,
+  queryForPostCategories,
+  queryForPosts,
 } from "./sanity.queries";
 
 const DEBOUNCE_DELAY = 300;
@@ -36,15 +40,42 @@ export const getEvents = debounceAsync(async (query: string) => {
   return events_from_cms;
 }, DEBOUNCE_DELAY);
 
-export const getGallery = debounceAsync(async (): Promise<Photo[] | null> => {
-  const photos: Photo[] = await client.fetch(queryForApprovedGalleryImages);
-  return photos;
-}, DEBOUNCE_DELAY);
+export const getGallery = debounceAsync(
+  async (pageIndex: number): Promise<Photo[] | null> => {
+    console.log("caallin gwith page Indes=====>", pageIndex);
+    const photos: Photo[] = await client.fetch(queryForApprovedGalleryImages, {
+      pageIndex,
+    });
+    return photos;
+  },
+  DEBOUNCE_DELAY
+);
 
 export const getHotGallery = debounceAsync(
   async (): Promise<Photo[] | null> => {
     const photos: Photo[] = await client.fetch(queryForLatestGalleryImages);
     return photos;
+  },
+  DEBOUNCE_DELAY
+);
+
+export const getHomePagePosts = debounceAsync(
+  async (): Promise<Post[] | null> => {
+    const posts: Post[] = await client.fetch(queryForHomePagePost);
+    return posts;
+  },
+  DEBOUNCE_DELAY
+);
+
+export const getPosts = debounceAsync(async (): Promise<Post[] | null> => {
+  const posts: Post[] = await client.fetch(queryForPosts);
+  return posts;
+}, DEBOUNCE_DELAY);
+
+export const getPostCategories = debounceAsync(
+  async (): Promise<Category[] | null> => {
+    const categories: Category[] = await client.fetch(queryForPostCategories);
+    return categories;
   },
   DEBOUNCE_DELAY
 );

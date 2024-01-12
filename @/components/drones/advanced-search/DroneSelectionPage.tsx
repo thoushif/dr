@@ -75,9 +75,6 @@ const DroneSelectionPage: React.FC<DroneSelectionPageProps> = ({
 
   const continueToFullSearch = () => {
     const updatedSearch = _.cloneDeep(initialSearchState);
-    // get the choices in the selected options till now
-    console.log("uptill now appliedGlobalSearch", appliedGlobalSearch);
-    console.log("uptill now selectedOptions", selectedOptions);
     // Loop through each category in selectedOptions
     Object.keys(selectedOptions).forEach((cat) => {
       // Check if the selected option is not already in the array
@@ -94,7 +91,6 @@ const DroneSelectionPage: React.FC<DroneSelectionPageProps> = ({
       }
     });
 
-    console.log("after merging appliedGlobalSearch", appliedGlobalSearch);
     // set to global search again
     setAppliedGlobalSearch(updatedSearch);
     router.push("/drones/search/all");

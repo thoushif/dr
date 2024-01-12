@@ -24,7 +24,8 @@ const DroneSearch = ({
   drones: DroneThumbnail[] | undefined;
   brand: string;
 }) => {
-  const { appliedGlobalSearch, appliedBrand } = useDroneSearch();
+  const { appliedGlobalSearch, appliedBrand, setAppliedBrand } =
+    useDroneSearch();
   const [results, setResults] = useState<DroneThumbnail[] | undefined>(drones);
   const [appliedSearch, setAppliedSearch] =
     useState<DroneSearchState>(appliedGlobalSearch);
@@ -52,20 +53,30 @@ const DroneSearch = ({
 
   const applySearch = async () => {
     const selectedValues = watch() || []; // Retrieve the current selected values
-    console.log("searching state is", selectedValues);
     // Perform search based on the selected criteria
-    const query = getQueryByDroneSearch(selectedValues);
+    const query = getQueryByDroneSearch(selectedValues, appliedBrand);
     const drones = await getSearchedDrones(query);
     setAppliedSearch(selectedValues);
     setResults(drones);
   };
 
   useEffect(() => {
+    setAppliedBrand(brand);
     applySearch();
   }, []);
 
   return (
     <Sheet>
+      <div className="flex items-center justify-center">
+        <p
+          className={cn(
+            "text-transparent text-7xl items-center justify-center  bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase",
+            roboto_mono.className
+          )}
+        >
+          {appliedBrand}
+        </p>
+      </div>
       <div className="flex items-center justify-between">
         <div className="flex flex-wrap mb-4">
           {appliedSearch &&

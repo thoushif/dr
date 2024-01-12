@@ -59,26 +59,7 @@ const ShowcaseForm = ({ drones }: { drones: Drone[] }) => {
   const handleHCaptchaVerify = (token: string | null) => {
     setHCaptchaToken(token);
   };
-  const onSubmit1 = async (data: any) => {
-    if (!hCaptchaToken) {
-      toast({
-        description: "finish the captcha",
-        variant: "destructive",
-      });
-      return;
-    }
-    console.log("capta now is", hCaptchaToken);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md   p-4">
-          <code className="text-slate-700">
-            {JSON.stringify(data, null, 2)}
-          </code>
-        </pre>
-      ),
-    });
-  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [createdImage, setCreatedImage] = useState<ImageUploadResponse | null>(
     null
@@ -129,7 +110,9 @@ const ShowcaseForm = ({ drones }: { drones: Drone[] }) => {
       getValues().image,
       getValues().selectedDrone,
       getValues().caption,
-      getValues().height
+      getValues().height,
+      getValues().nickname,
+      getValues().email
     );
 
     if (createdImage) {
@@ -150,14 +133,14 @@ const ShowcaseForm = ({ drones }: { drones: Drone[] }) => {
   return (
     <Form {...form}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex">
-          <div className="w-full text-slate-900">
+        <div className="flex flex-col gap-2 md:flex-row">
+          <div className="w-full p-2 text-slate-900">
             <FormField
               control={form.control}
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormDescription>Email</FormDescription>
+                  <FormDescription>Email (optional)</FormDescription>
                   <FormControl>
                     <Input
                       placeholder="Email to be displayed in showcase"
@@ -169,7 +152,22 @@ const ShowcaseForm = ({ drones }: { drones: Drone[] }) => {
               )}
             />
           </div>
-          <div className="w-full ml-2 text-slate-900">
+          <div className="w-full p-2 text-slate-900">
+            <FormField
+              control={form.control}
+              name="nickname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormDescription>Nickname</FormDescription>
+                  <FormControl>
+                    <Input placeholder="nickname to be shown" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="w-full p-2 text-slate-900">
             <FormField
               name="selectedDrone"
               control={control}
@@ -189,7 +187,7 @@ const ShowcaseForm = ({ drones }: { drones: Drone[] }) => {
 
         {/* Second Row */}
         <div className="flex">
-          <div className="mt-2 w-36 h-36 text-slate-900">
+          <div className="mt-2 text-slate-900">
             <Card
               {...getRootProps({ onClick: (e) => e.preventDefault() })}
               className={`bg-muted h-36 w-36 flex justify-center items-center border-dashed border-2 hover:border-muted-foreground/50 hover:cursor-pointer  `}

@@ -8,8 +8,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { useDroneCompare } from "@/contexts/DroneCompareContext";
+import { cn } from "@/lib/utils";
+import { roboto_mono } from "@/lib/utils/fonts";
+import { useMediaQuery } from "@react-hook/media-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { MdOutlineShoppingBag } from "react-icons/md";
 import AddToCompareButton from "./compare/AddToCompareButton";
@@ -22,7 +26,10 @@ type Props = {
 };
 
 function DisplayDroneDetails({ drone }: Props) {
+  const screenSize = useMediaQuery("(min-width: 1780px)");
   const { selectedDrones } = useDroneCompare();
+  const [activeSection, setActiveSection] = useState("");
+
   const router = useRouter();
   const droneDesc =
     drone.aircraft.description ||
@@ -49,9 +56,121 @@ function DisplayDroneDetails({ drone }: Props) {
               <AddToCompareButton drone={drone} />
             </div>
           </div>
+          {screenSize && (
+            <div className="fixed hidden p-4 transform -translate-y-1/2 text-slate-800 right-24 lg:block top-1/3">
+              <span
+                className={cn(
+                  "invisible lg:visible text-transparent font-bold text-xl bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase",
+                  roboto_mono.className
+                )}
+              >
+                In the page
+              </span>
+              <ul>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#aircraft"
+                    onClick={() => setActiveSection("aircraft")}
+                    className={activeSection === "aircraft" ? "font-bold" : ""}
+                  >
+                    Aircraft Detail
+                  </a>
+                </li>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#flight-specifications"
+                    onClick={() => setActiveSection("flight-specifications")}
+                    className={
+                      activeSection === "flight-specifications"
+                        ? "font-bold"
+                        : ""
+                    }
+                  >
+                    Flight Specifications
+                  </a>
+                </li>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#camera"
+                    onClick={() => setActiveSection("camera")}
+                    className={activeSection === "camera" ? "font-bold" : ""}
+                  >
+                    Camera
+                  </a>
+                </li>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#remote-controller"
+                    onClick={() => setActiveSection("remote-controller")}
+                    className={
+                      activeSection === "remote-controller" ? "font-bold" : ""
+                    }
+                  >
+                    Remote Controller
+                  </a>
+                </li>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#battery"
+                    onClick={() => setActiveSection("battery")}
+                    className={activeSection === "battery" ? "font-bold" : ""}
+                  >
+                    Battery
+                  </a>
+                </li>
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#video_transmission"
+                    onClick={() => setActiveSection("video_transmission")}
+                    className={
+                      activeSection === "video_transmission" ? "font-bold" : ""
+                    }
+                  >
+                    Video Transmission
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#gimbal"
+                    onClick={() => setActiveSection("gimbal")}
+                    className={activeSection === "gimbal" ? "font-bold" : ""}
+                  >
+                    Gimbal
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#sensing"
+                    onClick={() => setActiveSection("sensing")}
+                    className={activeSection === "sensing" ? "font-bold" : ""}
+                  >
+                    Sensing
+                  </a>
+                </li>
 
+                <li>
+                  <a
+                    rel="noopener"
+                    href="#similar-drones"
+                    onClick={() => setActiveSection("similar-drones")}
+                    className={
+                      activeSection === "similar-drones" ? "font-bold" : ""
+                    }
+                  >
+                    Similar Drones
+                  </a>
+                </li>
+              </ul>
+            </div>
+          )}
           <div key={drone._id} className="flex flex-col group">
-            <DroneImage droneImage={drone.drone_image} droneId={drone._id} />
+            <DroneImage drone={drone} />
 
             <span className="flex items-center md:mt-5 ">
               <DisplayDroneDescription description={droneDesc} />
@@ -73,45 +192,54 @@ function DisplayDroneDetails({ drone }: Props) {
           <Accordion
             type="multiple"
             className="w-full"
-            defaultValue={["item-1", "item-2", "item-3"]}
+            defaultValue={[
+              "item-1",
+              "item-2",
+              "item-3",
+              "item-4",
+              "item-5",
+              "item-6",
+              "item-7",
+              "item-8",
+            ]}
           >
-            <AccordionItem value="item-1">
+            <AccordionItem value="item-1" id="aircraft">
               <AccordionTrigger>Aircraft Detail</AccordionTrigger>
               <AccordionContent>
                 <Table className="Table-auto">
                   <TableBody>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Aircraft Name:
                       </TableCell>
                       <TableCell>{drone.aircraft.name}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Manufacturer:
                       </TableCell>
                       <TableCell>{drone.aircraft.manufacturer}</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Takeoff Weight:
                       </TableCell>
                       <TableCell>{drone.aircraft.takeoff_weight} kg</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Length Folded:
                       </TableCell>
                       <TableCell>{drone.aircraft.length_folded} cm</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Width Folded:
                       </TableCell>
                       <TableCell>{drone.aircraft.width_folded} cm</TableCell>
                     </TableRow>
                     <TableRow>
-                      <TableCell className="pr-4 font-bold">
+                      <TableCell className="w-2/4 font-bold">
                         Height Folded:
                       </TableCell>
                       <TableCell>{drone.aircraft.height_folded} cm</TableCell>
@@ -121,102 +249,246 @@ function DisplayDroneDetails({ drone }: Props) {
                 </Table>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Aircraft Detail</AccordionTrigger>
-              <AccordionContent>
-                <Table className="Table-auto">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Aircraft Name:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.name}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Manufacturer:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.manufacturer}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Takeoff Weight:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.takeoff_weight} kg</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Length Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.length_folded} cm</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Width Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.width_folded} cm</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Height Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.height_folded} cm</TableCell>
-                    </TableRow>
-                    {/* Add more rows for other attributes as needed */}
-                  </TableBody>
-                </Table>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Aircraft Detail</AccordionTrigger>
-              <AccordionContent>
-                <Table className="Table-auto">
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Aircraft Name:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.name}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Manufacturer:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.manufacturer}</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Takeoff Weight:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.takeoff_weight} kg</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Length Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.length_folded} cm</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Width Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.width_folded} cm</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="pr-4 font-bold">
-                        Height Folded:
-                      </TableCell>
-                      <TableCell>{drone.aircraft.height_folded} cm</TableCell>
-                    </TableRow>
-                    {/* Add more rows for other attributes as needed */}
-                  </TableBody>
-                </Table>
-              </AccordionContent>
-            </AccordionItem>
+            {drone.flight_specs && (
+              <AccordionItem value="item-2" id="flight-specifications">
+                <AccordionTrigger>Flight Specifications</AccordionTrigger>
+                <AccordionContent>
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Max Ascent Speed:
+                        </TableCell>
+                        <TableCell>
+                          {drone.flight_specs.max_ascent_speed} m/s
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Max Descent Speed:
+                        </TableCell>
+                        <TableCell>
+                          {drone.flight_specs.max_descent_speed} m/s
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Max Horizontal Speed:
+                        </TableCell>
+                        <TableCell>
+                          {drone.flight_specs.max_horizontal_speed} m/s
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed  */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.camera && (
+              <AccordionItem value="item-3" id="camera">
+                <AccordionTrigger>Camera</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Color Mode
+                        </TableCell>
+                        <TableCell>{drone.camera.color_mode}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Digital zoom
+                        </TableCell>
+                        <TableCell>{drone.camera.digital_zoom}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          ISO Range
+                        </TableCell>
+                        <TableCell>{drone.camera.iso_range} kg</TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.remote_controller && (
+              <AccordionItem value="item-4" id="remote-controller">
+                <AccordionTrigger>Remote Controller</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Max Operating Time
+                        </TableCell>
+                        <TableCell>
+                          {drone.remote_controller.max_operating_time}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Max Supported Mobile Device Size
+                        </TableCell>
+                        <TableCell>
+                          {
+                            drone.remote_controller
+                              .max_supported_mobile_device_size
+                          }
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.battery && (
+              <AccordionItem value="item-5" id="battery">
+                <AccordionTrigger>Battery</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Capacity
+                        </TableCell>
+                        <TableCell>{drone.battery.capacity}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Nominal Voltage
+                        </TableCell>
+                        <TableCell>{drone.battery.nominal_voltage}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Battery weight
+                        </TableCell>
+                        <TableCell>{drone.battery.weight}</TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.video_transmission && (
+              <AccordionItem value="item-6" id="video_transmission">
+                <AccordionTrigger>Video Transmission</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Video Transmission system
+                        </TableCell>
+                        <TableCell>
+                          {drone.video_transmission.video_transmission_system}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Live view quality
+                        </TableCell>
+                        <TableCell>
+                          {drone.video_transmission.live_view_quality}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Battery weight
+                        </TableCell>
+                        <TableCell>{drone.battery.weight}</TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.gimbal && (
+              <AccordionItem value="item-7" id="gimbal">
+                <AccordionTrigger>Gimbal</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Controllable Range
+                        </TableCell>
+                        <TableCell>{drone.gimbal.controllable_range}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Mechanical Range
+                        </TableCell>
+                        <TableCell>{drone.gimbal.mechanical_range}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Battery weight
+                        </TableCell>
+                        <TableCell>{drone.battery.weight}</TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+            {drone.sensing && (
+              <AccordionItem value="item-8" id="sensing">
+                <AccordionTrigger>Sensing</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Sensing type
+                        </TableCell>
+                        <TableCell>{drone.sensing.sensing_type}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Forward measurement range
+                        </TableCell>
+                        <TableCell>
+                          {drone.sensing.forward_measurement_range}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="w-2/4 font-bold">
+                          Forward detection range
+                        </TableCell>
+                        <TableCell>
+                          {drone.sensing.forward_detection_range}
+                        </TableCell>
+                      </TableRow>
+
+                      {/* Add more rows for other attributes as needed */}
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
           </Accordion>
         </div>
       </div>
       {selectedDrones.length > 0 && <CompareDrawer />}
+
+      <div id="similar-drones">
+        <h2 className="text-lg font-bold md:text-3xl ">Similar drones</h2>
+      </div>
     </div>
   );
 }

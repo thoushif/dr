@@ -9,11 +9,14 @@ const isInstanceOfDrone = (value: any): value is Drone => {
   );
 };
 
+export const UnsubscribeSchema = z.object({
+  email: z.string().email("Invalid email"),
+  reasons: z.array(z.string()).min(1, "Select at least one reason"),
+  otherReason: z.string().optional(),
+});
+
 export const showcaseSchema = z.object({
-  email: z
-    .string()
-    .email("Invalid email address")
-    .min(1, { message: "Email is required" }),
+  email: z.string().email("Invalid email address").optional(),
   /* via register: */
   selectedDrone: z.any().refine(isInstanceOfDrone, {
     message: "Invalid selected drone type",

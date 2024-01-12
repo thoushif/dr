@@ -32,11 +32,9 @@ export default {
       description: "Indicates whether the subscriber is currently subscribed",
     },
     {
-      name: "unSubscribedOn",
+      name: "unsubscribedOn",
       title: "Unsubscribed On",
       type: "datetime",
-      default: null,
-      readOnly: true,
       description:
         "The date and time when the subscriber unsubscribed (if applicable)",
     },

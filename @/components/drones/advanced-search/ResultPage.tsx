@@ -51,7 +51,7 @@ const ResultPage: React.FC<ResultPageProps> = ({
   const [results, setResults] = useState<DroneThumbnail[] | undefined>([]);
   const applySearch = async () => {
     saveSearch(selectedOptions);
-    const query = getQueryByDroneSearch(appliedGlobalSearch);
+    const query = getQueryByDroneSearch(appliedGlobalSearch, "");
     const drones = await getSearchedDrones(query);
 
     setResults(drones);
@@ -66,8 +66,6 @@ const ResultPage: React.FC<ResultPageProps> = ({
   const continueToFullSearch = () => {
     const updatedSearch = _.cloneDeep(initialSearchState);
     // get the choices in the selected options till now
-    console.log("uptill now appliedGlobalSearch", appliedGlobalSearch);
-    console.log("uptill now selectedOptions", selectedOptions);
     // Loop through each category in selectedOptions
     Object.keys(selectedOptions).forEach((cat) => {
       // Check if the selected option is not already in the array
@@ -84,7 +82,6 @@ const ResultPage: React.FC<ResultPageProps> = ({
       }
     });
 
-    console.log("after merging appliedGlobalSearch", appliedGlobalSearch);
     // set to global search again
     setAppliedGlobalSearch(updatedSearch);
     router.push("/drones/search/all");

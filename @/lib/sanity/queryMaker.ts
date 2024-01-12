@@ -78,7 +78,10 @@ export const getDefaultEventForForm = () => {
 };
 
 // DRONES**********
-export const getQueryByDroneSearch = (data: DroneSearchState) => {
+export const getQueryByDroneSearch = (
+  data: DroneSearchState,
+  brand: string | undefined
+) => {
   // if (filter && filter.includes("Free") && filter.includes("Private")) {
   //   return privateFreeEventsQuery;
   // } else if (filter && filter.includes("Free")) {
@@ -86,7 +89,7 @@ export const getQueryByDroneSearch = (data: DroneSearchState) => {
   // } else if (filter && filter.includes("Private")) {
   //   return privateEventsQuery;
   // }
-  console.log("search items", data);
+  console.log("search items", data, "brand", brand);
   return getDronesBaseQuery("", 10);
 };
 

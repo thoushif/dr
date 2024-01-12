@@ -146,6 +146,7 @@ export default {
       to: [{ type: "droneImage" }],
       description: "Select the associated Drone Image",
     },
+
     // Reference to one "DroneImage" document
     {
       name: "drone_type",

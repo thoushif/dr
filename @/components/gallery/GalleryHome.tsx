@@ -1,13 +1,33 @@
+"use client";
+import { getGallery } from "@/lib/sanity/sanity.util";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { FaRegSadCry } from "react-icons/fa";
+import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
+import { Button } from "../ui/button";
 import ImgContainer from "./ImgContainer";
 
 type Props = {
-  photos: Photo[] | null;
+  gallery: Photo[] | null;
   isHot: boolean;
 };
 
-export default function GalleryHome({ photos, isHot }: Props) {
+export default function GalleryHome({ gallery, isHot }: Props) {
+  const [pageIndex, setPageIndex] = useState<number>(1);
+  const [photos, setPhotos] = useState<Photo[] | null>(gallery);
+
+  const loadMorePhotos = async () => {
+    const newPhotos = await getGallery(pageIndex);
+    if (newPhotos && newPhotos.length > 0) {
+      setPageIndex(pageIndex + 1);
+    } else {
+      setPageIndex(-1);
+    }
+    setPhotos((prevPhotos) =>
+      prevPhotos ? [...prevPhotos, ...newPhotos] : newPhotos
+    );
+  };
+
   return (
     <>
       {!isHot && (
@@ -22,6 +42,20 @@ export default function GalleryHome({ photos, isHot }: Props) {
         {photos &&
           photos.map((photo) => <ImgContainer key={photo._id} photo={photo} />)}
       </section>
+      {!isHot && pageIndex >= 0 ? (
+        <Button
+          onClick={loadMorePhotos}
+          className="m-4 text-zinc-200 bg-slate-600"
+        >
+          <MdOutlineKeyboardDoubleArrowDown size={"lg"} />
+        </Button>
+      ) : (
+        !isHot && (
+          <span className="flex items-center justify-center m-4">
+            No more results <FaRegSadCry className="ml-4" />
+          </span>
+        )
+      )}
     </>
   );
 }

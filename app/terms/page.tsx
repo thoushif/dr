@@ -151,7 +151,7 @@ const TermsAndConditions: React.FC = () => {
 
         <p>
           For questions or concerns about our terms and conditions, please
-          contact us at
+          contact us at{" "}
           <a className="underline" href="mailto:contact.dronezone@gmail.com">
             contact.dronezone@gmail.com
           </a>

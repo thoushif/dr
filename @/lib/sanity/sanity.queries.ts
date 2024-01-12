@@ -79,18 +79,23 @@ export const queryForDroneOtherImages = groq`
     }
   }[0]
 `;
-
+const PHOTOS_PER_PAGE = 8;
 export const queryForApprovedGalleryImages = groq`
-*[_type=="gallery" && approved == true] {
+*[_type == "gallery" &&
+!(_id in path("drafts.**")) && approved == true ] {
   _id,
   _createdAt,
   image,
+  nickname,
+  email,
+  caption,
   taken_by ->{
     aircraft {
       name
     }
   }
-} | order(_createdAt desc)[0..29]
+}[($pageIndex * ${PHOTOS_PER_PAGE})...($pageIndex + 1) * ${PHOTOS_PER_PAGE}]
+ | order(_createdAt desc)
 `;
 
 export const queryForLatestGalleryImages = groq`
@@ -106,6 +111,28 @@ export const queryForLatestGalleryImages = groq`
 } | order(_createdAt desc)[0..2]
 `;
 
+export const queryForHomePagePost = groq`
+*[_type == "post"  && ("news" in categories[]->title || "homepage" in categories[]->title)] {
+  ...,
+  author->,
+  categories[]->,
+} | order(_createdAt desc) [0..1]
+`;
+
+export const queryForPosts = groq`
+*[_type=="post" ] {
+  ...,
+  author->,
+  categories[]->,
+} | order(_createdAt desc) [0..11]
+`;
+
+export const queryForPostCategories = groq`
+*[_type == "category"] {
+  ...
+} | order(_createdAt desc) 
+`;
+
 export async function saveNewsletterData(
   data: NewsLetterFormData
 ): Promise<void> {
@@ -117,7 +144,7 @@ export async function saveNewsletterData(
         email: data.email,
       }
     );
-    console.log(existingSubscribers);
+    // console.log(existingSubscribers);
     if (existingSubscribers.length > 0) {
       throw new Error("Email is already subscribed");
     }
@@ -130,6 +157,35 @@ export async function saveNewsletterData(
       subscribedOn: new Date().toISOString(), // Use the current date as subscribedOn value
       isSubscribed: true, // Set isSubscribed to true
     });
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function saveNewsLetterUnsubscribeData(
+  email: string
+): Promise<void> {
+  try {
+    // Check if the email is subscribed
+    const existingSubscriber = await client.fetch(
+      '*[_type == "newsletter" && email == $email && isSubscribed == true]',
+      {
+        email: email,
+      }
+    );
+
+    if (existingSubscriber.length === 0) {
+      throw new Error("No email subscription exists");
+    }
+
+    // If email is subscribed, update the data
+    const result = await client
+      .patch(existingSubscriber[0]._id)
+      .set({
+        isSubscribed: false,
+        // unsubscribedOn: new Date().toISOString(), // Use the current date as unsubscribedOn value
+      })
+      .commit();
   } catch (error) {
     throw error;
   }

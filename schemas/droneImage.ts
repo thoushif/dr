@@ -14,14 +14,6 @@ export default defineType({
       },
     },
     {
-      name: "drone_type",
-      title: "Drone Type",
-      type: "reference",
-      to: [{ type: "dr-type" }], // Reference to another document type (DrType)
-      description: "Select the type of drone associated with this image",
-      validation: (Rule) => Rule.required(),
-    },
-    {
       name: "coordinates",
       title: "Coordinates",
       type: "array",
@@ -64,7 +56,6 @@ export default defineType({
   preview: {
     select: {
       title: "drone_type.name", // Assuming 'drone_type' has a 'title' field
-      media: "image",
     },
   },
 });

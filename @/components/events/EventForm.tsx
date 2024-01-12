@@ -63,7 +63,7 @@ export function EventForm() {
   ];
 
   function onSubmit(data: EventData) {
-    console.log("submitted");
+    // console.log("submitted");
     toast({
       title: "You submitted the following values:",
       description: (
@@ -212,7 +212,7 @@ export function EventForm() {
                         onSelect={(startDate) => {
                           field.onChange;
                           if (startDate) {
-                            console.log(startDate, eventDuration);
+                            // console.log(startDate, eventDuration);
                             setValue(
                               "dateTime.end",
                               addDays(startDate, eventDuration)

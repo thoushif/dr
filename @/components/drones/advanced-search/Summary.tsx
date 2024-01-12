@@ -19,7 +19,6 @@ const Summary: React.FC<SummaryPageProps> = ({
 }) => {
   const [summary, setSummary] = useState<ReactNode[]>();
   useEffect(() => {
-    console.log("selected Options changed..........", selectedOptions);
     generateSearchDescription();
   }, [selectedOptions]); // Call generateSearchDescription whenever selectedOptions change
 
@@ -29,13 +28,6 @@ const Summary: React.FC<SummaryPageProps> = ({
       optionValue: string,
       optionLabel: string
     ) => {
-      console.log(
-        "called generateSearchDescription",
-        selectedOptions[category],
-        category,
-        optionLabel,
-        optionValue
-      );
       return selectedOptions[category] === optionValue ? (
         <motion.span
           className="mr-4 underline"

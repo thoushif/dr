@@ -23,7 +23,7 @@ export default function RootLayout({
 
             {children}
             <Toaster />
-            <footer className="p-4 py-6 mt-auto text-white bg-slate-700 footer">
+            <footer className="p-8 py-6 mt-auto text-white bg-slate-700 footer">
               <div className="container flex flex-wrap justify-between mx-auto">
                 <div className="w-full md:w-1/2 lg:w-1/4">
                   <h3 className="mb-4 text-lg font-semibold">About</h3>
@@ -35,16 +35,24 @@ export default function RootLayout({
                     <li>
                       <a href="/terms">Terms and Privacy</a>
                     </li>
+
+                    <li>
+                      <a href="/newsletter/unsubscribe">Unsubscribe</a>
+                    </li>
                   </ul>
                 </div>
                 <div className="w-full md:w-1/2 lg:w-1/4">
-                  <h3 className="mb-4 text-lg font-semibold">Shop & Events</h3>
+                  <h3 className="mb-4 text-lg font-semibold">Showcase</h3>
                   <ul>
                     <li>
-                      <a href="/shop">Shop</a>
+                      <a href="/drones/search/brands">Brands</a>
                     </li>
                     <li>
-                      <a href="/events">Events</a>
+                      <a href="/gallery">Showcase</a>
+                    </li>
+
+                    <li>
+                      <a href="/post">Blog</a>
                     </li>
                   </ul>
                 </div>

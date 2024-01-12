@@ -2,6 +2,7 @@ import NewsletterForm from "@/components/newsletter/NewsLetterForm";
 import { cn } from "@/lib/utils";
 import { roboto_mono } from "@/lib/utils/fonts";
 import React from "react";
+import { MdInfoOutline } from "react-icons/md";
 
 interface AboutProps {}
 
@@ -79,6 +80,25 @@ const About: React.FC<AboutProps> = () => {
           Have questions or suggestions? We'd love to hear from you. Reach out
           to us at{" "}
           <a className="underline" href="mailto:contact.dronezone@gmail.com">
+            contact.dronezone@gmail.com
+          </a>
+          .
+        </p>
+
+        <h2 className="mb-4 text-2xl font-bold">
+          Request to delete photos in showcase/gallery
+        </h2>
+        <p className="mb-6">
+          Have a request to delete photos in showcase/gallery? Please send us an
+          email to with photo information. You can find the information by
+          clicking the <MdInfoOutline style={{ display: "inline-block" }} />{" "}
+          icon and copy the photo code
+          <br />
+          <b>Email:</b>{" "}
+          <a
+            className="underline"
+            href={`mailto:contact.dronezone@gmail.com?subject=Delete%20photo%20request&body=Photo%20code:`}
+          >
             contact.dronezone@gmail.com
           </a>
           .
