@@ -12,6 +12,8 @@ type Props = {
   isHot: boolean;
 };
 
+export const revalidate = 2;
+
 export default function GalleryHome({ gallery, isHot }: Props) {
   const [pageIndex, setPageIndex] = useState<number>(1);
   const [photos, setPhotos] = useState<Photo[] | null>(gallery);
@@ -27,7 +29,6 @@ export default function GalleryHome({ gallery, isHot }: Props) {
       prevPhotos ? [...prevPhotos, ...newPhotos] : newPhotos
     );
   };
-  useEffect(() => {}, [pageIndex]);
 
   return (
     <>
