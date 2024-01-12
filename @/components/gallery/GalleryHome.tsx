@@ -1,7 +1,7 @@
 "use client";
 import { getGallery } from "@/lib/sanity/sanity.util";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegSadCry } from "react-icons/fa";
 import { MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { Button } from "../ui/button";
@@ -27,6 +27,7 @@ export default function GalleryHome({ gallery, isHot }: Props) {
       prevPhotos ? [...prevPhotos, ...newPhotos] : newPhotos
     );
   };
+  useEffect(() => {}, [pageIndex]);
 
   return (
     <>
