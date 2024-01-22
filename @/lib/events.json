@@ -1,0 +1,105 @@
+{
+  "events": [
+    {
+      "_id": "5f93abec6d1d0343c503193a",
+      "title": "Drone Racing Championship",
+      "description": "Experience the thrill of high-speed drone racing!",
+      "location": {
+        "name": "Sky Racetrack",
+        "address": "123 Drone Avenue, Drone City, DC 12345",
+        "coordinates": {
+          "latitude": 37.7749,
+          "longitude": -122.4194
+        }
+      },
+      "dateTime": {
+        "start": "2023-10-01T15:00:00Z",
+        "end": "2023-10-01T18:00:00Z"
+      },
+      "organizer": {
+        "name": "Drone Enthusiasts Club",
+        "contactEmail": "info@droneclub.com"
+      },
+      "category": ["Drone Racing", "Sports & Outdoors"],
+      "isPrivateEvent": true,
+      "eventSiteLink": "https://www.droneclub.com/events/racing-championship",
+      "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
+      "additionalDetails": {
+        "eventCapacity": 100,
+        "registrationDeadline": "2023-11-25T23:59:59Z",
+        "entryFee": 20.0,
+        "prizes": [
+          "1st Place Trophy",
+          "2nd Place Medal",
+          "3rd Place Certificate"
+        ]
+      }
+    },
+    {
+      "_id": "5f93abec6d1d0343c503193b",
+      "title": "Aerial Photography Contest 2023",
+      "description": "Showcase the beauty of the world through your drone lens!",
+      "location": {
+        "name": "Skyview Park",
+        "address": "456 Drone Street, Vista City, CA 67890",
+        "coordinates": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        }
+      },
+      "dateTime": {
+        "start": "2023-11-15T10:00:00Z",
+        "end": "2023-11-15T16:00:00Z"
+      },
+      "organizer": {
+        "name": "Photography Enthusiasts Society",
+        "contactEmail": "photo@society.com"
+      },
+      "category": ["Aerial Photography", "Arts & Culture"],
+      "isPrivateEvent": false,
+      "eventSiteLink": "https://www.photoenthusiasts.com/events/aerial-contest",
+      "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
+      "additionalDetails": {
+        "entryRequirements": "Submit up to 3 high-resolution photos.",
+        "judgingCriteria": "Creativity, Composition, Technical Skill",
+        "prizes": [
+          "Grand Prize: DSLR Camera",
+          "Runner-up: Photography Workshop Voucher"
+        ]
+      }
+    },
+    {
+      "_id": "5f93abec6d1d0343c503193c",
+      "title": "Advancements in Drone Technology",
+      "description": "Explore the latest trends and innovations in drone technology.",
+      "location": {
+        "name": "TechHub Auditorium",
+        "address": "789 Innovation Blvd, Tech City, TX 54321",
+        "coordinates": {
+          "latitude": 29.7604,
+          "longitude": -95.3698
+        }
+      },
+      "dateTime": {
+        "start": "2023-11-20T14:00:00Z",
+        "end": "2023-11-20T17:00:00Z"
+      },
+      "organizer": {
+        "name": "Tech Innovations Institute",
+        "contactEmail": "info@techinstitute.com"
+      },
+      "category": ["Technology", "Education"],
+      "isPrivateEvent": true,
+      "eventSiteLink": "https://www.techinstitute.com/events/drone-tech-seminar",
+      "eventImage": "https://cdn.sanity.io/images/8muq9i25/dev/90ebac3f7bf20e08ed5e0a6a18d9b520bb52181a-1024x1024.jpg",
+      "additionalDetails": {
+        "speakers": ["Dr. Tech Expert", "Drone Industry Pioneer"],
+        "topicsCovered": [
+          "AI in Drones",
+          "Future Trends",
+          "Applications in Industry"
+        ]
+      }
+    }
+  ]
+}

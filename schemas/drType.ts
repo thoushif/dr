@@ -11,18 +11,14 @@ export default defineType({
       type: "string",
     }),
     defineField({
-      name: "image",
-      title: "Image",
-      type: "image",
-      options: {
-        hotspot: true,
-      },
+      name: "desciption",
+      title: "Description",
+      type: "string",
     }),
   ],
   preview: {
     select: {
       title: "name",
-      media: "image",
     },
   },
 });

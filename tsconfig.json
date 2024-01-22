@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "types": ["jest", "node"],
+    "target": "es2015",
     "lib": [
+      "es2015",
       "dom",
       "dom.iterable",
       "esnext"
@@ -22,15 +24,27 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+  "paths": {
+    "@app/*": ["app/*"],
+    "@lib/*": ["lib/*"],
+    "@tests/*": ["tests/*"],
+    "@components/*": ["components/*"],
+    "@config/*": ["app/_config/*"],
+    "@environment/*": ["environments/*"],
+    "@shared/*": ["app/_shared/*"],
+    "@helpers/*": ["helpers/*"]
   },
+  },
+  
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
     "../../node_modules/interactjs/index.d.ts"
-  ],
+, "jest.config.js", "jest.config.js"  ],
   "exclude": [
     "node_modules"
   ]

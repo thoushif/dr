@@ -1,10 +1,17 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   experimental: {
     appDir: true,
   },
   images: {
-    domains: ["i.imgur.com", "links.papareact.com", "cdn.sanity.io"],
+    domains: [
+      "images.unsplash.com",
+      "source.unsplash.com",
+      "i.imgur.com",
+      "links.papareact.com",
+      "cdn.sanity.io",
+      "images.pexels.com",
+    ],
   },
 };
