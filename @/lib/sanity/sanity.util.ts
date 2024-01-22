@@ -4,6 +4,7 @@ import page from "@app/(dr)/drones/compare/page";
 import {
   queryForApprovedGalleryImages,
   queryForFeaturedDrones,
+  queryForGalleryImage,
   queryForHomePagePost,
   queryForLatestGalleryImages,
   queryForPostCategories,
@@ -47,6 +48,17 @@ export const getGallery = debounceAsync(
       pageIndex,
     });
     return photos;
+  },
+  DEBOUNCE_DELAY
+);
+
+export const getGallerySinglePhoto = debounceAsync(
+  async (photoId: string): Promise<Photo | null> => {
+    console.log("fecthing photo", photoId);
+    const photo: Photo = await client.fetch(queryForGalleryImage, {
+      photoId,
+    });
+    return photo;
   },
   DEBOUNCE_DELAY
 );

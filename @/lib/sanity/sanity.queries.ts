@@ -111,6 +111,19 @@ export const queryForLatestGalleryImages = groq`
 } | order(_createdAt desc)[0..2]
 `;
 
+export const queryForGalleryImage = groq`
+*[_type=="gallery" && approved == true && _id == $photoId] {
+  _id,
+  _createdAt,
+  image,
+  taken_by ->{
+    aircraft {
+      name
+    }
+  }
+} | order(_createdAt desc)[0]
+`;
+
 export const queryForHomePagePost = groq`
 *[_type == "post"  && ("news" in categories[]->title || "homepage" in categories[]->title)] {
   ...,
