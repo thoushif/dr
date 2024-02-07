@@ -82,15 +82,251 @@ export const getQueryByDroneSearch = (
   data: DroneSearchState,
   brand: string | undefined
 ) => {
-  // if (filter && filter.includes("Free") && filter.includes("Private")) {
-  //   return privateFreeEventsQuery;
-  // } else if (filter && filter.includes("Free")) {
-  //   return freeEventsQuery;
-  // } else if (filter && filter.includes("Private")) {
-  //   return privateEventsQuery;
-  // }
-  console.log("search items", data, "brand", brand);
-  return getDronesBaseQuery("", 10);
+  const {
+    selectedBatteryLife,
+    selectedWeightClasses,
+    selectedCameraQuality,
+    selectedBatteryType,
+    selectedChargingTime,
+    selectedUsage,
+    selectedEaseOfUse,
+    selectedFlightTime,
+    selectedPortability,
+    selectedCompatibility,
+    selectedPriceRanges,
+  } = data;
+  let finalFilter = "";
+  if (brand) {
+    finalFilter += `&& lower(aircraft.manufacturer) == "${brand}" `;
+  }
+  const addFilter = (filter: string | undefined) => {
+    if (filter) {
+      finalFilter += `&& (${filter}) `;
+    }
+  };
+
+  addFilter(getBatteryLifeFilter(selectedBatteryLife));
+  addFilter(getWeightClassesFilter(selectedWeightClasses));
+  addFilter(getCameraQualityFilter(selectedCameraQuality));
+  addFilter(getBatteryTypeFilter(selectedBatteryType));
+  addFilter(getChargingTimeFilter(selectedChargingTime));
+  addFilter(getUsageFilter(selectedUsage));
+  addFilter(getEaseOfUseFilter(selectedEaseOfUse));
+  addFilter(getFlightTimeFilter(selectedFlightTime));
+  addFilter(getPortabilityFilter(selectedPortability));
+  addFilter(getCompatibilityFilter(selectedCompatibility));
+  addFilter(getPriceRangeFilter(selectedPriceRanges));
+
+  // console.log("finalFilter is:", finalFilter);
+  return getDronesBaseQuery(finalFilter);
+};
+
+const getPriceRangeFilter = (selectedPriceRanges: string[]) => {
+  return (
+    selectedPriceRanges
+      ?.map((priceRange) => {
+        switch (priceRange) {
+          case "0-99":
+            return "aircraft.price >= 0 && aircraft.price < 100";
+          case "100-499":
+            return "aircraft.price >= 100 && aircraft.price < 500";
+          case ">500":
+            return "aircraft.price >= 500";
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+
+const getBatteryLifeFilter = (selectedBatteryLife: string[]) => {
+  return (
+    selectedBatteryLife
+      ?.map((batteryLife) => {
+        switch (batteryLife) {
+          case "standard_battery_life":
+            return "battery.capacity < 3000";
+          case "extended_battery_life":
+            return "battery.capacity >= 3000 && battery.capacity <= 9000";
+          case "long_battery_life":
+            return "battery.capacity > 9000";
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+const getBatteryTypeFilter = (selectedBatteryType: string[]) => {
+  return (
+    selectedBatteryType
+      ?.map((batteryType) => {
+        switch (batteryType) {
+          case "lithium_polymer":
+            return 'battery.type == "lithium_polymer"';
+          case "lithium_ion":
+            return 'battery.type == "lithium_ion"';
+          case "Other":
+            return 'battery.type == "Other"';
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+const getChargingTimeFilter = (selectedChargingTime: string[]) => {
+  return (
+    selectedChargingTime
+      ?.map((chargingTime) => {
+        switch (chargingTime) {
+          case "fast_charging":
+            return 'battery.charging_time == "fast_charging"';
+          case "standard_charging":
+            return 'battery.charging_time == "standard_charging"';
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+
+const getWeightClassesFilter = (selectedWeightClasses: string[]) => {
+  return (
+    selectedWeightClasses
+      ?.map((weightClass) => {
+        switch (weightClass) {
+          case "mini_drones":
+            return "aircraft.takeoff_weight < 500";
+          case "lightweight":
+            return "aircraft.takeoff_weight >= 500 && aircraft.takeoff_weight < 1000";
+          case "medium":
+            return "aircraft.takeoff_weight >= 1000 && aircraft.takeoff_weight < 3000";
+          case "heavy_duty":
+            return "aircraft.takeoff_weight >= 3000";
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+const getCameraQualityFilter = (selectedCameraQuality: string[]) => {
+  return (
+    selectedCameraQuality
+      ?.map((quality) => {
+        switch (quality) {
+          case "basic_camera":
+            return "camera.quality == false";
+          case "higher_resolution_camera":
+            return "camera.quality == true";
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+const getEaseOfUseFilter = (selectedEaseOfUse: string[]): string => {
+  return (
+    selectedEaseOfUse
+      ?.map((easeOption) => {
+        switch (easeOption) {
+          case "beginner_friendly":
+            return 'aircraft.ease_of_use == "beginner_friendly"';
+          case "intermediate":
+            return 'aircraft.ease_of_use == "intermediate"';
+          case "advanced":
+            return 'aircraft.ease_of_use == "advanced"';
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+
+const getFlightTimeFilter = (selectedFlightTimes: string[]) => {
+  return (
+    selectedFlightTimes
+      ?.map((flightTime) => {
+        switch (flightTime) {
+          case "short_flight_time":
+            return 'flight_specs.flight_time == "short_flight_time"';
+          case "medium_flight_time":
+            return 'flight_specs.flight_time == "medium_flight_time"';
+          case "long_flight_time":
+            return 'flight_specs.flight_time == "long_flight_time"';
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+
+const getUsageFilter = (selectedUsage: string[]) => {
+  return (
+    selectedUsage
+      ?.map((usage) => {
+        return `"${usage}" in drone_type[]->name`;
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+const getCompatibilityFilter = (selectedCompatibility: string[]) => {
+  return (
+    selectedCompatibility
+      ?.map((compatibility) => {
+        switch (compatibility) {
+          case "vr_headsets":
+            return "accessories.fpv_goggles == true";
+          case "mobile_devices":
+            return "compatibility.mobile_devices == true";
+          case "accessories":
+            return "accessories.accessories == true";
+          // Add other cases as needed
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
+};
+
+const getPortabilityFilter = (selectedPortability: string[]) => {
+  return (
+    selectedPortability
+      ?.map((portabilityOption) => {
+        switch (portabilityOption) {
+          case "compact_portable":
+            return 'aircraft.portability == "ultra_portable" || aircraft.portability == "travel_friendly"';
+          case "size_is_not_a_concern":
+            return '!defined(aircraft.portability) || aircraft.portability == "ultra_portable" || aircraft.portability == "travel_friendly" || aircraft.portability == "professional_rig" || aircraft.portability == "modular_design" || aircraft.portability == "industrial_size"';
+          default:
+            return ""; // Handle other cases if needed
+        }
+      })
+      .filter(Boolean) // Remove empty strings
+      .join(" || ") || ""
+  );
 };
 
 export const camelCaseToWords = (str: string) => {

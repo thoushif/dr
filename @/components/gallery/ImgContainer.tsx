@@ -22,7 +22,7 @@ const extractYouTubeShortsVideoId = (url: string): string | null => {
 };
 
 export default function ImgContainer({ photo }: Props) {
-  console.log("photo", photo);
+  // console.log("photo", photo);
   const [width, setWidth] = useState<number | `${number}` | undefined>(1000);
   const [height, setHeight] = useState<number | `${number}` | undefined>(1000);
   const getImageWidth = (img: any) => {

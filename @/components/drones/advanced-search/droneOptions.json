@@ -1,12 +1,13 @@
 {
   "useCases": [
     {
-      "category": "Budget",
+      "category": "Budget in USD",
       "category_value": "selectedPriceRanges",
       "in_advanced_search": true,
       "choices": [
-        { "label": "Price < $99", "value": "0-99" },
-        { "label": "Price > $99", "value": ">99" }
+        { "label": "Upto $99", "value": "0-99" },
+        { "label": "$100-$499", "value": "100-499" },
+        { "label": "More than $500", "value": ">500" }
       ]
     },
     {
@@ -24,12 +25,12 @@
       "category_value": "selectedUsage",
       "in_advanced_search": false,
       "choices": [
-        { "label": "Racing", "value": "racing" },
-        { "label": "Fun", "value": "fun" },
-        { "label": "Photography", "value": "photography" },
-        { "label": "Professional", "value": "professional" },
-        { "label": "Agriculture", "value": "agriculture" },
-        { "label": "Surveying", "value": "surveying" }
+        { "label": "Racing", "value": "Racing" },
+        { "label": "Fun", "value": "Fun" },
+        { "label": "Photography", "value": "Photography" },
+        { "label": "Professional", "value": "Professional" },
+        { "label": "Agriculture", "value": "Agricultural" },
+        { "label": "Surveying", "value": "Surveying" }
       ]
     },
     {
@@ -72,7 +73,8 @@
       "in_advanced_search": true,
       "choices": [
         { "label": "LiPo (Lithium Polymer)", "value": "lithium_polymer" },
-        { "label": "Li-ion (Lithium-ion)", "value": "lithium_ion" }
+        { "label": "Li-ion (Lithium-ion)", "value": "lithium_ion" },
+        { "label": "Other", "value": "Other" }
       ]
     },
     {
@@ -107,28 +109,6 @@
       ]
     },
     {
-      "category": "Reviews",
-      "category_value": "selectedReviews",
-      "choices": [
-        { "label": "5 stars", "value": "5_stars" },
-        { "label": "4 stars & above", "value": "4_stars_above" },
-        { "label": "3 stars & above", "value": "3_stars_above" },
-        { "label": "2 stars & above", "value": "2_stars_above" },
-        { "label": "1 star & above", "value": "1_star_above" }
-      ]
-    },
-    {
-      "category": "Ratings",
-      "category_value": "selectedRatings",
-      "choices": [
-        { "label": "Excellent", "value": "excellent" },
-        { "label": "Very Good", "value": "very_good" },
-        { "label": "Good", "value": "good" },
-        { "label": "Average", "value": "average" },
-        { "label": "Poor", "value": "poor" }
-      ]
-    },
-    {
       "category": "Weight Classes",
       "category_value": "selectedWeightClasses",
       "choices": [
@@ -144,7 +124,8 @@
       "choices": [
         { "label": "VR Headsets", "value": "vr_headsets" },
         { "label": "Mobile Devices", "value": "mobile_devices" },
-        { "label": "Accessories", "value": "accessories" }
+        { "label": "iOS", "value": "ios" },
+        { "label": "Android", "value": "android" }
       ]
     }
   ]

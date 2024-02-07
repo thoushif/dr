@@ -70,7 +70,7 @@ const DroneSelectionPage: React.FC<DroneSelectionPageProps> = ({
   selectedOptions,
   resetSelection,
 }) => {
-  const { appliedGlobalSearch, setAppliedGlobalSearch } = useDroneSearch();
+  const {  setAppliedGlobalSearch } = useDroneSearch();
   const router = useRouter();
 
   const continueToFullSearch = () => {
@@ -85,9 +85,6 @@ const DroneSelectionPage: React.FC<DroneSelectionPageProps> = ({
       ) {
         // Update the corresponding category in updatedSearch
         updatedSearch[cat].push(selectedOption);
-      } else {
-        // Remove the field if it's empty
-        delete updatedSearch[cat];
       }
     });
 

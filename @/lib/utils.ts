@@ -18,7 +18,6 @@ export const initialSearchState: DroneSearchState = {
   selectedBatteryType: [],
   selectedBatteryLife: [],
   selectedCameraQuality: [],
-  selectedCategories: [],
   selectedChargingTime: [],
   selectedCompatibility: [],
   selectedEaseOfUse: [],
@@ -29,4 +28,20 @@ export const initialSearchState: DroneSearchState = {
   selectedReviews: [],
   selectedUsage: [],
   selectedWeightClasses: [],
+};
+
+export const cleanupFilters = (appliedSearch: DroneSearchState) => {
+  appliedSearch.selectedReviews = [];
+  appliedSearch.selectedPriceRanges = [];
+  appliedSearch.selectedRatings = [];
+  appliedSearch.selectedWeightClasses = [];
+  appliedSearch.selectedCompatibility = [];
+  appliedSearch.selectedUsage = [];
+  appliedSearch.selectedFlightTime = [];
+  appliedSearch.selectedEaseOfUse = [];
+  appliedSearch.selectedBatteryType = [];
+  appliedSearch.selectedBatteryLife = [];
+  appliedSearch.selectedChargingTime = [];
+  appliedSearch.selectedCameraQuality = [];
+  appliedSearch.selectedPortability = [];
 };

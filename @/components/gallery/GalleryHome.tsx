@@ -49,7 +49,7 @@ export default function GalleryHome({ gallery, isHot }: Props) {
           onClick={loadMorePhotos}
           className="m-4 text-zinc-200 bg-slate-600"
         >
-          <MdOutlineKeyboardDoubleArrowDown size={"lg"} />
+          <MdOutlineKeyboardDoubleArrowDown style={{ fontSize: "10px" }} />
         </Button>
       ) : (
         !isHot && (

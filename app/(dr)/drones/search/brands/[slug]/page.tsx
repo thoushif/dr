@@ -8,7 +8,5 @@ type Props = {
 export const revalidate = 1800;
 
 export default async function DronePageByBrand({ params: { slug } }: Props) {
-  const drones: DroneThumbnail[] | undefined = undefined;
-  // console.log(drones);
-  return <DroneSearch drones={drones} brand={slug} />;
+  return <DroneSearch drones={undefined} brand={slug} slug={""} />;
 }

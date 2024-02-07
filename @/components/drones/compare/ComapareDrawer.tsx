@@ -39,7 +39,7 @@ const CompareDrawer = () => {
   };
   return (
     <div
-      className={`fixed bottom-[180px] p-2  shadow-xl transform -translate-x-1/2 left-1/2  rounded-t-md bg-opacity-70 ${
+      className={`fixed bottom-[180px] p-2  shadow-xl transform -translate-x-1/2 left-1/2  rounded-t-md bg-opacity-70  hover:bg-opacity-100 ${
         !isCompareDrawerMinimized ? "bg-slate-200" : ""
       }`}
     >
@@ -89,12 +89,12 @@ const CompareDrawer = () => {
           )}
 
           <Link
-            className={`items-center px-2 md:px-4 py-1 md:py-2 text-sm md:text-base mt-14 text-slate-500 align-middle rounded-none  md:rounded-sm  ${
+            className={`items-center px-2 md:px-4 py-1 md:py-2 text-sm md:text-base mt-14 font-bold text-slate-500 align-middle rounded-none  md:rounded-sm  ${
               !(selectedDrones.length >= 2)
                 ? "bg-slate-200 cursor-not-allowed"
                 : "bg-slate-900"
             }`}
-            href={`/drones/compare?d=${droneIds}`}
+            href={`/drones/compare?drones=${droneIds}`}
             style={{
               pointerEvents: !(selectedDrones.length >= 2) ? "none" : "auto",
               backgroundColor: !(selectedDrones.length >= 2)
