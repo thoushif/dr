@@ -1,11 +1,16 @@
+"use client";
 import React, { useState } from "react";
 
 interface DisplayDroneDescriptionProps {
   description: string;
+  limit: number;
+  showMoreAllowed: boolean;
 }
 
 const DisplayDroneDescription: React.FC<DisplayDroneDescriptionProps> = ({
   description,
+  limit,
+  showMoreAllowed,
 }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
 
@@ -17,15 +22,17 @@ const DisplayDroneDescription: React.FC<DisplayDroneDescriptionProps> = ({
   // Display the first 500 characters or the full description based on the state
   const displayText = showFullDescription
     ? description
-    : description.slice(0, 500);
+    : description.slice(0, limit);
 
   return (
     <>
       <p className="text-slate-900">
         {displayText}
-        {description.length > 500 && (
+        {description.length > limit && "..."}
+
+        {description.length > limit && showMoreAllowed && (
           <button onClick={toggleDescription}>
-            {showFullDescription ? " Show Less" : "... Show More"}
+            {showFullDescription ? " Show Less" : "Show More"}
           </button>
         )}
       </p>

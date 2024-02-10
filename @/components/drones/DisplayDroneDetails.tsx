@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import BlogList from "../posts/BlogList";
 import AddToCompareButton from "./compare/AddToCompareButton";
 import CompareDrawer from "./compare/ComapareDrawer";
 import DisplayDroneCompatibility from "./DisplayDroneCompatibility";
@@ -44,18 +45,17 @@ function DisplayDroneDetails({ drone }: Props) {
           router.push("/drones/search/all");
         }}
       />
-
       <div className="grid grid-cols-1 px-8 pb-24 mt-4 gap-x-6 md:grid-cols-2 ">
         <div>
           <div className="flex justify-between visible md:invisible">
             <h2 className="text-lg font-bold md:text-3xl ">
               {drone.aircraft.name}
+              Price {drone.aircraft.price}
             </h2>
             <div className="flex items-center justify-end gap-2">
               <Link target="_blank" href={drone.aircraft.buy_link}>
                 <MdOutlineShoppingBag />
               </Link>
-
               <AddToCompareButton drone={drone} />
             </div>
           </div>
@@ -186,7 +186,11 @@ function DisplayDroneDetails({ drone }: Props) {
             <DroneImage drone={drone} />
 
             <span className="flex items-center md:mt-5 ">
-              <DisplayDroneDescription description={droneDesc} />
+              <DisplayDroneDescription
+                description={droneDesc}
+                limit={500}
+                showMoreAllowed={true}
+              />
             </span>
           </div>
           {drone.compatibility && (
@@ -196,17 +200,22 @@ function DisplayDroneDetails({ drone }: Props) {
           )}
         </div>
         <div>
-          <div className="flex justify-between invisible md:visible">
-            <h2 className="text-3xl font-bold ">{drone.aircraft.name}</h2>
-            <div className="flex justify-end gap-2">
+          <div className="flex items-center justify-between invisible md:visible">
+            <h2 className="text-3xl font-bold ">
+              {drone.aircraft.name}
+              <span className="text-lg font-medium ">
+                (${drone.aircraft.price})
+              </span>
+            </h2>
+            <div className="flex items-center justify-end gap-2">
               <Button className="rounded-full">
                 <Link target="_blank" href={drone.aircraft.buy_link}>
-                  🛒 Buy from {drone.aircraft.manufacturer}{" "}
+                  🛒 Buy from {drone.aircraft.manufacturer}
                 </Link>
               </Button>
               <AddToCompareButton drone={drone} />
             </div>
-          </div>{" "}
+          </div>
           {drone.drone_types_list && (
             <DroneTypes droneTypes={drone.drone_types_list} />
           )}
@@ -517,10 +526,13 @@ function DisplayDroneDetails({ drone }: Props) {
             )}
           </Accordion>
         </div>
-
-        <div id="similar-drones">
-          <h2 className="text-lg font-bold md:text-3xl ">Similar drones</h2>
-        </div>
+      </div>{" "}
+      <div id="similar-drones">
+        <h2 className="my-4 text-lg font-bold md:text-3xl">Similar drones</h2>
+      </div>
+      <div id="related-articles">
+        <h2 className="my-4 text-lg font-bold md:text-3xl">Read Abouts</h2>
+        <BlogList posts={drone.relatedArticles} />
       </div>
       {selectedDrones.length > 0 && <CompareDrawer />}
     </div>
@@ -530,7 +542,7 @@ function DisplayDroneDetails({ drone }: Props) {
 const DroneTypes = ({ droneTypes }: { droneTypes: string[] }) => {
   // console.log(droneTypes);
   return (
-    <div className="flex space-x-2  ">
+    <div className="flex space-x-2 ">
       {droneTypes.map((droneType) => (
         <span
           key={droneType}

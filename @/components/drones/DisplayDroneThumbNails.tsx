@@ -21,12 +21,14 @@ function DisplayDroneThumbNails({ drones }: Props) {
             <div key={dr._id} className="flex flex-col cursor-pointer group">
               <ClientSideRoute route={`/drones/${dr._id}`} key={dr._id}>
                 <div className="relative w-full transition-transform duration-200 ease-out h-60 dronesop-shadow-xl group-hover:scale-105">
-                  <Image
-                    className="object-cover object-left rounded-md lg:object-center"
-                    src={urlFor(dr.drone_image.image).url()}
-                    alt={dr.name}
-                    fill
-                  />
+                  {dr.drone_image && (
+                    <Image
+                      className="object-cover object-left rounded-md lg:object-center"
+                      src={urlFor(dr.drone_image.image).url()}
+                      alt={dr.name}
+                      fill
+                    />
+                  )}
                   {selectedDrones.some(
                     (selectedDrone) => selectedDrone._id === dr._id
                   ) && (

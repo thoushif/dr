@@ -73,7 +73,15 @@ export const queryForDrone = groq`
     image,
     coordinates
   },
-  "drone_types_list": drone_type[]->name
+  "drone_types_list": drone_type[]->name,
+  "relatedArticles": *[_type=='post' && references(^._id)] {...,
+    author->,
+    categories[]->,
+    relatedDrones[]->{
+      _id,
+      "name":aircraft.name
+    }
+  }
 }
 `;
 
@@ -134,6 +142,7 @@ export const queryForHomePagePost = groq`
   ...,
   author->,
   categories[]->,
+  relatedDrones[]->,
 } | order(_createdAt desc) [0..1]
 `;
 
@@ -142,6 +151,10 @@ export const queryForPosts = groq`
   ...,
   author->,
   categories[]->,
+  relatedDrones[]->{
+    _id,
+    "name":aircraft.name
+  }
 } | order(_createdAt desc) [0..11]
 `;
 

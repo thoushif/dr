@@ -47,6 +47,7 @@ interface Post extends Base {
   slug: Slug;
   title: string;
   description: string;
+  relatedDrones: DroneThumbnail[];
 }
 
 interface Author extends Base {
@@ -174,6 +175,7 @@ interface Drone extends Base {
   drone_types_list: string[];
   compatibility: Compatibility;
   images: Image[];
+  relatedArticles: Post[];
   // You can uncomment and add other fields as needed
 }
 interface Compatibility {

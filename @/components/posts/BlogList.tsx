@@ -1,7 +1,8 @@
 import urlFor from "@/lib/sanity/urlFor";
-import ClientSideRoute from "@/lib/utils/ClientSideRoute";
-import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
+import _ from "lodash";
 import Image from "next/image";
+import Link from "next/link";
+import DisplayDroneDescription from "../drones/DisplayDroneDescription";
 
 type Props = {
   posts: Post[];
@@ -9,54 +10,89 @@ type Props = {
 
 function BlogList({ posts }: Props) {
   return (
-    <div className="mt-6">
-      <div className="grid grid-cols-1 gap-10 px-10 pb-24 md:grid-cols-2 gap-y-16">
-        {posts.map((post) => (
-          <ClientSideRoute route={`/post/${post.slug.current}`} key={post._id}>
-            <div className="flex flex-col shadow-lg cursor-pointer shadow-slate-400 border-slate-600 group">
-              <div className="relative w-full transition-transform duration-200 ease-out h-80 drop-shadow-xl group-hover:scale-105">
-                <Image
-                  className="object-cover object-left lg:object-center"
-                  src={urlFor(post.mainImage).url()}
-                  alt={post.author.name}
-                  fill
-                />
-                <div className="absolute bottom-0 flex items-center justify-between w-full p-5 text-white bg-black rounded bg-opacity-20 backdrop-blur-lg drop-shadow-lg ">
-                  <div>
-                    <p className="font-bold">{post.title}</p>
-                    <p>
-                      {new Date(post._createdAt).toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-center md:flex-row gap-y-2 md:gap-x-2">
-                    {post.categories &&
-                      post.categories
-                        .filter((cat) => cat.title !== "homepage")
-                        .map((category) => (
-                          <div
-                            className="px-3 py-1 text-sm font-semibold text-center rounded-full text-zinc-200 bg-slate-700"
-                            key={category._id}
-                          >
-                            <p>{category.title}</p>
-                          </div>
-                        ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex-1 mt-5">
-                <p className="ml-4 text-gray-500 line-clamp-2">
-                  {post.description}
-                </p>
-              </div>
+    <div className="grid grid-cols-1 gap-10 pb-24 md:gap-y-8 gap-y-4">
+      {posts.map((post) => (
+        <div className="flex flex-row w-full h-60 drop-shadow-xl">
+          <div className="w-1/3">
+            <Link href={`/journal/${post.slug.current}`}>
+              <Image
+                className="w-full h-full "
+                src={urlFor(post.mainImage).url()}
+                alt={post.author.name}
+                width={"600"}
+                height={"600"}
+              />
+            </Link>
+          </div>
+          <div className="flex flex-col w-2/3 px-5 mb-2 rounded bg-opacity-5">
+            <div>
+              {post.categories &&
+                post.categories
+                  .filter((cat) => cat.title !== "homepage")
+                  .filter((cat) => _.has(cat, "name"))
+                  .map((category) => (
+                    <div
+                      className="px-3 py-1 text-sm font-semibold rounded-full w-fit bg-slate-700 text-zinc-100 "
+                      key={category._id}
+                    >
+                      <p>{category.title}</p>
+                    </div>
+                  ))}
             </div>
-          </ClientSideRoute>
-        ))}
-      </div>
+            <Link
+              className="text-2xl font-bold "
+              href={`/journal/${post.slug.current}`}
+            >
+              {post.title}
+            </Link>
+            <div className="flex items-center mr-4">
+              {post.author.image && (
+                <Image
+                  src={urlFor(post.author.image).url()}
+                  alt={post.author.name}
+                  height={40}
+                  width={40}
+                  className="rounded-full"
+                  style={{ display: "inline-block" }}
+                />
+              )}
+              {post.author.name && (
+                <span className="m-4">
+                  {post.author.name} |{" "}
+                  {new Date(post._createdAt).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                  })}
+                </span>
+              )}
+            </div>
+
+            <p className="mt-4 text-base text-black content-fit line-clamp-2">
+              <DisplayDroneDescription
+                description={post.description}
+                limit={250}
+                showMoreAllowed={false}
+              />
+            </p>
+
+            {post.relatedDrones && (
+              <div className="flex flex-row gap-2 mt-4 text-xs italic text-black">
+                mentioning:
+                {post.relatedDrones.map((drone) => {
+                  return (
+                    <div key={drone._id}>
+                      <Link className="font-bold" href={`/drones/${drone._id}`}>
+                        {drone.name}
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

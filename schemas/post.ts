@@ -55,6 +55,13 @@ export default defineType({
       title: "Description",
       type: "string",
     }),
+    defineField({
+      name: "relatedDrones",
+      title: "Related Drones",
+      description: "Select drones related to this post",
+      type: "array",
+      of: [{ type: "reference", to: { type: "drone" } }],
+    }),
   ],
 
   preview: {

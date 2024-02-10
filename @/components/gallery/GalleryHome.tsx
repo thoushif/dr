@@ -47,9 +47,9 @@ export default function GalleryHome({ gallery, isHot }: Props) {
       {!isHot && pageIndex >= 0 ? (
         <Button
           onClick={loadMorePhotos}
-          className="m-4 text-zinc-200 bg-slate-600"
+          className="m-4 text-zinc-200 bg-slate-600 w-full"
         >
-          <MdOutlineKeyboardDoubleArrowDown style={{ fontSize: "10px" }} />
+          <MdOutlineKeyboardDoubleArrowDown />
         </Button>
       ) : (
         !isHot && (

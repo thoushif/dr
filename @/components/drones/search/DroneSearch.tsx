@@ -196,9 +196,9 @@ const DroneSearch = ({
       {!allDronesDone ? (
         <Button
           onClick={loadMoreDrones}
-          className="m-4 text-zinc-200 bg-slate-600"
+          className="m-4 text-zinc-200 bg-slate-600 w-full"
         >
-          <MdOutlineKeyboardDoubleArrowDown size={"lg"} />
+          <MdOutlineKeyboardDoubleArrowDown />
         </Button>
       ) : (
         <span className="flex items-center justify-center m-4">

@@ -9,7 +9,7 @@ export const RichTextComponents = {
         <div className="flex items-center justify-center">
           <Image
             src={urlFor(value).url()}
-            alt="Blog Post Image"
+            alt="Journal Image"
             width={500}
             height={500}
           />

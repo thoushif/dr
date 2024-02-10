@@ -53,15 +53,14 @@ const CompareDrawer = () => {
         >
           {selectedDrones.map((drone) => (
             <div key={`compare${drone._id}`} className="relative">
-              <button
+              <MdClose
                 onClick={() => removeDroneFromCompare(drone)}
                 title={"remove"}
-                className="absolute top-0 right-0 mt-20 text-sm font-extrabold text-red-800 rounded-full cursor-pointer hover:scale-125"
-              >
-                <MdClose />
-              </button>
+                className="absolute top-0 right-0   text-sm font-extrabold text-red-800 rounded-full cursor-pointer hover:scale-125"
+              />
+
               <Image
-                className="mt-16 border-2 rounded-md md:object-center"
+                className=" border-2 rounded-md md:object-center"
                 src={urlFor(drone?.drone_image?.image).url()}
                 alt={drone?.aircraft?.name}
                 title={drone?.aircraft?.name}
@@ -77,7 +76,7 @@ const CompareDrawer = () => {
                 (_, index) => (
                   <Link key={index} href={`/drones/`}>
                     <div
-                      className="relative flex items-center justify-center mt-20 opacity-[0.35] cursor-pointer  w-10 md:w-28 h-10 md:h-28 child-drone hover:scale-110"
+                      className="relative flex items-center justify-center mt-12 opacity-[0.35] cursor-pointer  w-10 md:w-28 h-10 md:h-28 child-drone hover:scale-110"
                       title="Add a drone to start comparing..."
                     >
                       <MdAdd />
@@ -89,7 +88,7 @@ const CompareDrawer = () => {
           )}
 
           <Link
-            className={`items-center px-2 md:px-4 py-1 md:py-2 text-sm md:text-base mt-14 font-bold text-slate-500 align-middle rounded-none  md:rounded-sm  ${
+            className={`items-center px-2 md:px-4 py-1 md:py-2 text-sm md:text-base mt-14 font-bold text-zinc-200 align-middle rounded-none  md:rounded-sm  ${
               !(selectedDrones.length >= 2)
                 ? "bg-slate-200 cursor-not-allowed"
                 : "bg-slate-900"
