@@ -27,7 +27,7 @@ export default function Tooltip({
         queryForDroneOtherImages,
         params
       );
-      console.log("loading", type, ", for drone", droneId);
+      // console.log("loading", type, ", for drone", droneId);
       setImage(response);
     };
     fetchData();

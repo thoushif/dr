@@ -6,9 +6,9 @@ import Link from "next/link";
 export const revalidate = 10800;
 export default async function HomePage() {
   const bfDrones = await getFeaturedDrones("beginner-friendly");
-  const racingDrones = await getFeaturedDrones("racing");
-  const photographyDrones = await getFeaturedDrones("photography");
-  const ffgraphyDrones = await getFeaturedDrones("family-fun");
+  const racingDrones = await getFeaturedDrones("Racing");
+  const photographyDrones = await getFeaturedDrones("Photography");
+  const ffgraphyDrones = await getFeaturedDrones("Fun");
 
   return (
     <div className="mx-4 mt-8 ">
@@ -30,7 +30,10 @@ export default async function HomePage() {
           <h2 className="mt-8 mb-4 text-2xl font-bold text-slate-800">
             Beginner-Friendly Drones
           </h2>
-          <Link href="/explore/beginner-friendly" className="text-slate-500">
+          <Link
+            href="/drones/search/all/beginner-friendly"
+            className="text-slate-500"
+          >
             Explore All Beginner-Friendly Drones
           </Link>
         </div>
@@ -43,7 +46,7 @@ export default async function HomePage() {
           <h2 className="mb-4 text-2xl font-bold text-slate-800">
             Racing Drones
           </h2>
-          <Link href="/explore/racing" className="text-slate-500">
+          <Link href="/drones/search/all/racing" className="text-slate-500">
             Explore All Racing Drones
           </Link>
         </div>
@@ -56,7 +59,10 @@ export default async function HomePage() {
           <h2 className="mb-4 text-2xl font-bold text-slate-800">
             Photography Drones
           </h2>
-          <Link href="/explore/photography" className="text-slate-500">
+          <Link
+            href="/drones/search/all/photography"
+            className="text-slate-500"
+          >
             Explore All Photography Drones
           </Link>
         </div>
@@ -69,7 +75,7 @@ export default async function HomePage() {
           <h2 className="mb-4 text-2xl font-bold text-slate-800">
             Family-Fun Drones
           </h2>
-          <Link href="/explore/family-fun" className="text-slate-500">
+          <Link href="/drones/search/all/fun" className="text-slate-500">
             Explore All Family-Fun Drones
           </Link>
         </div>

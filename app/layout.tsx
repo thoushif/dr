@@ -52,7 +52,7 @@ export default function RootLayout({
                     </li>
 
                     <li>
-                      <a href="/post">Blog</a>
+                      <a href="/journal">Journals</a>
                     </li>
                   </ul>
                 </div>

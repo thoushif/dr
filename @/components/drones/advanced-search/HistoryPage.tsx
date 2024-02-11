@@ -32,9 +32,6 @@ const HistoryPage = () => {
       ) {
         // Update the corresponding category in updatedSearch
         updatedSearch[cat].push(selectedOption);
-      } else {
-        // Remove the field if it's empty
-        delete updatedSearch[cat];
       }
     });
 

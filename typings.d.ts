@@ -47,6 +47,7 @@ interface Post extends Base {
   slug: Slug;
   title: string;
   description: string;
+  relatedDrones: DroneThumbnail[];
 }
 
 interface Author extends Base {
@@ -100,6 +101,7 @@ interface Title {
 interface Aircraft {
   id: number;
   name: string;
+  price: number;
   description: string;
   buy_link: string;
   manufacturer: string;
@@ -167,12 +169,46 @@ interface Drone extends Base {
   video_transmission: VideoTransmission;
   battery: Battery;
   remote_controller: RemoteController;
+  accessories: Accessories;
   drone_image: DroneImage;
-  drone_type: DrType;
+  drone_type: DrType[];
+  drone_types_list: string[];
+  compatibility: Compatibility;
   images: Image[];
+  relatedArticles: Post[];
   // You can uncomment and add other fields as needed
 }
+interface Compatibility {
+  mobile_devices: string[];
+  supported_oss: string[];
+  vr_headsets: VRHeadset[];
+}
 
+interface VRHeadset {
+  brand: string;
+  versions: string[];
+}
+
+interface Accessories {
+  extra_batteries: boolean;
+  propeller_guards: boolean;
+  additional_propellers: boolean;
+  carrying_case: boolean;
+  charger_and_hub: boolean;
+  remote_controller_accessories: boolean;
+  camera_filters: boolean;
+  landing_pad: boolean;
+  gps_tracker: boolean;
+  fpv_goggles: boolean;
+  sunshade: boolean;
+  spare_memory_cards: boolean;
+  drone_skins_decals: boolean;
+  drone_lights: boolean;
+  range_extenders: boolean;
+  gimbal_stabilizers: boolean;
+  wind_gauges: boolean;
+  tool_kit: boolean;
+}
 interface DroneCompare {
   attribute: string;
   drone0: string;
@@ -266,13 +302,13 @@ interface EventAttendee {
 }
 
 interface DroneSearchState {
-  selectedCategories: string[];
   selectedReviews: string[];
   selectedPriceRanges: string[];
   selectedRatings: string[];
   selectedWeightClasses: string[];
   selectedCompatibility: string[];
   selectedUsage: string[];
+  selectedFlightTime: string[];
   selectedEaseOfUse: string[];
   selectedBatteryType: string[];
   selectedBatteryLife: string[];

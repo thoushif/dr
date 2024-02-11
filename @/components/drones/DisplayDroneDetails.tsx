@@ -11,13 +11,16 @@ import { useDroneCompare } from "@/contexts/DroneCompareContext";
 import { cn } from "@/lib/utils";
 import { roboto_mono } from "@/lib/utils/fonts";
 import { useMediaQuery } from "@react-hook/media-query";
+import _ from "lodash";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { MdOutlineShoppingBag } from "react-icons/md";
+import BlogList from "../posts/BlogList";
 import AddToCompareButton from "./compare/AddToCompareButton";
 import CompareDrawer from "./compare/ComapareDrawer";
+import DisplayDroneCompatibility from "./DisplayDroneCompatibility";
 import DisplayDroneDescription from "./DisplayDroneDescription";
 import DroneImage from "./image/DroneImage";
 
@@ -33,7 +36,7 @@ function DisplayDroneDetails({ drone }: Props) {
   const router = useRouter();
   const droneDesc =
     drone.aircraft.description ||
-    "The DJI Mavic is a compact and powerful drone that combines cutting-edge technology with exceptional portability. Boasting a foldable design, the Mavic series redefines convenience without compromising on performance. Equipped with advanced features such as obstacle avoidance, intelligent flight modes, and a high-quality camera with 4K video capabilities, the DJI Mavic ensures a seamless and immersive aerial experience. Its compact form factor allows for effortless transportation, making it an ideal choice for both novice and professional drone enthusiasts. With impressive flight stability, long-range transmission, and smart automation features, the DJI Mavic stands as a versatile and reliable tool for capturing stunning aerial imagery and videos. Whether you're an aerial photographer, videographer, or adventure enthusiast, the DJI Mavic sets a new standard for drone technology, providing a perfect blend of innovation, performance, and portability.";
+    "Elevate your perspective with our cutting-edge drone technology. This sleek and portable device is designed for both novice adventurers and seasoned professionals. Equipped with advanced features such as obstacle avoidance, intelligent flight modes, and a high-quality camera, our drones redefine the art of aerial exploration. The compact form factor ensures easy transportation, while the robust flight stability guarantees smooth and captivating aerial maneuvers. From breathtaking landscapes to dynamic action shots, our drones deliver an immersive experience, setting a new standard for innovation, performance, and convenience..";
   return (
     <div>
       <FaChevronCircleLeft
@@ -47,12 +50,12 @@ function DisplayDroneDetails({ drone }: Props) {
           <div className="flex justify-between visible md:invisible">
             <h2 className="text-lg font-bold md:text-3xl ">
               {drone.aircraft.name}
+              Price {drone.aircraft.price}
             </h2>
             <div className="flex items-center justify-end gap-2">
               <Link target="_blank" href={drone.aircraft.buy_link}>
                 <MdOutlineShoppingBag />
               </Link>
-
               <AddToCompareButton drone={drone} />
             </div>
           </div>
@@ -60,7 +63,7 @@ function DisplayDroneDetails({ drone }: Props) {
             <div className="fixed hidden p-4 transform -translate-y-1/2 text-slate-800 right-24 lg:block top-1/3">
               <span
                 className={cn(
-                  "invisible lg:visible text-transparent font-bold text-xl bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase",
+                  "invisible lg:visible text-transparent font-bold text-xl bg-gradient-to-b from-slate-200 to-slate-800 bg-clip-text uppercase mb-40",
                   roboto_mono.className
                 )}
               >
@@ -153,7 +156,17 @@ function DisplayDroneDetails({ drone }: Props) {
                     Sensing
                   </a>
                 </li>
-
+                <li>
+                  <a
+                    href="#accessories"
+                    onClick={() => setActiveSection("accessories")}
+                    className={
+                      activeSection === "accessories" ? "font-bold" : ""
+                    }
+                  >
+                    Accessories
+                  </a>
+                </li>
                 <li>
                   <a
                     rel="noopener"
@@ -173,22 +186,39 @@ function DisplayDroneDetails({ drone }: Props) {
             <DroneImage drone={drone} />
 
             <span className="flex items-center md:mt-5 ">
-              <DisplayDroneDescription description={droneDesc} />
+              <DisplayDroneDescription
+                description={droneDesc}
+                limit={500}
+                showMoreAllowed={true}
+              />
             </span>
           </div>
+          {drone.compatibility && (
+            <span className="flex items-center md:mt-5 ">
+              <DisplayDroneCompatibility compatibility={drone.compatibility} />
+            </span>
+          )}
         </div>
         <div>
-          <div className="flex justify-between invisible md:visible">
-            <h2 className="text-3xl font-bold ">{drone.aircraft.name}</h2>
-            <div className="flex justify-end gap-2">
+          <div className="flex items-center justify-between invisible md:visible">
+            <h2 className="text-3xl font-bold ">
+              {drone.aircraft.name}
+              <span className="text-lg font-medium ">
+                (${drone.aircraft.price})
+              </span>
+            </h2>
+            <div className="flex items-center justify-end gap-2">
               <Button className="rounded-full">
                 <Link target="_blank" href={drone.aircraft.buy_link}>
-                  🛒 Buy from {drone.aircraft.manufacturer}{" "}
+                  🛒 Buy from {drone.aircraft.manufacturer}
                 </Link>
               </Button>
               <AddToCompareButton drone={drone} />
             </div>
           </div>
+          {drone.drone_types_list && (
+            <DroneTypes droneTypes={drone.drone_types_list} />
+          )}
           <Accordion
             type="multiple"
             className="w-full"
@@ -201,6 +231,7 @@ function DisplayDroneDetails({ drone }: Props) {
               "item-6",
               "item-7",
               "item-8",
+              "item-9",
             ]}
           >
             <AccordionItem value="item-1" id="aircraft">
@@ -359,7 +390,7 @@ function DisplayDroneDetails({ drone }: Props) {
                         <TableCell className="w-2/4 font-bold">
                           Capacity
                         </TableCell>
-                        <TableCell>{drone.battery.capacity}</TableCell>
+                        <TableCell>{drone.battery.capacity} mAh</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell className="w-2/4 font-bold">
@@ -481,16 +512,64 @@ function DisplayDroneDetails({ drone }: Props) {
                 </AccordionContent>
               </AccordionItem>
             )}
+            {drone.accessories && (
+              <AccordionItem value="item-9" id="accessories">
+                <AccordionTrigger>Accessories</AccordionTrigger>
+                <AccordionContent>
+                  <Table className="Table-auto">
+                    <TableBody>
+                      <AccessoriesTable accessories={drone.accessories} />
+                    </TableBody>
+                  </Table>
+                </AccordionContent>
+              </AccordionItem>
+            )}
           </Accordion>
         </div>
+      </div>{" "}
+      <div id="similar-drones">
+        <h2 className="my-4 text-lg font-bold md:text-3xl">Similar drones</h2>
+      </div>
+      <div id="related-articles">
+        <h2 className="my-4 text-lg font-bold md:text-3xl">Read Abouts</h2>
+        <BlogList posts={drone.relatedArticles} />
       </div>
       {selectedDrones.length > 0 && <CompareDrawer />}
-
-      <div id="similar-drones">
-        <h2 className="text-lg font-bold md:text-3xl ">Similar drones</h2>
-      </div>
     </div>
   );
 }
 
+const DroneTypes = ({ droneTypes }: { droneTypes: string[] }) => {
+  // console.log(droneTypes);
+  return (
+    <div className="flex space-x-2 ">
+      {droneTypes.map((droneType) => (
+        <span
+          key={droneType}
+          className="inline-flex items-center px-3 py-0.5   bg-slate-400 text-white text-xs"
+        >
+          {droneType}
+        </span>
+      ))}
+    </div>
+  );
+};
+
+const AccessoriesTable = ({ accessories }: { accessories: Accessories }) => {
+  return (
+    <>
+      {Object.entries(accessories).map(
+        ([key, value]) =>
+          value && (
+            <TableRow key={key}>
+              <TableCell className="w-2/4 font-bold">
+                {_.startCase(key.replace(/_/g, " "))}
+              </TableCell>
+              <TableCell>Included</TableCell>
+            </TableRow>
+          )
+      )}
+    </>
+  );
+};
 export default DisplayDroneDetails;

@@ -5,8 +5,10 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 
 import React, { useState } from "react";
-import { MdInfoOutline } from "react-icons/md";
+import { MdInfoOutline, MdOutlineArrowOutward } from "react-icons/md";
 import { spawn } from "child_process";
+import Link from "next/link";
+import { IoMdOpen } from "react-icons/io";
 
 type Props = {
   photo: Photo;
@@ -20,7 +22,7 @@ const extractYouTubeShortsVideoId = (url: string): string | null => {
 };
 
 export default function ImgContainer({ photo }: Props) {
-  console.log("photo", photo);
+  // console.log("photo", photo);
   const [width, setWidth] = useState<number | `${number}` | undefined>(1000);
   const [height, setHeight] = useState<number | `${number}` | undefined>(1000);
   const getImageWidth = (img: any) => {
@@ -94,7 +96,9 @@ export default function ImgContainer({ photo }: Props) {
   const openModal = () => {
     setIsModalOpen(true);
   };
-
+  const prepareOpenURL = (_id: string): string => {
+    return `/gallery/photo/${_id}`;
+  };
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -115,6 +119,12 @@ export default function ImgContainer({ photo }: Props) {
 
         {isModalOpen && photo && (
           <CustomModal onClose={closeModal}>
+            <Link target="_blank" href={prepareOpenURL(photo._id)}>
+              <IoMdOpen
+                className="mx-2   hover:bg-slate-600 text-slate-600 hover:text-slate-200"
+                title={"Open this image in new tab"}
+              />
+            </Link>
             <div className="relative transition-transform duration-200 ease-out">
               <Image
                 src={urlFor(photo.image).url()}

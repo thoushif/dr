@@ -5,7 +5,8 @@ import { client } from "./sanity.client";
 const DEFAULT_SORT = "| order(dateTime.start desc)";
 const POPULAR_SORT = DEFAULT_SORT;
 const DEFAULT_PAGE_SIZE = 10;
-
+const PHOTOS_PER_PAGE = 8;
+const DRONES_PER_PAGE = 8;
 /***EVENTS QUERY */
 
 const getEventsBaseQuery = (filter: string, sort: string, pageSize: number) => {
@@ -40,7 +41,7 @@ export const privateFreeEventsQuery = getEventsBaseQuery(
 /********DRONES */
 export const getDronesBaseQuery = (
   filter: string,
-  pageSize = DEFAULT_PAGE_SIZE
+  pageSize = DRONES_PER_PAGE
 ) => {
   return groq`
 *[_type=="drone" ${filter}] {
@@ -51,7 +52,7 @@ export const getDronesBaseQuery = (
   drone_image-> {
     image
   }
-} | order(_createdAt desc)[0..${pageSize}]
+} | order(_createdAt desc)[($pageIndex * ${pageSize})...($pageIndex + 1) * ${pageSize}]
 `;
 };
 export const queryForDrones = getDronesBaseQuery("");
@@ -59,6 +60,9 @@ export const queryForFeaturedDrones = getDronesBaseQuery(
   `&& featured == true`,
   10
 );
+export const queryForFeaturedWithTypeDrones = (extra_filter: string) => {
+  return getDronesBaseQuery(`&& featured == true ${extra_filter}`, 4);
+};
 
 export const queryManufacturers = getDronesBaseQuery(`&& featured == true`, 2);
 
@@ -68,6 +72,15 @@ export const queryForDrone = groq`
   drone_image-> {
     image,
     coordinates
+  },
+  "drone_types_list": drone_type[]->name,
+  "relatedArticles": *[_type=='post' && references(^._id)] {...,
+    author->,
+    categories[]->,
+    relatedDrones[]->{
+      _id,
+      "name":aircraft.name
+    }
   }
 }
 `;
@@ -79,7 +92,7 @@ export const queryForDroneOtherImages = groq`
     }
   }[0]
 `;
-const PHOTOS_PER_PAGE = 8;
+
 export const queryForApprovedGalleryImages = groq`
 *[_type == "gallery" &&
 !(_id in path("drafts.**")) && approved == true ] {
@@ -111,11 +124,25 @@ export const queryForLatestGalleryImages = groq`
 } | order(_createdAt desc)[0..2]
 `;
 
+export const queryForGalleryImage = groq`
+*[_type=="gallery" && approved == true && _id == $photoId] {
+  _id,
+  _createdAt,
+  image,
+  taken_by ->{
+    aircraft {
+      name
+    }
+  }
+} | order(_createdAt desc)[0]
+`;
+
 export const queryForHomePagePost = groq`
 *[_type == "post"  && ("news" in categories[]->title || "homepage" in categories[]->title)] {
   ...,
   author->,
   categories[]->,
+  relatedDrones[]->,
 } | order(_createdAt desc) [0..1]
 `;
 
@@ -124,6 +151,10 @@ export const queryForPosts = groq`
   ...,
   author->,
   categories[]->,
+  relatedDrones[]->{
+    _id,
+    "name":aircraft.name
+  }
 } | order(_createdAt desc) [0..11]
 `;
 

@@ -26,6 +26,10 @@ const BlogHome = ({
         ...,
         author->,
         categories[]->,
+        relatedDrones[]->{
+          _id,
+          "name":aircraft.name
+        }
       } | order(_createdAt desc)
     `;
       // Fetch the filtered posts
@@ -36,24 +40,6 @@ const BlogHome = ({
 
   return (
     <div className="m-6">
-      <div className="flex flex-col items-center md:flex-row gap-y-2 md:gap-x-2">
-        {categories &&
-          categories
-            .filter((category) => category.title !== "homepage")
-            .map((category) => (
-              <div
-                key={category._id}
-                className={`px-3 py-1 text-sm font-semibold text-center rounded-full text-zinc-200 bg-slate-700 ${
-                  selectedCategory?.title === category.title
-                    ? "bg-slate-900"
-                    : "bg-slate-400"
-                }`}
-                onClick={() => handleCategoryClick(category)}
-              >
-                <p>{category.title}</p>
-              </div>
-            ))}
-      </div>
       <BlogList posts={filteredPosts} />
     </div>
   );

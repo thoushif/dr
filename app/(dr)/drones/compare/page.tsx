@@ -11,7 +11,7 @@ type Props = {
 export const dynamic = "force-dynamic";
 
 const page = async ({ searchParams }: Props) => {
-  const filterValue = searchParams.d;
+  const filterValue = searchParams.drones;
   //   const params1 = { documentId: "9f2084c9-6313-44c4-9e30-656030eb394e" }; // Replace with the actual _id value
   //   const drone1 = await getDronesDetails(queryForDrone, params1);
   //   const params2 = { documentId: "094aaa1f-61c4-4861-b41c-ffe5bc5556a1" }; // Replace with the actual _id value

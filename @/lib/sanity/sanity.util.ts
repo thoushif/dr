@@ -1,9 +1,10 @@
 import { client } from "@/lib/sanity/sanity.client";
-import page from "@app/(dr)/drones/compare/page";
 
 import {
   queryForApprovedGalleryImages,
   queryForFeaturedDrones,
+  queryForFeaturedWithTypeDrones,
+  queryForGalleryImage,
   queryForHomePagePost,
   queryForLatestGalleryImages,
   queryForPostCategories,
@@ -42,11 +43,22 @@ export const getEvents = debounceAsync(async (query: string) => {
 
 export const getGallery = debounceAsync(
   async (pageIndex: number): Promise<Photo[] | null> => {
-    console.log("caallin gwith page Indes=====>", pageIndex);
+    // console.log("caallin gwith page Indes=====>", pageIndex);
     const photos: Photo[] = await client.fetch(queryForApprovedGalleryImages, {
       pageIndex,
     });
     return photos;
+  },
+  DEBOUNCE_DELAY
+);
+
+export const getGallerySinglePhoto = debounceAsync(
+  async (photoId: string): Promise<Photo | null> => {
+    // console.log("fecthing photo", photoId);
+    const photo: Photo = await client.fetch(queryForGalleryImage, {
+      photoId,
+    });
+    return photo;
   },
   DEBOUNCE_DELAY
 );
@@ -81,8 +93,30 @@ export const getPostCategories = debounceAsync(
 );
 
 export const getFeaturedDrones = debounceAsync(
-  async (cat: string): Promise<Drone[] | null> => {
-    const drones: Drone[] = await client.fetch(queryForFeaturedDrones, cat);
+  async (filter: string): Promise<Drone[] | null> => {
+    let extra_filter = "";
+    switch (filter) {
+      case "beginner-friendly":
+        extra_filter = ' && (aircraft.ease_of_use == "beginner_friendly") ';
+        break;
+      case "Racing":
+        extra_filter = ' &&  ("Racing" in drone_type[]->name) ';
+        break;
+      case "Fun":
+        extra_filter = ' &&  ("Fun" in drone_type[]->name)';
+        break;
+      case "Photography":
+        extra_filter = ' &&  ("Photography" in drone_type[]->name) ';
+        break;
+      default:
+        extra_filter = "";
+        break;
+    }
+
+    const drones: Drone[] = await client.fetch(
+      queryForFeaturedWithTypeDrones(extra_filter),
+      { pageIndex: 0 }
+    );
     return drones;
   },
   DEBOUNCE_DELAY
@@ -97,8 +131,12 @@ export const getManufacturers = debounceAsync(
 );
 
 export const getSearchedDrones = debounceAsync(
-  async (searchQuery): Promise<Drone[] | null> => {
-    const drones: Drone[] = await client.fetch(searchQuery);
+  async (searchQuery, pageIndex): Promise<Drone[] | null> => {
+    // console.log("search query ", searchQuery);
+    // console.log(">>>>>>>>pageIndex", pageIndex);
+    const drones: Drone[] = await client.fetch(searchQuery, {
+      pageIndex,
+    });
     return drones;
   },
   DEBOUNCE_DELAY

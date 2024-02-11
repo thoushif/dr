@@ -11,25 +11,62 @@ import { useForm } from "react-hook-form";
 import DroneSearchContent from "./DroneSearchContent";
 import DisplayDroneThumbNails from "../DisplayDroneThumbNails";
 import { roboto_mono } from "@/lib/utils/fonts";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { MdClose, MdFilterList } from "react-icons/md";
+import { cleanupFilters, cn } from "@/lib/utils";
+import {
+  MdClose,
+  MdFilterList,
+  MdOutlineKeyboardDoubleArrowDown,
+} from "react-icons/md";
 import _ from "lodash";
 import { useDroneSearch } from "@/contexts/DroneSearchProvider";
+import { Button } from "@/components/ui/button";
+import { FaRegSadCry } from "react-icons/fa";
 
 const DroneSearch = ({
   drones,
   brand,
+  slug,
 }: {
   drones: DroneThumbnail[] | undefined;
   brand: string;
+  slug: string;
 }) => {
   const { appliedGlobalSearch, appliedBrand, setAppliedBrand } =
     useDroneSearch();
   const [results, setResults] = useState<DroneThumbnail[] | undefined>(drones);
   const [appliedSearch, setAppliedSearch] =
     useState<DroneSearchState>(appliedGlobalSearch);
+  // console.log("global search in search", appliedGlobalSearch);
+  // console.log("slug search", slug);
 
+  switch (slug) {
+    case "beginner-friendly":
+      cleanupFilters(appliedSearch);
+      appliedSearch.selectedEaseOfUse = ["beginner_friendly"];
+      break;
+    case "fun":
+      cleanupFilters(appliedSearch);
+      if (!appliedSearch.selectedUsage.includes("Fun")) {
+        appliedSearch.selectedUsage.push("Fun");
+      }
+      break;
+    case "racing":
+      cleanupFilters(appliedSearch);
+      if (!appliedSearch.selectedUsage.includes("Racing")) {
+        appliedSearch.selectedUsage.push("Racing");
+      }
+      break;
+    case "photography":
+      cleanupFilters(appliedSearch);
+      if (!appliedSearch.selectedUsage.includes("Photography")) {
+        appliedSearch.selectedUsage.push("Photography");
+      }
+      break;
+    default:
+      // Default case if type is not recognized
+      break;
+  }
+  // console.log("global search in search after setting slug is", appliedSearch);
   const {
     register,
     setValue,
@@ -50,21 +87,47 @@ const DroneSearch = ({
         : [...selectedValues, value]
     );
   };
+  const [pageIndex, setPageIndex] = useState<number>(0);
+  const [allDronesDone, setAllDronesDone] = useState<boolean>(false);
 
   const applySearch = async () => {
     const selectedValues = watch() || []; // Retrieve the current selected values
+    // console.log("+=========start========+");
+    // console.log(selectedValues);
+    // console.log(appliedSearch);
+    // console.log(appliedBrand);
+    // console.log("+==========end=======+");
+    const isFilterSame = _.isEqual(appliedSearch, selectedValues);
     // Perform search based on the selected criteria
     const query = getQueryByDroneSearch(selectedValues, appliedBrand);
-    const drones = await getSearchedDrones(query);
+    const newDrones = await getSearchedDrones(
+      query,
+      !isFilterSame ? 0 : pageIndex
+    );
+    if (!isFilterSame) {
+      setPageIndex(0);
+      setAllDronesDone(false);
+    }
+    // console.log("drones are:", newDrones);
     setAppliedSearch(selectedValues);
-    setResults(drones);
+    setResults(newDrones);
   };
 
   useEffect(() => {
     setAppliedBrand(brand);
     applySearch();
   }, []);
-
+  const loadMoreDrones = async () => {
+    const query = getQueryByDroneSearch(appliedSearch, appliedBrand);
+    const newDrones = await getSearchedDrones(query, pageIndex + 1);
+    if (newDrones.length == 0) {
+      setAllDronesDone(true);
+    }
+    setResults((prevDrones) =>
+      prevDrones ? [...prevDrones, ...newDrones] : newDrones
+    );
+    setPageIndex((prevPageIndex) => prevPageIndex + 1);
+  };
   return (
     <Sheet>
       <div className="flex items-center justify-center">
@@ -88,42 +151,60 @@ const DroneSearch = ({
                     className="flex items-center p-1 px-3 m-1 bg-gray-300 rounded-md "
                   >
                     {chainCaseToWords(`${value}`)}
-                    <MdClose
-                      className="ml-2 text-red-600"
-                      onClick={() => {
-                        handleCheckboxChange(key, value);
-                        applySearch();
-                      }}
-                    />
+                    {!slug && (
+                      <MdClose
+                        className="ml-2 text-red-600"
+                        onClick={() => {
+                          handleCheckboxChange(key, value);
+                          applySearch();
+                        }}
+                      />
+                    )}
                   </span>
                 ));
               }
               return null;
             })}
         </div>
-        <SheetTrigger asChild className="flex items-center">
-          <span className="justify-start mt-4 text-lg">
-            <MdFilterList className="ml-4" />
-          </span>
-        </SheetTrigger>
+        {!slug && (
+          <SheetTrigger asChild className="flex items-center">
+            <span className="justify-start mt-4 text-lg">
+              <MdFilterList className="ml-4" />
+            </span>
+          </SheetTrigger>
+        )}
       </div>
 
-      <SheetContent
-        side={"left"}
-        className="max-h-screen overflow-y-auto bg-white"
-      >
-        <DroneSearchContent
-          register={register}
-          watch={watch}
-          handleCheckboxChange={handleCheckboxChange}
-          applySearch={applySearch}
-          isDirty={isDirty}
-        />
-      </SheetContent>
+      {!slug && (
+        <SheetContent
+          side={"left"}
+          className="max-h-screen overflow-y-auto bg-white"
+        >
+          <DroneSearchContent
+            register={register}
+            watch={watch}
+            handleCheckboxChange={handleCheckboxChange}
+            applySearch={applySearch}
+            isDirty={isDirty}
+          />
+        </SheetContent>
+      )}
 
       <div>
         <DisplayDroneThumbNails drones={results} />
       </div>
+      {!allDronesDone ? (
+        <Button
+          onClick={loadMoreDrones}
+          className="m-4 text-zinc-200 bg-slate-600 w-full"
+        >
+          <MdOutlineKeyboardDoubleArrowDown />
+        </Button>
+      ) : (
+        <span className="flex items-center justify-center m-4">
+          No more results <FaRegSadCry className="ml-4" />
+        </span>
+      )}
     </Sheet>
   );
 };

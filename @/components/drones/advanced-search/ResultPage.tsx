@@ -51,8 +51,8 @@ const ResultPage: React.FC<ResultPageProps> = ({
   const [results, setResults] = useState<DroneThumbnail[] | undefined>([]);
   const applySearch = async () => {
     saveSearch(selectedOptions);
-    const query = getQueryByDroneSearch(appliedGlobalSearch, "");
-    const drones = await getSearchedDrones(query);
+    const query = getQueryByDroneSearch(selectedOptions, "");
+    const drones = await getSearchedDrones(query, 0);
 
     setResults(drones);
   };

@@ -4,6 +4,9 @@ import { groq } from "next-sanity";
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import { RichTextComponents } from "@/components/posts/RichTextComponents";
+import Link from "next/link";
+import _ from "lodash";
+import DisplayDroneThumbNails from "@/components/drones/DisplayDroneThumbNails";
 
 type Props = {
   params: {
@@ -31,14 +34,23 @@ async function Post({ params: { slug } }: Props) {
     *[_type=="post" && slug.current ==$slug][0] {
         ...,
         author->,
-        categories[]->
+        categories[]->,
+        relatedDrones[]-> {
+          _id,
+          _createdAt,
+          "name":aircraft.name,
+          "manufacturer":aircraft.manufacturer,
+          drone_image-> {
+            image
+          }
+        }
     }`;
 
   const post: Post = await client.fetch(query, { slug });
 
   return (
     <article className="px-10 pb-28">
-      <section className="space-y-2 border-[#f7ab0a] text-white">
+      <section className="space-y-2 border-[#f7ab0a] text-white mb-2">
         <div className="relative flex flex-col justify-between min-h-56 md:flex-row">
           <div className="absolute top-0 w-full h-full p-10 opacity-10 blur-sm">
             <Image
@@ -93,6 +105,12 @@ async function Post({ params: { slug } }: Props) {
         </div>
       </section>
       <PortableText value={post.body} components={RichTextComponents} />
+      <div>
+        <h2 className="my-4 text-lg font-bold md:text-3xl">Related Drones</h2>
+        {post.relatedDrones && (
+          <DisplayDroneThumbNails drones={post.relatedDrones} />
+        )}
+      </div>
     </article>
   );
 }

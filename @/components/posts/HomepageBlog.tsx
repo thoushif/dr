@@ -7,6 +7,7 @@ const query = groq`
   ...,
   author->,
   categories[]->,
+  relatedDrones[]->,
 } | order(_createdAt desc) [0]
 `;
 
