@@ -98,6 +98,32 @@ interface Title {
   current: string;
 }
 
+interface Drone extends Base {
+  _id: string;
+  name: string;
+  aircraft: Aircraft;
+  flight_specs: FlightSpecifications;
+  camera: Camera;
+  gimbal: Gimbal;
+  sensing: Sensing;
+  video_transmission: VideoTransmission;
+  battery: Battery;
+  remote_controller: RemoteController;
+  accessories: Accessories;
+  drone_image: DroneImage;
+  drone_type: DrType[];
+  drone_types_list: string[];
+  compatibility: Compatibility;
+  images: Image[];
+  relatedArticles: Post[];
+  // You can uncomment and add other fields as needed
+}
+interface Compatibility {
+  mobile_devices: string[];
+  supported_oss: string[];
+  vr_headsets: VRHeadset[];
+}
+
 interface Aircraft {
   id: number;
   name: string;
@@ -157,33 +183,6 @@ interface RemoteController {
   max_supported_mobile_device_size: string;
   // Add more fields for remote controller specifications
 }
-
-interface Drone extends Base {
-  _id: string;
-  name: string;
-  aircraft: Aircraft;
-  flight_specs: FlightSpecifications;
-  camera: Camera;
-  gimbal: Gimbal;
-  sensing: Sensing;
-  video_transmission: VideoTransmission;
-  battery: Battery;
-  remote_controller: RemoteController;
-  accessories: Accessories;
-  drone_image: DroneImage;
-  drone_type: DrType[];
-  drone_types_list: string[];
-  compatibility: Compatibility;
-  images: Image[];
-  relatedArticles: Post[];
-  // You can uncomment and add other fields as needed
-}
-interface Compatibility {
-  mobile_devices: string[];
-  supported_oss: string[];
-  vr_headsets: VRHeadset[];
-}
-
 interface VRHeadset {
   brand: string;
   versions: string[];
@@ -317,3 +316,36 @@ interface DroneSearchState {
   selectedPortability: string[];
   [key: string]: any;
 }
+
+const AssetType = {
+  Home = "Home",
+  Airport = "Airport",
+  Highway = "Highway",
+  Park = "Park",
+  Store = "Store",
+  TrainTrack = "Train track",
+} as const;
+
+type EnumValues<T> = T[keyof T];
+
+type AssetTypes = EnumValues<typeof AssetType>;
+
+type AssetTool = {
+  label: string;
+  type: AssetTypes;
+  traversable: boolean;
+  rotatable: boolean;
+  height: number;
+  width: number;
+  icon: React.ReactNode;
+  maxCount: number;
+  color: string;
+};
+
+type Asset = {
+  seq: number;
+  type: AssetTypes;
+  x: number;
+  y: number;
+  label: string;
+};
