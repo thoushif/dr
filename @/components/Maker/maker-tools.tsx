@@ -1,4 +1,5 @@
 import { HomeIcon, PlaneIcon, TreesIcon } from "lucide-react";
+import { TownCell, TownGrid } from "./Town";
 
 export const assetTools: AssetTool[] = [
   {
@@ -61,12 +62,52 @@ export const saveAssetsToLocal = (assets: Asset[]) => {
 export const loadAssetsFromLocal = (
   setAssets: React.Dispatch<React.SetStateAction<Asset[]>>
 ) => {
+  const townGrid = new TownGrid(30); // Example: Create a town grid with size 30x30
+
   const savedAssets = localStorage.getItem("assets");
   if (savedAssets) {
-    setAssets(JSON.parse(savedAssets));
+    const assets = JSON.parse(savedAssets);
+    setAssets(assets);
+    updateTownGrid(townGrid, assets);
+    townGrid.printGrid();
+    const startCell = townGrid.getCell(0, 0)!;
+    const goalCell = townGrid.getCell(29, 29)!;
+    const shortestPath = townGrid.findShortestPath(startCell, goalCell);
+    if (!shortestPath) {
+      console.log("No path found.");
+    }
+    if (shortestPath) {
+      shortestPath.forEach((cell) => {
+        cell.inShortestPath = true; // Mark cell as part of the shortest path
+      });
+      townGrid.printGrid();
+    }
   }
 };
 
+const updateTownGrid = (townGrid: TownGrid, assets: Asset[]) => {
+  assets.forEach((asset) => addAssetToTownGrid(townGrid, asset));
+};
+export const addAssetToTownGrid = (townGrid: TownGrid, asset: Asset) => {
+  const labeledCells: TownCell[] = [];
+
+  // Create labeled area based on asset's label, x, and y coordinates
+  for (let y = asset.y; y < asset.y + asset.height; y++) {
+    for (let x = asset.x; x < asset.x + asset.width; x++) {
+      const cell = townGrid.getCell(x, y);
+      if (cell) {
+        labeledCells.push(cell);
+      }
+    }
+  }
+
+  // Create labeled area and add it to the town grid
+  townGrid.createLabeledArea(
+    asset.label,
+    labeledCells,
+    getAssetTool(asset.type, false)?.traversable
+  );
+};
 export class Tooltip {
   show: boolean;
   positionX: number;
