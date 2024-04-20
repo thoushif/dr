@@ -348,4 +348,6 @@ type Asset = {
   x: number;
   y: number;
   label: string;
+  height: number;
+  width: number;
 };
