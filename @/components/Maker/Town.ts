@@ -111,6 +111,11 @@ class TownGrid {
     const key = `${x},${y}`;
     return this.cells.get(key);
   }
+  clearShortestPath() {
+    this.cells.forEach((cell) => {
+      cell.inShortestPath = false;
+    });
+  }
   printGrid() {
     let gridString = "";
     for (let y = 0; y < this.size; y++) {

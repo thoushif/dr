@@ -1,10 +1,38 @@
-import { HomeIcon, PlaneIcon, TreesIcon } from "lucide-react";
+import {
+  FlagIcon,
+  GoalIcon,
+  HomeIcon,
+  PlaneIcon,
+  TreesIcon,
+} from "lucide-react";
 import { TownCell, TownGrid } from "./Town";
 
 export const assetTools: AssetTool[] = [
   {
+    label: "Start",
+    icon: <FlagIcon className="w-5 h-5" fill="green" />,
+    height: 1,
+    width: 1,
+    traversable: true,
+    rotatable: true,
+    type: "Start",
+    maxCount: 1,
+    color: "bg-green-200", // Color for home
+  },
+  {
+    label: "End",
+    icon: <GoalIcon className="w-5 h-5" fill="red" />,
+    height: 1,
+    width: 1,
+    traversable: true,
+    rotatable: true,
+    type: "End",
+    maxCount: 1,
+    color: "bg-red-200", // Color for home
+  },
+  {
     label: "Makes a Home",
-    icon: <HomeIcon className="w-5 h-5" />,
+    icon: <HomeIcon className="w-5 h-5" fill="orange" />,
     height: 2,
     width: 2,
     traversable: true,
@@ -15,7 +43,7 @@ export const assetTools: AssetTool[] = [
   },
   {
     label: "Creates an Airport",
-    icon: <PlaneIcon className="w-5 h-5" />,
+    icon: <PlaneIcon className="w-5 h-5" fill="blue" />,
     height: 5,
     width: 4,
     traversable: false,
@@ -25,8 +53,19 @@ export const assetTools: AssetTool[] = [
     color: "bg-blue-200", // Color for airport
   },
   {
+    label: "Creates a school",
+    icon: <PlaneIcon className="w-5 h-5" fill="yellow" />,
+    height: 3,
+    width: 4,
+    traversable: false,
+    rotatable: true,
+    type: "School",
+    maxCount: 2,
+    color: "bg-yellow-200", // Color for airport
+  },
+  {
     label: "Creates a Park",
-    icon: <TreesIcon className="w-5 h-5" />,
+    icon: <TreesIcon className="w-5 h-5" fill="green" />,
     height: 3,
     width: 3,
     traversable: false,
@@ -60,18 +99,34 @@ export const saveAssetsToLocal = (assets: Asset[]) => {
 
 // Method to load assets from local storage when the page opens
 export const loadAssetsFromLocal = (
-  setAssets: React.Dispatch<React.SetStateAction<Asset[]>>
+  setAssets: React.Dispatch<React.SetStateAction<Asset[]>>,
+  setTownGrid: React.Dispatch<React.SetStateAction<TownGrid>>,
+  townGrid: TownGrid
 ) => {
-  const townGrid = new TownGrid(30); // Example: Create a town grid with size 30x30
-
   const savedAssets = localStorage.getItem("assets");
   if (savedAssets) {
-    const assets = JSON.parse(savedAssets);
+    const assets: Asset[] = JSON.parse(savedAssets);
     setAssets(assets);
     updateTownGrid(townGrid, assets);
     townGrid.printGrid();
-    const startCell = townGrid.getCell(0, 0)!;
-    const goalCell = townGrid.getCell(29, 29)!;
+
+    calculatePath(townGrid, assets);
+    // setTownGrid(townGrid);
+  }
+};
+
+export const calculatePath = (townGrid: TownGrid, assets: Asset[]) => {
+  townGrid.clearShortestPath();
+
+  const startAsset = assets.find(
+    (asset: Asset) => getAssetTool(asset.type, false)?.type === "Start"
+  );
+  const endAsset = assets.find(
+    (asset: Asset) => getAssetTool(asset.type, false)?.type === "End"
+  );
+  if (startAsset && endAsset) {
+    const startCell = townGrid.getCell(startAsset.x, startAsset.y)!;
+    const goalCell = townGrid.getCell(endAsset.x, endAsset.y)!;
     const shortestPath = townGrid.findShortestPath(startCell, goalCell);
     if (!shortestPath) {
       console.log("No path found.");
@@ -84,18 +139,19 @@ export const loadAssetsFromLocal = (
     }
   }
 };
-
 const updateTownGrid = (townGrid: TownGrid, assets: Asset[]) => {
   assets.forEach((asset) => addAssetToTownGrid(townGrid, asset));
 };
 export const addAssetToTownGrid = (townGrid: TownGrid, asset: Asset) => {
   const labeledCells: TownCell[] = [];
 
+  const traversable = getAssetTool(asset.type, false)?.traversable!!;
   // Create labeled area based on asset's label, x, and y coordinates
   for (let y = asset.y; y < asset.y + asset.height; y++) {
     for (let x = asset.x; x < asset.x + asset.width; x++) {
       const cell = townGrid.getCell(x, y);
       if (cell) {
+        cell.traversable = traversable;
         labeledCells.push(cell);
       }
     }

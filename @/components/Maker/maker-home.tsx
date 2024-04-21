@@ -5,7 +5,9 @@ import {
   CrossIcon,
   DeleteIcon,
   EditIcon,
+  EraserIcon,
   PencilIcon,
+  RemoveFormattingIcon,
   Rotate3dIcon,
   RotateCwIcon,
   SaveIcon,
@@ -20,13 +22,16 @@ import {
   assetTools,
   getAssetTool,
   loadAssetsFromLocal,
+  calculatePath,
   saveAssetsToLocal,
 } from "./maker-tools";
+import { TownCell, TownGrid } from "./Town";
 
 export function MakerHome() {
   const [currentAssetTool, setCurrentAssetTool] = useState<
     AssetTool | undefined
   >(undefined);
+
   const [viewAsset, setViewAsset] = useState<Asset>();
   const [rotated, setRotated] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -44,7 +49,7 @@ export function MakerHome() {
     if (viewAsset) {
       // Find the index of the asset to be deleted
       const assetIndex = assets.findIndex(
-        (asset) => asset.seq === viewAsset.seq
+        (asset) => asset.seq === viewAsset.seq && asset.type == viewAsset.type
       );
 
       // If the asset exists, remove it from the assets array
@@ -60,6 +65,7 @@ export function MakerHome() {
       }
     }
     setViewAsset(undefined);
+    calculatePath(townGrid, assets);
   };
 
   const handleLabelChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -99,9 +105,12 @@ export function MakerHome() {
   const handleCancelEdit = () => {
     setEditMode(false);
   };
+  const townGridInitState = new TownGrid(30); // Example: Create a town grid with size 30x30
+
   const [assets, setAssets] = useState<Asset[]>([]);
+  const [townGrid, setTownGrid] = useState<TownGrid>(townGridInitState);
   useEffect(() => {
-    loadAssetsFromLocal(setAssets);
+    loadAssetsFromLocal(setAssets, setTownGrid, townGrid);
   }, []);
   const handleAssetToolRotate = () => {
     if (currentAssetTool && maxCountReachedForAsset(currentAssetTool.type)) {
@@ -112,6 +121,11 @@ export function MakerHome() {
         height: prevAssetTool?.width ?? currentAssetTool!.height,
       }));
     }
+  };
+  const handleClearCanvas = () => {
+    setAssets([]);
+    setTownGrid(townGridInitState);
+    localStorage.setItem("assets", JSON.stringify([]));
   };
   const handleGridCellClick = (
     index: number,
@@ -173,6 +187,8 @@ export function MakerHome() {
         return;
       }
     }
+
+    calculatePath(townGrid, assets);
   };
   const canAssetFit = (assetTool: AssetTool, x: number, y: number): boolean => {
     return (
@@ -307,6 +323,18 @@ export function MakerHome() {
         y < asset.y + asset.height
     );
     let bgColor = isPartOfAsset ? assetTool?.color : "bg-slate-200";
+
+    // loop through cells in towngrid, if x, y of towncell having cell.inShortestPath as true update as true
+    const isInShortestPath = Array.from(townGrid.cells.values()).some(
+      (cell) => {
+        return cell.x === x && cell.y === y && cell.inShortestPath;
+      }
+    );
+
+    const borderStyle = isInShortestPath
+      ? "border-4 border-orange-600"
+      : "border";
+
     // const hoverColor =
     //   isPartOfHoveredCell && canFit ? "border-sky-500" : "border-slate-300";
     return (
@@ -314,14 +342,14 @@ export function MakerHome() {
         {" "}
         <div
           key={index}
-          className={`w-6 h-6 border   ${hoverColor}   ${bgColor} ${clickableClass} select-none`}
+          className={`w-6 h-6 ${borderStyle}   ${hoverColor}   ${bgColor} ${clickableClass} select-none`}
           onClick={(e) => handleGridCellClick(index, e)}
           onMouseEnter={(e) => handleGridCellHover(index, e)}
           onMouseLeave={() => handleAssetLeave()}
           onKeyDown={handleKeyDownGridCell}
           tabIndex={0}
         >
-          <span className="inset-0 text-xs"> {index + 1}</span>
+          <span className="inset-0 text-xs"> </span>
         </div>
       </>
     );
@@ -353,6 +381,16 @@ export function MakerHome() {
               </div>
             </div>
           ))}
+          <div key={"clear-canvas"} className="p-4 select-none">
+            <div
+              title={"Clear canvas"}
+              className={`flex items-center cursor-pointer select-none gap-4 text-sm p-2 rounded-xl bg-gray-50 dark:bg-gray-600`}
+              onClick={handleClearCanvas}
+            >
+              <EraserIcon />
+              Clear all
+            </div>
+          </div>
         </nav>
         {viewAsset && (
           <div

@@ -323,6 +323,9 @@ const AssetType = {
   Highway = "Highway",
   Park = "Park",
   Store = "Store",
+  School = "School",
+  Start = "Start",
+  End = "End",
   TrainTrack = "Train track",
 } as const;
 
