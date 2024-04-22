@@ -76,6 +76,15 @@ function Banner() {
             Journals
           </Link>
         </div>
+
+        <div>
+          <Link
+            href="/maker"
+            className="flex px-5 py-1 text-sm text-center text-white bg-gray-700 rounded-full md:text-base"
+          >
+            Maker
+          </Link>
+        </div>
         <div>
           <Link
             href={"/gallery"}
