@@ -214,8 +214,9 @@ class TownGrid {
   }
 
   heuristicCostEstimate(start: TownCell, goal: TownCell): number {
-    // Simple heuristic: Manhattan distance
-    return Math.abs(start.x - goal.x) + Math.abs(start.y - goal.y);
+    const dx = Math.abs(start.x - goal.x);
+    const dy = Math.abs(start.y - goal.y);
+    return Math.sqrt(dx * dx + dy * dy);
   }
 
   distance(cellA: TownCell, cellB: TownCell): number {
@@ -233,14 +234,14 @@ class TownGrid {
   getNeighbors(cell: TownCell): TownCell[] {
     const neighbors: TownCell[] = [];
     const offsets = [
-      [-1, 0],
-      [1, 0],
-      [0, -1],
-      [0, 1],
       [-1, -1], // Diagonal: Up-left
       [-1, 1], // Diagonal: Down-left
       [1, -1], // Diagonal: Up-right
       [1, 1], // Diagonal: Down-right
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
     ]; // Possible movement directions: left, right, up, down
 
     offsets.forEach((offset) => {

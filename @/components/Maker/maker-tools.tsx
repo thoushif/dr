@@ -1,3 +1,4 @@
+import { PlayIcon } from "@heroicons/react/24/solid";
 import {
   FlagIcon,
   GoalIcon,
@@ -5,6 +6,13 @@ import {
   PlaneIcon,
   TreesIcon,
 } from "lucide-react";
+import { FaHospital } from "react-icons/fa";
+import {
+  GiFireShield,
+  GiPoliceBadge,
+  GiRailRoad,
+  GiRoad,
+} from "react-icons/gi";
 import { TownCell, TownGrid } from "./Town";
 
 export const assetTools: AssetTool[] = [
@@ -17,6 +25,7 @@ export const assetTools: AssetTool[] = [
     rotatable: true,
     type: "Start",
     maxCount: 1,
+    weight: 1,
     color: "bg-green-200", // Color for home
   },
   {
@@ -28,6 +37,7 @@ export const assetTools: AssetTool[] = [
     rotatable: true,
     type: "End",
     maxCount: 1,
+    weight: 1,
     color: "bg-red-200", // Color for home
   },
   {
@@ -39,6 +49,7 @@ export const assetTools: AssetTool[] = [
     rotatable: true,
     type: "Home",
     maxCount: 20,
+    weight: 2,
     color: "bg-orange-200", // Color for home
   },
   {
@@ -50,6 +61,7 @@ export const assetTools: AssetTool[] = [
     rotatable: true,
     type: "Airport",
     maxCount: 2,
+    weight: 1,
     color: "bg-blue-200", // Color for airport
   },
   {
@@ -61,18 +73,92 @@ export const assetTools: AssetTool[] = [
     rotatable: true,
     type: "School",
     maxCount: 2,
-    color: "bg-yellow-200", // Color for airport
+    weight: 2,
+    color: "bg-yellow-200", // Color for school
   },
   {
     label: "Creates a Park",
     icon: <TreesIcon className="w-5 h-5" fill="green" />,
     height: 3,
     width: 3,
-    traversable: false,
+    traversable: true,
     rotatable: true,
     type: "Park",
     maxCount: 2,
-    color: "bg-green-200", // Color for park
+    weight: 2,
+    color: "bg-green-600", // Color for park
+  },
+  {
+    label: "Hospital",
+    icon: <FaHospital className="w-5 h-5" fill="purple" />,
+    height: 4,
+    width: 4,
+    traversable: false,
+    rotatable: true,
+    type: "Hospital",
+    maxCount: 2,
+    weight: 1,
+    color: "bg-purple-200", // Color for hospital
+  },
+  {
+    label: "Police Station",
+    icon: <GiPoliceBadge className="w-5 h-5" fill="blue" />,
+    height: 3,
+    width: 3,
+    traversable: false,
+    rotatable: true,
+    type: "PoliceStation",
+    maxCount: 2,
+    weight: 1,
+    color: "bg-indigo-500", // Color for police station
+  },
+  {
+    label: "Fire Station",
+    icon: <GiFireShield className="w-5 h-5" fill="red" />,
+    height: 3,
+    width: 3,
+    traversable: false,
+    rotatable: true,
+    type: "FireStation",
+    maxCount: 2,
+    weight: 1,
+    color: "bg-red-200", // Color for fire station
+  },
+  {
+    label: "Stadium",
+    icon: <PlayIcon className="w-5 h-5" fill="green" />,
+    height: 5,
+    width: 6,
+    traversable: false,
+    rotatable: true,
+    type: "Stadium",
+    maxCount: 2,
+    weight: 1,
+    color: "bg-green-200", // Color for stadium
+  },
+  {
+    label: "Creates a Highway",
+    icon: <GiRoad className="w-5 h-5" fill="gray" />,
+    height: 1,
+    width: 6,
+    traversable: true,
+    rotatable: true,
+    type: "Highway",
+    maxCount: 5,
+    weight: 1,
+    color: "bg-slate-600", // Color for highway
+  },
+  {
+    label: "Creates a Train Track",
+    icon: <GiRailRoad className="w-5 h-5" fill="black" />,
+    height: 1,
+    width: 6,
+    traversable: true,
+    rotatable: true,
+    type: "TrainTrack",
+    maxCount: 5,
+    weight: 1,
+    color: "bg-slate-400", // Color for train track
   },
 ];
 
@@ -145,13 +231,15 @@ const updateTownGrid = (townGrid: TownGrid, assets: Asset[]) => {
 export const addAssetToTownGrid = (townGrid: TownGrid, asset: Asset) => {
   const labeledCells: TownCell[] = [];
 
-  const traversable = getAssetTool(asset.type, false)?.traversable!!;
+  const traversable = getAssetTool(asset.type, false)?.traversable ?? false;
+  const weight = getAssetTool(asset.type, false)?.weight ?? 1;
   // Create labeled area based on asset's label, x, and y coordinates
   for (let y = asset.y; y < asset.y + asset.height; y++) {
     for (let x = asset.x; x < asset.x + asset.width; x++) {
       const cell = townGrid.getCell(x, y);
       if (cell) {
         cell.traversable = traversable;
+        cell.weight = weight;
         labeledCells.push(cell);
       }
     }

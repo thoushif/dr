@@ -326,7 +326,11 @@ const AssetType = {
   School = "School",
   Start = "Start",
   End = "End",
-  TrainTrack = "Train track",
+  TrainTrack = "TrainTrack",
+  Stadium = "Stadium",
+  Hospital = "Hospital",
+  FireStation = "FireStation",
+  PoliceStation = "PoliceStation",
 } as const;
 
 type EnumValues<T> = T[keyof T];
@@ -342,11 +346,12 @@ type AssetTool = {
   width: number;
   icon: React.ReactNode;
   maxCount: number;
+  weight: number;
   color: string;
 };
 
 type Asset = {
-  seq: number;
+  seq: string;
   type: AssetTypes;
   x: number;
   y: number;

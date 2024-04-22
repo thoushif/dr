@@ -61,6 +61,10 @@ export default function RootLayout({
                     <li>
                       <a href="/journal">Journals</a>
                     </li>
+
+                    <li>
+                      <a href="/maker">Maker</a>
+                    </li>
                   </ul>
                 </div>
               </div>
